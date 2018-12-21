@@ -1,4 +1,4 @@
-# node
+# JavaScript笔记
 
 ##	js运行机制
 
@@ -32,6 +32,30 @@ console.log(3);
 ```
 
 `setTimeout()`函数是指经过指定的时间后，将内部回调函数进队（即满足了事件触发条件），如果此时主线程还没有执行完，它是不会先执行的。
+
+以下一个简单的回调函数，判断传入数字的奇偶，node约定将错误信息作为回调的第一个参数
+
+```javascript
+function isEvenOrOdd(number, callback){
+    if(typeof number === 'number'){
+        if(number % 2){
+            callback(null, '当前传入的是奇数')
+        } else {
+          	callback(null, '当前传入的是偶数')  
+        }
+    } else {
+        callback(new Error('你传入的不是数字'))
+    }
+}
+isEvenOrOdd(10, (err, data) => {
+	if (err) throw err;
+    console.log(data);
+})
+```
+
+node会将一个任务和一个回调函数一起传给操作系统，任务完成后会触发回调函数（非阻塞机制）。
+
+node进程启动过后会默认创建一个线程，线程（主线程）用于执行代码。
 
 #### 宏任务，微任务
 
@@ -74,4 +98,15 @@ var obj = { foo:  5 };
 var obj = { foo: function () {} };
 ```
 
-这时，引擎会将函数<b>单独保存在内存</b>中，然后再将函数的地址赋值给foo属性的value属性。
+这时，引擎会将函数<b>单独保存在内存</b>中，然后再将函数的地址赋值给foo属性的value属性。即：
+
+```javascript
+{
+  foo: {
+    [[value]]: //函数的地址
+    ...
+  }
+}
+```
+
+我们所说的this，无非就是要调用变量，不同的变量是由不同的运行环境提供的，而不同的运行环境又由不同的运行函数提供，所以，this的出现，其实是为了获得当前的运行环境。
