@@ -113,6 +113,36 @@ var obj = { foo: function () {} };
 
 我们所说的this，无非就是要调用变量，不同的变量是由不同的运行环境提供的，而不同的运行环境又由不同的运行函数提供，所以，this的出现，其实是为了获得当前的运行环境。
 
+在上述代码中我们有必要了解一下属性的4个特性：
+
+| 特性             | 作用                               |
+| ---------------- | ---------------------------------- |
+| [[Configurable]] | 能否通过delete删除属性进而重新定义 |
+| [[Enumerable]]   | 能否通过for...in循环返回属性       |
+| [[Writable]]     | 能否修改属性的值                   |
+| [[Value]]        | 该属性的数据值                     |
+
+先从[[Value]]说起，我们平时修改任何一个对象某属性的数据值修改都是反映在该属性的[[Value]]属性上，我们可以通过`Object.defineProperty`函数来对某个对象的某个属性的特性进行设置。举个例子：
+
+```javascript
+var person = {};
+Object.defineProperty(person, 'name', {
+    writable: false,
+    value: 'zhangsan'
+});
+// person.name的值就被设置成了'zhangsan'
+person.name = 'lisi';
+// person.name 此时依旧是'张三'
+```
+
+上述代码，我们对person对象下的name属性的特性进行了配置，由于`writable`属性被设置成为`false`，所以我们无法显式对其`value`特性进行修改。相似的，如果我们配置了`configurable`属性，则该属性无法通过`delete`命令删除。
+
+> 注意，一旦对configurable特性进行了设置，则无法修改回来(没事干不要修改这个特性)
+
+我们在书写JavaScript代码时，所定义的对象上的每个属性，除`value`特性以外，其他的特性默认值都是`true`，因此，如果不是特殊情况，不要通过上述函数修改某个属性的特性。
+
+对象属性的访问器属性：我们在使用或者修改每个对象的属性时，其实都是通过其内置的getter方法与setter方法实现的，`[[Get]]`用于读取，`[[Set]]`用于设置。
+
 ### ES6
 
 ##### 变量/赋值
