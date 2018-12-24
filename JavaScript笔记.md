@@ -97,7 +97,7 @@ var obj = { foo:  5 };
 所以，我们通过生成对象操作，给foo的value赋值为5。我们知道，foo同样可以被赋值成一个函数，例如：
 
 ```javascript
-var obj = { foo: function () {} };
+var obj = { foo: function() {} };
 ```
 
 这时，引擎会将函数<b>单独保存在内存</b>中，然后再将函数的地址赋值给foo属性的value属性。即：
@@ -159,9 +159,9 @@ new构造函数的过程中，需要经历以下4个步骤：
 代码实现：
 
 ```javascript
-function _new (func) {
+function _new(func) {
     var obj = {'__proto__': func.prototype};
-    return function () {
+    return function() {
         func.apply(obj, arguments);
         return obj
     }
@@ -170,10 +170,10 @@ function _new (func) {
 
 ##### 对象创建
 
-工厂模式：
+- 工厂模式：
 
 ```javascript
-function createPerson (name, age, job) {
+function createPerson(name, age, job) {
    var o = new Object();
     o.name = name;
     o.age = age;
@@ -188,7 +188,7 @@ var person1 = createPerson('zhangsan', 18, 'student')
 
 工厂模式的缺点：无法知道一个对象的类型
 
-构造函数模式：
+- 构造函数模式：
 
 ```javascript
 function Person(name, age, job) {
@@ -206,19 +206,19 @@ var person1 = new Person('zhangsan', 18, 'student');
 
 构造函数模式的缺点：每实例化一个对象，每个对象都会有各自的sayName函数，其实这是不好的，如果函数体内部只是返回这个对象的属性值，那么我们只需要一个这样的函数就可以，不需要每个对象都拥有一个自己的sayName函数。
 
-原型模式：
+- 原型模式：
 
 在解释原型模式之前，有必要先了解一下，原型是神码意思。
 
 我们创建的每个函数都有一个prototype属性，这个东西是一个指针，指向一个比较神奇的对象。这个对象通过调用构造函数而产生，包含所有实例可以共享的属性与方法。
 
 ```javascript
-function Person () {
+function Person() {
 }
 Person.prototype.name = 'zhangsan';
 Person.prototype.age = 18;
 Person.prototype.job = 'student';
-Person.prototype.sayname = function () {
+Person.prototype.sayname = function() {
     //do someThing...
 };
 var person1 = new Person();
@@ -230,9 +230,7 @@ var person1 = new Person();
 
 
 
-
-
-组合使用构造函数模式与原型模式：
+- 组合使用构造函数模式与原型模式：
 
 1. 构造函数模式：负责定义每个实例自己的属性;
 2. 原型模式： 用于定义公共的方法与属性
@@ -257,13 +255,13 @@ Person.prototype = {
 
 在理解JavaScript之前，我们需要明白一点，所有函数的默认原型都指向`Object.prototype`，即他们都是Object对象的实例，即某函数的原型中有个`__proto__`属性指向`Object`。我们在自定义对象的时候，之所以能够调用`hasOwnProperty`或者`toString`这样的方法，是因为这些方法都是`Object.prototype`上的方法，而我们自定义的函数，其对象又默认是`Object.prototype`的实例，所以我们自定义的函数可以通过原型链找到顶端的`Object`，调用其原型上的内置方法。
 
-原型链模式实现继承：
+- 原型链模式实现继承：
 
 ```javascript
 function SuperType() {
     this.property = true;
 };
-SuperType.prototype.getSuperValue = function () {
+SuperType.prototype.getSuperValue = function() {
     return this.property;
 };
 function SonType() {
@@ -271,7 +269,7 @@ function SonType() {
 };
 //最重要的一步，将SonType的原型指向SuperType的原型，以此产生原型链
 SonType.prototype = new SuperType();
-SonType.prototype.getSonValue = function () {
+SonType.prototype.getSonValue = function() {
     return this.sonProperty;
 };
 var instance = new SonType();
@@ -312,7 +310,7 @@ let&const弥补上面的缺陷
 默认参数：
 
 ```javascript
-function (a=1, b=2, c=3) {
+function(a=1, b=2, c=3) {
     //coding
 }
 ```
@@ -320,7 +318,7 @@ function (a=1, b=2, c=3) {
 参数展开：
 
 ```javascript
-function show (a, ...args) {
+function show(a, ...args) {
     //coding
 }
 ```
@@ -370,12 +368,12 @@ console.log(`hello${str}`) // hello world
 ```javascript
 class User {
     //用于定义实例的私有属性，类似于构造函数模式
-    constructor (name,  pass) {
+    constructor(name, pass) {
         this.name = name;
         this.pass = pass;
     }
     //不用外挂prototype的方法
-    showName () {
+    showName() {
         //do someThing
     }
 }
@@ -391,14 +389,16 @@ class User {
 //readyState状态为0
 const xhr = new XMLHttpRequest();
 //连接，readyState状态为1
-xhr.open('GET','url',true)//readyState状态为1
-    //发送，readyState状态为2，若为post，则需要用xhr.setRequestHeader()设置请求头
-    xhr.setRequestHeader('content-type','application/x-www-form-urlencoded')
-    xhr.send();
+xhr.open('GET', 'url', true);
+//发送，readyState状态为2， 若为post，则需要用xhr.setRequestHeader()设置请求头
+xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+xhr.send();
 //接收(readyState状态为3,4;3表示接收到响应头，4表示接收到响应体)
 xhr.onreadystatechange = function () {
-    if(xhr.readyState==4&&((xhr.status>=200&&xhr.status<300)||xhr.status.304){
-        alert('成功'+xhr.responseText);
+    if(xhr.readyState == 4 
+       && ((xhr.status >= 200 && xhr.status < 300)
+           || xhr.status === 304){
+        alert('成功' + xhr.responseText);
     }else{
         alert('失败');
     }
@@ -426,6 +426,32 @@ xhr.onreadystatechange = function () {
        // do someThing
    } else {
        // do someThing
+   }
+   ```
+
+3. 函数声明、具名函数表达式、函数调用中，函数名和 `(` 之间不允许有空格。
+
+   ```javascript
+   //函数声明
+   function show() {
+       // do someThing
+   };
+   //具名函数表达式
+   let show = function() {
+       // do someThing
+   };
+   //函数调用
+   show();
+   ```
+
+4.  如果函数或全局中的 else 块后没有任何语句，可以删除 else:
+
+   ```javascript
+   function getName() {
+       if (name) {
+           return name;
+       }
+       return 'unnamed';
    }
    ```
 
