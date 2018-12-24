@@ -128,13 +128,13 @@ var obj = { foo: function() {} };
 
 ```javascript
 var person = {};
+// person.name的值就被设置成了'zhangsan'
 Object.defineProperty(person, 'name', {
     writable: false,
     value: 'zhangsan'
 });
-// person.name的值就被设置成了'zhangsan'
+// person.name 此时依旧是'zhangsan'
 person.name = 'lisi';
-// person.name 此时依旧是'张三'
 ```
 
 上述代码，我们对person对象下的name属性的特性进行了配置，由于`writable`属性被设置成为`false`，所以我们无法显式对其`value`特性进行修改。相似的，如果我们配置了`configurable`属性，则该属性无法通过`delete`命令删除。
@@ -329,7 +329,7 @@ function show(a, ...args) {
 
 ##### 数组/json
 
-map(映射)：一对一，进去是几个，出来还是几个
+- map(映射)：一对一，进去是几个，出来还是几个
 
 ```javascript
 let arr = [12, 55, 82, 37, 26]
@@ -342,9 +342,25 @@ let arr2 = arr.map((item) => {
 })    //[false, false, true, false, false]
 ```
 
-filter(筛选)：过滤掉一部分
+- filter(筛选)：过滤掉一部分
 
-forEach(遍历)：
+```javascript
+let arr = [12, 55, 82, 37, 26]
+let arr2 = arr.fiter((item) => {
+    return item > 30
+})    //[55, 82, 37]
+```
+
+- forEach(遍历)：
+
+```javascript
+let arr = [{},]
+let arr2 = arr.fiter((item) => {
+    return item > 30
+}) 
+```
+
+
 
 reduce(汇总)：
 
