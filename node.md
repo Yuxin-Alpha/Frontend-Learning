@@ -113,6 +113,8 @@ var obj = { foo: function () {} };
 
 我们所说的this，无非就是要调用变量，不同的变量是由不同的运行环境提供的，而不同的运行环境又由不同的运行函数提供，所以，this的出现，其实是为了获得当前的运行环境。
 
+## 对象
+
 在上述代码中我们有必要了解一下属性的4个特性：
 
 | 特性             | 作用                               |
@@ -143,7 +145,125 @@ person.name = 'lisi';
 
 对象属性的访问器属性：我们在使用或者修改每个对象的属性时，其实都是通过其内置的getter方法与setter方法实现的，`[[Get]]`用于读取，`[[Set]]`用于设置。
 
-### ES6
+#### new 操作符
+
+在了解对象如何创建之前，我们先了解一下new操作符。
+
+new构造函数的过程中，需要经历以下4个步骤：
+
+1. 创建新的对象
+2. 将构造函数的作用域赋给刚才创建的新对象（我们前面提到了，this的问题，不修改的话，其指向由调用该构造函数的上下文决定）
+3. 执行构造函数代码
+4. 返回新对象
+
+代码实现：
+
+```javascript
+function _new (func) {
+    var obj = {'__proto__': func.prototype};
+    return function () {
+        func.apply(obj, arguments);
+        return obj
+    }
+}
+```
+
+##### 对象创建
+
+工厂模式：
+
+```javascript
+function createPerson (name, age, job) {
+   var o = new Object();
+    o.name = name;
+    o.age = age;
+    o.job = job;
+    o.sayName = function() {
+        //doSomeThing...
+    }
+    return o
+}
+var person1 = createPerson('zhangsan', 18, 'student')
+```
+
+工厂模式的缺点：无法知道一个对象的类型
+
+构造函数模式：
+
+```javascript
+function Person(name, age, job) {
+    this.name = name;
+    this.age = age;
+    this.job = job;
+    this.sayName = function() {
+        //do someThing...
+    };
+}
+var person1 = new Person('zhangsan', 18, 'student');
+```
+
+> 构造函数也是函数，就是普通的函数，只不过用new操作了一下
+
+构造函数模式的缺点：每实例化一个对象，每个对象都会有各自的sayName函数，其实这是不好的，如果函数体内部只是返回这个对象的属性值，那么我们只需要一个这样的函数就可以，不需要每个对象都拥有一个自己的sayName函数。
+
+原型模式：
+
+在解释原型模式之前，有必要先了解一下，原型是神码意思。
+
+我们创建的每个函数都有一个prototype属性，这个东西是一个指针，指向一个比较神奇的对象。这个对象通过调用构造函数而产生，包含所有实例可以共享的属性与方法。
+
+```javascript
+function Person () {
+}
+Person.prototype.name = 'zhangsan';
+Person.prototype.age = 18;
+Person.prototype.job = 'student';
+Person.prototype.sayname = function () {
+    //do someThing...
+};
+var person1 = new Person();
+```
+
+只要我们通过new创建了一个新的函数，那么就回自动生成一个prototype属性，该属性指向函数的原型对象，引擎在搜索时，会先搜索实例化对象中是否存在该属性，如果未找到，再去搜索原型对象上是否存在该属性。
+
+> 原型模式的缺点：原型上的东西被所有实例对象共享，某个实例对原型对象做了改变，那么其余的实例也会随着改变。
+
+
+
+
+
+组合使用构造函数模式与原型模式：
+
+1. 构造函数模式：负责定义每个实例自己的属性;
+2. 原型模式： 用于定义公共的方法与属性
+
+这种组合方式，极大的增强了实例间的可不同性，又最大限度地节约了内存。
+
+```javascript
+function Person(name, age, job) {
+    this.name = name;
+    this.age = age;
+    this.job = job;
+}
+Person.prototype = {
+    constructor: Person,
+    sayName: funtion() {
+      //do someThing
+	}
+}
+```
+
+
+
+
+
+
+
+
+
+## ES6
+
+
 
 ##### 变量/赋值
 
