@@ -253,7 +253,29 @@ Person.prototype = {
 }
 ```
 
+##### 对象继承
 
+在理解JavaScript之前，我们需要明白一点，所有函数的默认原型都指向`Object.prototype`，即他们都是Object对象的实例，即某函数的原型中有个`__proto__`属性指向`Object`。我们在自定义对象的时候，之所以能够调用`hasOwnProperty`或者`toString`这样的方法，是因为这些方法都是`Object.prototype`上的方法，而我们自定义的函数，其对象又默认是`Object.prototype`的实例，所以我们自定义的函数可以通过原型链找到顶端的`Object`，调用其原型上的内置方法。
+
+原型链模式实现继承：
+
+```javascript
+function SuperType() {
+    this.property = true;
+};
+SuperType.prototype.getSuperValue = function () {
+    return this.property;
+};
+function SonType() {
+    this.sonProperty = false;
+};
+//最重要的一步，将SonType的原型指向SuperType的原型，以此产生原型链
+SonType.prototype = new SuperType();
+SonType.prototype.getSonValue = function () {
+    return this.sonProperty;
+};
+var instance = new SonType();
+```
 
 
 
@@ -329,3 +351,82 @@ forEach(遍历)：
 reduce(汇总)：
 
 from()
+
+##### 字符串
+
+1. `starsWith('a')`是否以a开头
+2. `endsWith('a')`是否以a结尾
+3. 字符串模板
+
+```javascript
+let str = 'world';
+console.log(`hello${str}`) // hello world
+```
+
+##### 对象
+
+有了专门的构造器，与类分开了
+
+```javascript
+class User {
+    //用于定义实例的私有属性，类似于构造函数模式
+    constructor (name,  pass) {
+        this.name = name;
+        this.pass = pass;
+    }
+    //不用外挂prototype的方法
+    showName () {
+        //do someThing
+    }
+}
+```
+
+继承：
+
+
+
+## Ajax
+
+```javascript
+//readyState状态为0
+const xhr = new XMLHttpRequest();
+//连接，readyState状态为1
+xhr.open('GET','url',true)//readyState状态为1
+    //发送，readyState状态为2，若为post，则需要用xhr.setRequestHeader()设置请求头
+    xhr.setRequestHeader('content-type','application/x-www-form-urlencoded')
+    xhr.send();
+//接收(readyState状态为3,4;3表示接收到响应头，4表示接收到响应体)
+xhr.onreadystatechange = function () {
+    if(xhr.readyState==4&&((xhr.status>=200&&xhr.status<300)||xhr.status.304){
+        alert('成功'+xhr.responseText);
+    }else{
+        alert('失败');
+    }
+}
+```
+
+
+
+## JavaScript代码规范
+
+1. 二元运算符两侧必须有一个空格，一元运算符与操作对象之间不允许有空格，用作代码块起始的左花括号` { `前必须有一个空格。
+
+   ```javascript
+   let a = 4;
+   a++;
+   if (a >= 0) {
+       // do someThing
+   }
+   ```
+
+2. `if / else / for / while / function / switch / do / try / catch / finally `关键字后，必须有一个空格:
+
+   ```javascript
+   if (a > 0 && a < 10) {
+       // do someThing
+   } else {
+       // do someThing
+   }
+   ```
+
+
