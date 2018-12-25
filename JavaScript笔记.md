@@ -567,6 +567,119 @@ JavaScript可以通过V8引擎在浏览器中运行，所以我们先来了解�
 
 - BOM
 
+### Node
+
+node不是什么新奇的东西，与浏览器类似，也是JavaScript的一种运行环境时，所以JavaScript能用的东西，node也能用。
+
+- **服务器搭建**
+
+  ```javascript
+  const http = require('http');
+  // 生成服务器，req -> 请求 res -> 响应
+  let server = http.createServer((req, res) => {
+      // 向前台返回‘666’
+      res.write('666');
+      // 告诉前台，没有东西了，可以滚了
+      res.end()
+      
+  });
+  // 开启服务，在3000端口，并监听
+  server.listen(3000);
+  ```
+
+- **fs模块**
+
+  ```javascript
+  const fs = require('fs');
+  // 读取hello.txt文件中存储的信息，并使用data(参数对象)保存
+  fs.readFile('hello.txt', (err, data) => {
+      if (err) throw err;
+      // data此时是二进制数据
+      console.log(data);
+      // 此时data转化为文本信息
+      console.log(data.toString());
+  });
+  // 在world.txt中写入字符串'666'，如果写入的目标文件不存在，自动在当前目录创建该目标文件
+  fs.writeFile('world.txt', '666', (err) => {
+      if (err) err;
+  });
+  ```
+
+  - **fs模块与http模块简单结合**
+
+    ```javascript
+    const http = require('http');
+    const fs = require('fs');
+    let server = http.createServer((req, res) => {
+        /* req.url -> '/index.html'
+         * 如果index.html文件在某个别的目录下，比如'/www'
+         * 那么我们所要读取的应该是'./www/index.html'
+         */
+        let file_name = './www' + req.url;
+        fs.readFile(file_name, (err, data) => {
+        	if (err) throw err;
+        	res.write(data);
+        	res.end()
+    	});
+    });
+    server.listen(3000);
+    ```
+
+- **数据请求**
+
+  对于后台来说，前端发送的请求不论是form表单还是ajax亦或者jsonp，处理方式都是一样，只跟请求方式有关。
+
+  Get：数据在url地址之中；
+
+  Post：数据不在url地址之中，而是在请求体中。
+
+  对于url的解析(get方法)：
+
+  ```javascript
+  // url模块用来解析url
+  const urlLib = require('url');
+  // 注意，parse()函数中的true参数，是为了解析query属性
+  let urlObj = urlLib.parse('http://www.baidu.com/index?name=zhangsan&age=18', true);
+  console.log(urlObj);
+  /* 我们可以看一下打印的信息
+   * Url {
+   *   protocol: 'http:',
+   *   slashes: true,
+   *   auth: null,
+   *   host: 'www.baidu.com',
+   *   port: null,
+   *   hostname: 'www.baidu.com',
+   *   hash: null,
+   *   search: '?name=zhangsan&age=18',
+   *   query: { name: 'zhangsan', age: '18' }, // 比较重要
+   *   pathname: '/index', // 常用
+   *   path: '/index?name=zhangsan&age=18',
+   *   href: 'http://www.baidu.com/index?name=zhangsan&age=18' }
+   */
+  ```
+
+  post方法：
+
+  ```javascript
+  const http = require('http');
+  const urlLib = require('url');
+  let server = http.createServer((req, res) => {
+      let str = '';// 用于接受数据
+      /* post很大，所以我们需要切成小段发送给前台
+       * data事件——有一段数据到达(会发生很多次)
+       * end事件——数据全部到达(只发生一次)
+       */
+      req.on('data', (data) => {
+          str += data; 
+      });
+      req.on('end', () => {
+          console.log(str);
+      });
+  });
+  server.listen(3000);
+  ```
+
+
 
 ## Ajax
 
