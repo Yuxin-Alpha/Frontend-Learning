@@ -422,6 +422,12 @@ reduce(汇总)：
 
 from()
 
+- JSON
+
+  + `JSON .stringify(json)`将JSON对象转化成字符串
+  + `JSON.parse(json)`将字符串变为对象
+
+
 ##### 字符串
 
 1. `starsWith('a')`是否以a开头
@@ -453,6 +459,113 @@ class User {
 
 继承：
 
+```javascript
+class VipUser extends User{
+    constructor(name, pass, level) {
+        // 执行父类的构造函数
+        super(name, pass);
+        this.level = level;
+    }
+    // 父类的方法已经通过extends继承了，子类中书写的方法实际上是新添的方法
+    showLevel() {
+        // coding
+    }
+}
+```
+
+
+
+#####  Promise
+
+用同步方式来书写异步代码。
+
+
+
+
+
+
+
+##### Generator
+
+生成器函数：中间能暂停(踹一脚走一步)，通常用于数据请求的时候，等待数据返回。写法：
+
+```javascript
+function *show() {
+    alert('a');
+    yield; // 放弃执行权利 
+    alert('b')
+}
+// generator函数会返回一个对象，通过其中的next()函数控制执行
+let genObj = show();
+// 执行第一步，输出'a'
+genObj.next();
+// 执行第二步，输出'b'
+genObj.next();
+```
+
+`Generator`函数通过`yield`将代码块分割成无数个小的函数，每次调用next()，则执行一个小函数。
+
+- `yield`理解：既可以传参，又可以返回。传参数：
+
+  ```javascript
+  function *show() {
+      alert('a');
+      // yield可以传参，此处a被赋值为5
+      let a = yield; 
+      alert('b')
+  }
+  let genObj = show();
+  //第一段代码执行到yield，而此时a还没有被赋值，换句话说，这个步骤是无法给yield传递参数的
+  genObj.next(12);
+  //第二段代码执行let a 之后的代码，此时由于传入的参数是5,所以a被赋值成了5
+  genObj.next(5);
+  ```
+
+  返回：
+
+  ```javascript
+  function *show() {
+      alert('a');
+  
+      yield 12; 
+      alert('b')
+  }
+  let genObj = show();
+  let res1 = genObj.next(); //{value: 12, done: false} 返回的数据是12,done表示程序为执行完
+  let res2 = genObj.next(); //{value： undefined, done: true}
+  ```
+
+  突然想到了生活中的类比：
+
+  ```javascript
+  // 这是一段搞笑代码，只是为了理解
+  function *炒菜(从菜市场买回来的菜){
+      洗菜 -> 洗好的菜;
+      let 干净的菜 = yield 洗好的菜;
+      切菜 -> 丝;
+      let 切好的菜 = yield 丝;
+      炒菜 -> 熟的菜;
+      return 熟的菜;
+  }
+  let 炒菜实例 = 炒菜（）;
+  // 洗菜
+  炒菜实例.next()
+  // 切菜
+  炒菜实例.next()
+  // 炒菜
+  炒菜实例.next()
+  ```
+
+  这样就比较好理解了，假设一个饭馆里面，炒菜是一个宏观的过程，通过两个`yield`（在厨房架立两个挡板，分成3个工作区）分成3个小步骤——洗菜，切菜，炒菜（每个工作区由不同的人做不一样的事情），每一个小步骤都可以产生一个成果（也就是所谓的中间生成参数），通过yield进行传递，最后的成果（熟的菜）需要通过`return`来获取，而第一步的参数，就是炒菜的形参。
+
+
+## JavaScript运行环境时
+
+### 浏览器
+
+JavaScript可以通过V8引擎在浏览器中运行，所以我们先来了解一下浏览器中的JavaScript。
+
+- BOM
 
 
 ## Ajax
