@@ -70,49 +70,6 @@ node进程启动过后会默认创建一个线程，线程（主线程）用于�
 需要注意的是，js代码从开始加载的时候就是一次宏任务的完成（script标签），所以在执行完同步任务后，会直接执行在这次事件轮循中出现的微任务。
 
 
-
-## this问题
-
-在理解this之前，需要先理解对象再内存中的数据结构：
-
-```javascript
-var obj = { foo:  5 };
-```
-
-上面的代码将一个对象赋值给变量obj，JavaScript 引擎会先在内存里面，生成一个对象`{ foo: 5 }`，然后把这个对象的内存地址赋值给变量obj,而变量obj是一个地址（reference）。
-
-原始的对象以字典结构保存，每一个属性名都对应一个属性描述对象：
-
-```javascript
-{
-  foo: {
-    [[value]]: 5
-    [[writable]]: true
-    [[enumerable]]: true
-    [[configurable]]: true
-  }
-}
-```
-
-所以，我们通过生成对象操作，给foo的value赋值为5。我们知道，foo同样可以被赋值成一个函数，例如：
-
-```javascript
-var obj = { foo: function() {} };
-```
-
-这时，引擎会将函数<b>单独保存在内存</b>中，然后再将函数的地址赋值给foo属性的value属性。即：
-
-```javascript
-{
-  foo: {
-    [[value]]: //函数的地址
-    ...
-  }
-}
-```
-
-我们所说的this，无非就是要调用变量，不同的变量是由不同的运行环境提供的，而不同的运行环境又由不同的运行函数提供，所以，this的出现，其实是为了获得当前的运行环境。
-
 ## 对象
 
 在上述代码中我们有必要了解一下属性的4个特性：
@@ -275,11 +232,110 @@ SonType.prototype.getSonValue = function() {
 var instance = new SonType();
 ```
 
+原型链模式的弊端：通过原型的指向，其实是把子的原型变成父原型的一个实例，这样的话，父原型的属性也就顺理成章变成实例属性了，如果我们实例一个子对象，而某个属性是父原型上面的属性，我们通过该子对象对该属性进行修改，那么，其余的实例在通过原型链查找时，该属性都会改变，这并不符合我们的初衷。
 
+- 借用构造函数
 
+  ```javascript
+  function SuperType(name) {
+      this.name = name;
+  }
+  // 我们在新的环境下调用父构造函数，这样每个子实例都拥有自己的name属性
+  function SonType(name) {
+      SuperType.call(this, name)
+  }
+  var son1 = new SonType('zhangsan')
+  var son2 = new SonType('lisi')
+  ```
 
+  缺点：方法都在构造函数中定义，不能复用，这种方法不建议使用
 
+- 组合继承：
 
+  ```javascript
+  function SuperType(name) {
+      this.name = name;
+      this.colors = ['red', 'blue', 'green']
+  }
+  SuperType,prototype.sayName = function() {
+      // coding
+  }
+  function SonType(name, age) {
+      SuperType.call(this, name)
+      this.age = age
+  }
+  SonType.prototype = new SuperType();
+  SonType.prototype.constructor = SonType;
+  SonType.prototype.sayAge = function() {
+      // coding
+  }
+  ```
+
+  这种继承的方式比较经典，通过原型链实现原型方法与属性的继承，而通过借用构造函数来实现对实例属性的继承。
+
+  来一张图，好好理解原型链：
+
+  ![原型链](/home/clement/Desktop/原型链.jpg)
+
+## 闭包
+
+在理解闭包之前，有必要聊聊JavaScript的函数。先看看两种定义函数的例子：
+
+```javascript
+// 第一种，函数声明
+function say() {
+    // coding
+}
+// 第二种，函数表达式,将匿名函数赋值给一个变量
+var sayName = function() {
+    // coding
+}
+```
+
+这两种方式，最主要的区别是，函数表达式中的函数是匿名函数，也就是说其name属性是一个空的字符串，不存在变量提升的问题，如果声明之前调用，会报错;而对于函数声明，`say`就是这个函数的名称，如果在声明之前调用，那么，运行环境会先寻找是否有名字是`say`的函数。
+
+- 作用域：某个函数在调用时，会创建一个执行环境以及相应的作用域链。作用域链有当前函数，由内而外，一个一个排列，最终到达全局作用域。
+## this问题
+
+在理解this之前，需要先理解对象再内存中的数据结构：
+
+```javascript
+var obj = { foo:  5 };
+```
+
+上面的代码将一个对象赋值给变量obj，JavaScript 引擎会先在内存里面，生成一个对象`{ foo: 5 }`，然后把这个对象的内存地址赋值给变量obj,而变量obj是一个地址（reference）。
+
+原始的对象以字典结构保存，每一个属性名都对应一个属性描述对象：
+
+```javascript
+{
+  foo: {
+    [[value]]: 5
+    [[writable]]: true
+    [[enumerable]]: true
+    [[configurable]]: true
+  }
+}
+```
+
+所以，我们通过生成对象操作，给foo的value赋值为5。我们知道，foo同样可以被赋值成一个函数，例如：
+
+```javascript
+var obj = { foo: function() {} };
+```
+
+这时，引擎会将函数<b>单独保存在内存</b>中，然后再将函数的地址赋值给foo属性的value属性。即：
+
+```javascript
+{
+  foo: {
+    [[value]]: //函数的地址
+    ...
+  }
+}
+```
+
+我们所说的this，无非就是要调用变量，不同的变量是由不同的运行环境提供的，而不同的运行环境又由不同的运行函数提供，所以，this的出现，其实是为了获得当前的运行环境。
 
 ## ES6
 
