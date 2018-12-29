@@ -4,7 +4,65 @@
 
 Windows：单用户操作系统
 
-Linux：多用户操作系统（电脑上的所有资源被多个用户共享），只有一个硬盘，/home目录，可以支持不同的用户访问
+Linux：多用户操作系统（电脑上的所有资源被多个用户共享），只有一个硬盘，/home目录，可以支持不同的用户访问。
+
+Linux只有一个根目录，Linux的世界里面，一切都是文件
+
+/bin 存放最经常使用的指令
+
+/home 每创建一个用户，这个文件就会多一个该用户文件
+
+/lib 系统开机所需要的最基本的动态链接共享库
+
+/etc 所有系统管理所需要的配置文件和子目录
+
+/usr 用户的很多应用程序和文件都放在这个目录
+
+- /usr/local 额外软件所安装的目录
+
+/dev 专门管理设备（将硬件映射成一个文件，例如cpu）
+
+/var 存放着不断扩充的东西
+
+/media usb等设备
+
+## vi vim
+
+vim 是 vi 的增强版本
+
++ 正常模式
++ 插入模式（可以输入，输入i即可进入）
++ 命令行模式（保存退出或者不保存退出）
+
+## 用户 
+
+用户至少要属于一个组，每个用户的目录/home/xiaoming
+
+### 用户添加
+
+`useradd xiaoming`会自动创建一个xiaoming组，/home目录下会增加一个/xiaoming 目录
+
+`passwd xiaoming`给xiaoming账户指定密码
+
++ `groupadd school`添加school组
+  + `useradd -g school xiaoming`将用户xiaoming添加到school组
+
++ `groupadd hospitol`添加hospitol组
+  - ` usermod -g hospital xiaoming`将用户xiaoming添加到hospital组中
+
+### 用户删除
+
+`userdel xiaoming`保留 家目录
+
+`userdel -r xiaoming`删除xiaoming并且删除家目录
+
+### 用户查询
+
+`id xiaoming`查询用户xiaoming的各种信息
+
+### 用户切换
+
+`su - xiaoming`切换到xiaoming目录
 
 ## 常用命令
 
@@ -71,7 +129,13 @@ echo：将文本显示在终端，与重定向配合使用
 
   将ls输出的内容通过管道传递给grep
 
-shutdown：关机
+reboot：重启
+
+halt：关机
+
+sync：把内存同步到磁盘（关机前使用）
+
+hutdown：关机
 
 + shutdown -r：重启
 
@@ -114,4 +178,45 @@ remote：服务器IP
 
 
 scp：远程拷贝文件
+
+## Shell编程
+
+shell命令解释器来操作内核，内核来驱动硬件，用户可以通过书写代码在shell命令解释器中调用Linux自身指令。
+
+```shell
+#!/bin/bash
+// 每一句结束后不需要分号
+echo "hello,world!"
+```
+
++ 执行方式:以.sh结尾的文件
+
+   `sh file.sh`
+
+### 变量
+
+系统变量&用户自定义变量
+
+定义&撤销变量：
+
+```shell
+# 直接定义
+A=100
+echo "A=$A"
+# 撤销一个变量
+unset A
+echo "A=$A"
+# 静态变量,无法被unset
+readonly A=99
+# 将一个命令返回给一个变量
+RESULT=`ls -l /home`
+# 此时会直接执行这个命令
+echo $RESULT
+# 设置环境变量
+
+```
+
+> 变量赋值时等号两侧不能有空格，并且尽量用大写
+>
+> 为了让环境变量重新生效，需要使用`source/etc/profile`
 
