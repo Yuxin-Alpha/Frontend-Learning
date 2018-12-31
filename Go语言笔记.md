@@ -232,3 +232,142 @@ for i := 1; i <= 10; i++ {
 
 > `break`使用：用于跳出循环
 
+## 函数
+
+> 每个源文件都包含一个init函数，该函数会在main函数执行前，被Go运行框架调用。先执行引入包的变量定义与init函数，再执行变量定义，再执行init函数，再执行main函数。
+
+1. 匿名函数：
+
+   ```go
+   // 立即执行
+   func (n1 int, n2 int) int {
+       return n1 + n2
+   }(10, 20)
+   // 函数表达式
+   a := func (n1 int, n2 int) int {
+       return n1 - n2
+   }
+   result := a(10, 20) // 通过变量名调用函数
+   ```
+
+2. 全局匿名函数:
+
+   ```go
+   var (
+   	var Func = func (n1 int, n2 int) int {
+       return n1 + n2
+   	}
+   )
+   ```
+
+3. 闭包：一个函数与其他的引用环境组成的整体
+
+   ```go
+   func AddUpper() func (int) int {
+       var n int = 10
+       return func (x int) int {
+           n += x
+           return n
+       }
+   }
+   func main() {
+       f := AddUpper()
+       f(1) // 11
+       f(2) // 13
+       f(3) // 16
+   }
+   ```
+
+4. defer关键字：
+
+   defer先压入栈中，所有非defer执行完后，再执行defer栈中的语句，主要用于资源释放。在Golang编程中的通常做法是，创建资源后，可以执行defer修饰关闭资源的动作，不用关注什么时候关闭，一定非常安全，程序员不必关心什么时候关闭资源而烦心。
+
+   ```go
+   // 关闭文件
+   func test() {
+       file = openfile(文件名)
+       defer file.close()
+   }
+   // 链接关闭
+   func test() {
+       connect = openDatabase()
+       defer connect.close()
+   }
+   ```
+
+### 系统函数
+
+#### 字符串函数
+
+1. `len(str)`获得字符串的长度
+2. `[]rune(str)`转换成`rune`切片可以遍历含有中文的字符串
+3. `n, err := strconv.Atoi("123")`,将字符串转为整数
+4. `str = strconv.Itoa(123456)`,将数字转化为字符串
+5. `strings.Contains("seafood", "foo")`, 某字符串是否存在子串
+6. `strings.Count("ceheese", "e")`, 查询某个字符串有多少个子串
+7. `strings.EqualFold("abc", "ABC")`, 忽略大小写，判断两个字符串是否相等
+8. `strings.Index("VLY_abc", "abc")`，返回子串在字符串中第一次出现的位置，如果没有则返回-1
+9. `strings.Replace("go go hello", "go", "golang", 1)`在字符串中的第一次出现go的字符串处更换成golang，原字符串未修改
+10. `str.Split("hello,world,ok", ",")`按照`,`进行拆分，返回一个数组
+11. `strings.ToUpper(str)或者strings.ToLower(str)`字符串大小写转换
+12. `strings.TrimSpace(str)`, 将字符串两边的空格消除
+13. `strings.Trim("!heelolll!", "!")`,  将左右两边的`!`去掉
+14. `strings.HasPrefix(str, 'http')`, 判断字符串是否以`http`打头
+15. `strings.HasSuffix(str, '.jpg')`,判断字符串是否以`.jpg`结尾
+
+#### 时间相关函数
+
+> 需要导入time包
+
+1. `time.Now()`获取当前的时间 包含时区等信息 返回`Time`类型
+2. `time.Now().Year()`获取当前时间的年份
+3. `time.Now().Format()`格式化当前时间
+
+## 数组&切片
+
+数组，存放多个同一类型的数据，是<b>值类型</b>
+
+定义:`var hens [6]float64`,数组开始的地址是第一个元素的地址，并且各个元素地址是连续的，且每个元素地址的间隔是依据数组的类型决定的
+
+四种定义方式：
+
+```go
+// 第一种
+var numArr01 [3]int = [3]int{1, 2, 3}
+// 第二种
+var numArr01 = [3]int{1, 2, 3}
+// 第三种
+var numArr01 = [...]int{1, 2, 3}
+// 第四种
+numArr01 := [...]int{1: 800, 0:900, 2:999}
+```
+
+### 数组遍历 for-range
+
+`index`是数组的下标，`value`是该下标位置的值，这两个变量因为作用域的问题只在for循环中能够使用。
+
+```go
+var heroes [3]string = [3]string{"Bob", "Mary", "Clement"}
+for index, value := range heroes {
+    fmt.Println(index, value)
+}
+```
+
+> 数组的长度是数据类型的一部分，必须要清楚长度，否则报错
+
+### slice切片
+
+可以将切片理解成一个动态数组，其长度是不确定的，该数据类型的出现是为了解决数组定义时需要限制长度，有时不满足需求，切片是个引用类型。
+
+切片有容量，不会出现越界的现象，这个属性是动态变化的
+
+切片定义：
+
+```go
+var intArr [5]int = [...]int{1, 2, 3, 4, 5}
+// 引用intArr这个数组下标从1~2的值
+slice := intArr[1:3]
+```
+
+
+
