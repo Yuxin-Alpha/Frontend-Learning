@@ -369,5 +369,73 @@ var intArr [5]int = [...]int{1, 2, 3, 4, 5}
 slice := intArr[1:3]
 ```
 
+## map
 
+一种`key-value`数据结构
+
+`var mapName map[keytype]valuetype `
+
+```go
+var a map[string]string
+var a map[string]int
+var a map[string]map[string]string
+```
+
+> map的声明不会分配内存，初始化需要make,分配内存后才可以复制和使用
+>
+> key不可以重复
+
+```go
+var a map[string]string
+// 表示可以放10个键值对
+a = make(map[string]string, 10)
+
+// 第二种
+var b = make(map[string]string, 10)
+```
+
+map删除：
+
+`delete(mapName, "key")`删除mapName变量下key值为"key"的键值对
+
+ 
+
+## 面向对象
+
+Golang只是支持面向对象编程特性，没有方法重载，没有构造函数，没有析构函数，没有this，而是通过结构体实现, 而结构体是一个值类型
+
+```go
+type Cat struct {
+    Name string // 默认是空串
+    Age int // 默认是0
+    Color string // 默认是空串
+} 
+func main() {
+    var cat1 Cat
+    cat1.Name = "小白"
+    cat1.Age = 3
+    cat1.Color = "白色"
+}
+```
+
+> 不同的结构体，字段互不影响
+
+声明方式：
+
+```go
+// 第一种
+var person Person
+// 第二种
+person := Person {
+    // ...
+}
+// 第三种
+var p3 *Person = new(Person)
+(*p3).Name = "Mary" // 
+
+// 第四种
+var person *Person = &Person{
+    // ... 
+}
+```
 
