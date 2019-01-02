@@ -215,17 +215,60 @@ echo "A=$A"
 # 撤销一个变量
 unset A
 echo "A=$A"
+
 # 静态变量,无法被unset
 readonly A=99
-# 将一个命令返回给一个变量
-RESULT=`ls -l /home`
+
+# 将一个命令赋值给一个变量，$(ls -l /home)
+RESULT=`ls -l /home` 
+
 # 此时会直接执行这个命令
 echo $RESULT
 # 设置环境变量
+TOME_HOME=/opt/tomcat
+export TOME_HOME
 
+# 位置参数变量 $*所有参数 $@所有参数(分别对待) $# 参数个数 
+echo "$0 $1 $2"
+echo "$*"
+echo "$@"
+echo "$#"
+
+# 预定义变量
+
+#当前进程号
+$$ 
 ```
 
 > 变量赋值时等号两侧不能有空格，并且尽量用大写
 >
-> 为了让环境变量重新生效，需要使用`source/etc/profile`
+> 为了让环境变量重新生效，需要使用`source /etc/profile`
+>
+> 引用变量的时候必须在前面加入$
+
+### 运算符
+
+```shell
+# 第一种
+RESULT1=$(((2+3)*4))
+echo "$RESULT1"
+# 第二种
+RESULT1=$[(2+3)*4]
+echo "$RESULT1"
+# 第三种， 使用expr
+TEMP=`expr 2 + 3`
+RESULT1=`expr $TEMP \* 4`
+
+```
+
+### 条件判断
+
+```shell
+[ condition ] 返回true
+[] 返回false
+```
+
+
+
+
 
