@@ -470,12 +470,13 @@ class VipUser extends User{
 }
 ```
 
-1. `Object.assign`合并对象
+1. `Object.assign`合并对象（浅拷贝）
 
    ```javascript
    const target = { a: 1 };
    const source1 = { b: 2 };
    const source2 = { c: 3 };
+   // 第一个参数是目标对象， 如果出现同名属性，后者会覆盖前者
    Object.assign(target, source1, source2);
    target // {a:1, b:2, c:3}
    ```
@@ -501,7 +502,24 @@ class VipUser extends User{
    ```
 
 
-2. 
+2. 属性名表达式：
+
+   ```javascript
+   // 第一种
+   obj.foo = true
+   //第二种
+   obj['a' + 'bc'] = 123 // 等同于obj.abc = 123
+   
+   // 字面量定义
+   let obj  = {
+       [propKey]: true,
+       ['a' + 'bc']: 123,
+       ['he' + 'llo']() {
+           return 'hi'
+       }
+   }
+   ```
+
 
 ### Promise
 
