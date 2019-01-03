@@ -470,11 +470,44 @@ class VipUser extends User{
 }
 ```
 
-#### Promise
+1. `Object.assign`合并对象
+
+   ```javascript
+   const target = { a: 1 };
+   const source1 = { b: 2 };
+   const source2 = { c: 3 };
+   Object.assign(target, source1, source2);
+   target // {a:1, b:2, c:3}
+   ```
+
+   用途:
+
+   ```javascript
+   Object.assign(SomeClass.prototype, {
+   	someMethod(arg1, arg2) {
+   		···
+   },
+   anotherMethod() {
+   		···
+   	}
+   });
+   // 等同于下面的写法
+   SomeClass.prototype.someMethod = function (arg1, arg2) {
+   	···
+   };
+   SomeClass.prototype.anotherMethod = function () {
+   	···
+   };
+   ```
+
+
+2. 
+
+### Promise
 
 用同步方式来书写异步代码。
 
-#### Generator
+### Generator
 
 生成器函数：中间能暂停(踹一脚走一步)，通常用于数据请求的时候，等待数据返回。写法：
 
