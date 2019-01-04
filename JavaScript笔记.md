@@ -523,7 +523,82 @@ class VipUser extends User{
 
 ### Promise
 
-用同步方式来书写异步代码。
+用同步方式来书写异步代码。Promise本身是一个容器,里面保存这未来才会结束的事件的<b>结果</b>. 各种异步操作都可以使用相同的方法.
+
+该对象的状态不受外界影响.一共有pending,fulfilled与rejected3种状态,表示进行中,已成功,已失败.一旦状态发生变化了,就不会再变了.
+
+```javascript
+const promise = new Promise(function(resolve, reject) {
+	// ... some code
+	if (/* 异步操作成功 */){
+        // resolve将状态变成resolved,并将异步操作的结果作为			// 参数返回
+		resolve(value);
+	} else {
+		reject(error);
+	}
+});
+// 实例生成后可以通过then方法分别指定成功状态与失败状态的函数
+promise.then(function(value) {
+// success
+}, function(error) {
+// failure
+});
+```
+
+应用: 封装ajax:
+
+```javascript
+const getJSON = function(url) {
+	const promise = new Promise(function(resolve, reject){
+		const handler = function() {
+			if (this.readyState !== 4) {
+				return;
+			}
+			if (this.status === 200) {
+				resolve(this.response);
+			} else {
+				reject(new Error(this.statusText));
+			}
+		};
+		const client = new XMLHttpRequest();
+		client.open("GET", url);
+		client.onreadystatechange = handler;
+		client.responseType = "json";
+		client.setRequestHeader("Accept", "application/json");
+		client.send();
+	});
+	return promise;
+};
+```
+
+#### then方法
+
+`then` 方法是定义在原型对象 Promise.prototype 上的,为 Promise 实例添加状态改变时的回调函数,then 方法的第一个参数是 resolved 状态的回调函数,第二个参数(可选)是 rejected 状态的回调函数
+
+#### catch方法
+
+```javascript
+getJSON('/posts.json').then(function(posts) {
+	// ...
+}).catch(function(error) {
+	// 处理 getJSON 和 前一个回调函数运行时发生的错误
+	console.log('发生错误!', error);
+});
+```
+
+推荐写法: 
+
+```javascript
+promise
+.then(function(data) { 
+	// success
+})
+.catch(function(err) {
+	// error
+});
+```
+
+
 
 ### Generator
 
@@ -597,6 +672,106 @@ genObj.next();
   ```
 
   这样就比较好理解了，假设一个饭馆里面，炒菜是一个宏观的过程，通过两个`yield`（在厨房架立两个挡板，分成3个工作区）分成3个小步骤——洗菜，切菜，炒菜（每个工作区由不同的人做不一样的事情），每一个小步骤都可以产生一个成果（也就是所谓的中间生成参数），通过yield进行传递，最后的成果（熟的菜）需要通过`return`来获取，而第一步的参数，就是炒菜的形参。
+
+### 模块语法
+
+```javascript
+// CommonJS模块
+let { stat, exists, readFile } = require('fs');
+// 等同于
+let _fs = require('fs');
+let stat = _fs.stat;
+let exists = _fs.exists;
+let readfile = _fs.readfile;
+```
+
+缺点: “运行时加载”,因为只有运行时才能得到这个对象,导致完全没办法在编译时做“静态优化”。
+
+ES6加载:
+
+`import { stat, exists, readFile } from 'fs';`
+
+`export`的使用:模块即是独立文件,外部无法获取该文件内部的变量,
+
+```javascript
+// profile.js 用export暴露多少,外部就能访问多少,没暴露的不能访问
+export var firstName = 'Michael';
+export var lastName = 'Jackson';
+export var year = 1958;
+
+// 第二种 推荐,底部容易查看
+var firstName = 'Michael';
+var lastName = 'Jackson';
+var year = 1958;
+export {firstName, lastName, year};
+
+// 输出函数
+export function multiply(x, y) {
+	return x * y;
+};
+```
+
+`import`的使用:由于 import 是静态执行,所以不能使用表达式和变量,这些只有在运行时才能得到结果的语法结构.
+
+```javascript
+// main.js
+import {firstName, lastName, year} from './profile';
+
+function setName(element) {
+	element.textContent = firstName + ' ' + lastName;
+}
+
+// 引入变量重命名
+
+```
+
+#### 模块整体加载
+
+```javascript
+// circle.js
+export function area(radius) {
+	return Math.PI * radius * radius;
+}
+export function circumference(radius) {
+	return 2 * Math.PI * radius;
+}
+
+// 加载
+import * as circle from './circle';
+console.log('圆面积:' + circle.area(4));
+console.log('圆周长:' + circle.circumference(14));
+```
+
+#### export default
+
+```javascript
+// export-default.js,它的默认输出是一个函数
+export default function () {
+	console.log('foo');
+}
+// 其他模块加载该模块时, import 命令可以为该匿名函数指定任意名字
+// import-default.js
+import customName from './export-default';
+customName(); // 'foo'
+
+/* 注意,使用 export default 时,对应的 import 语句不需要使用大括号;第二组是不使用 export default 时,对应的 import 语
+句需要使用大括号。*/
+export default function crc32() { // 输出
+// ...
+}
+import crc32 from 'crc32'; // 输入
+// 第二组
+export function crc32() { // 输出
+// ...
+};
+import {crc32} from 'crc32'; // 输入
+
+
+```
+
+
+
+
 
 
 ## JavaScript运行环境时
