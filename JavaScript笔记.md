@@ -447,7 +447,7 @@ class User {
         this.name = name;
         this.pass = pass;
     }
-    //不用外挂prototype的方法
+    //不用外挂prototype的方法，注意方法之间不要加逗号
     showName() {
         //do someThing
     }
@@ -785,6 +785,10 @@ JavaScript可以通过V8引擎在浏览器中运行，所以我们先来了解�
 ### Node
 
 node不是什么新奇的东西，与浏览器类似，也是JavaScript的一种运行环境时，所以JavaScript能用的东西，node也能用。
+
+#### 模块化
+
+
 
 - **服务器搭建**
 
