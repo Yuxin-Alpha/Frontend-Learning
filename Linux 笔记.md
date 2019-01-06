@@ -48,6 +48,10 @@ Linux只有一个根目录，Linux的世界里面，一切都是文件
 
    `chmod 770 .bashrc`参数先权限值，再文件名，`-R`选项可以递归修改子目录以及其下所有子文件
 
+4. `mkdir -p test/test1/test2`递归创建目录。
+
+   `mkdir -m 711 test`创建时声明权限rwx--x--x
+
 ## vi vim
 
 vim 是 vi 的增强版本
