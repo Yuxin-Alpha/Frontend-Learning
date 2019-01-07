@@ -7,10 +7,11 @@
 package main
 // 引入该包，为了使用该包中的API
 import "fmt"
-// fuc,表示后面是一个函数，main是我们程序的入口
+// fuc,表示后面是一个函数，main是我们程序的入口，有且只有一个函数入口
 func main() {
 	fmt.Println("hello")
 }
+// _是匿名变量，丢弃数据不处理
 ```
 
 1. 控制台执行`go build main.go`后会编译生成一个可执行文件
