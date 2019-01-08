@@ -71,6 +71,10 @@ func main() {
       n4 = 22
       name_u = "jack"
   )
+  const (
+  	i int = 10
+      j float64 = 3.14
+  )
   ```
 
   > 变量在同一个区域内的可以变化，但是不能修改类型
@@ -143,6 +147,7 @@ var c1 byte = 'a' // 97
 fmt.Println("c1=%c", c1) // 'a'
 var c1 byte = '北' // 97
 fmt.Println("c1=%c", c1) // 报错，超出长度，可以用int保存
+// byte 就是一个字节的字符，用来存放英文字符，rune占4个字节，可以存放中文
 ```
 
 > 字符常量通过' '存放,其本质是存放一个整数

@@ -784,7 +784,7 @@ JavaScript可以通过V8引擎在浏览器中运行，所以我们先来了解�
 
 ### Node
 
-node不是什么新奇的东西，与浏览器类似，也是JavaScript的一种运行环境时，所以JavaScript能用的东西，node也能用。
+node不是什么新奇的东西，与浏览器类似，也是JavaScript的一种运行环境时，所以JavaScript能用的东西，node也能用。Chrome的V8+libuv组成了node环境，即引擎与作者定义的模块。
 
 #### 模块化
 
