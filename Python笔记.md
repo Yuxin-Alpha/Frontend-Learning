@@ -39,10 +39,14 @@ person_name = '张三'
 print(person_name)
 # 帕斯卡命名法
 PersonName = '李四'
+
 # 数字类型
 a, b, c, d = 20, 5.5, True, 4+3j
 print(type(a), type(b), type(c), type(d))
 # 输出<class 'int'> <class 'float'> <class 'bool'> <class 'complex'>
+
+# type()函数可以检查某个值的类型
+
 # 用 isinstance 来判断类型
 a = 111
 isinstance(a, int) # 注意:type()不会认为子类是一种父类类型。isinstance()会认为子类是一种父类类型。
@@ -53,6 +57,7 @@ c = 0b10
 d = 0o10
 # 十六进制
 f = 0x16
+
 # 字符串,单引号和双引号都可以
 string_one = 'hello'
 string_two = "world"
@@ -68,6 +73,8 @@ print (str + "TEST") # 连接字符串
 ```
 
 ### 数字
+
+整数类型没有限制。
 
 `ceil(x)`:返回数字的上入整数
 
@@ -213,6 +220,16 @@ print (dict[2])           # 输出键为 2 的值
 print (tinydict)          # 输出完整的字典
 print (tinydict.keys())   # 输出所有键
 print (tinydict.values()) # 输出所有值
+```
+
+### 对象（object）
+
+程序运行中，所有的数据都是存储到内存当中。对象就是内存中专门用来存储指定数据的一块区域。即，对象就是一个容器，存储数据用的。
+
+对象的结构： 
+
+```python
+# 每个对象的
 ```
 
 
