@@ -102,7 +102,7 @@ person.name = 'lisi';
 
 对象属性的访问器属性：我们在使用或者修改每个对象的属性时，其实都是通过其内置的getter方法与setter方法实现的，`[[Get]]`用于读取，`[[Set]]`用于设置。
 
-#### new 操作符
+### new 操作符
 
 在了解对象如何创建之前，我们先了解一下new操作符。
 
@@ -125,7 +125,7 @@ function _new(func) {
 }
 ```
 
-##### 对象创建
+### 对象创建
 
 - 工厂模式：
 
@@ -208,7 +208,7 @@ Person.prototype = {
 }
 ```
 
-##### 对象继承
+### 对象继承
 
 在理解JavaScript之前，我们需要明白一点，所有函数的默认原型都指向`Object.prototype`，即他们都是Object对象的实例，即某函数的原型中有个`__proto__`属性指向`Object`。我们在自定义对象的时候，之所以能够调用`hasOwnProperty`或者`toString`这样的方法，是因为这些方法都是`Object.prototype`上的方法，而我们自定义的函数，其对象又默认是`Object.prototype`的实例，所以我们自定义的函数可以通过原型链找到顶端的`Object`，调用其原型上的内置方法。
 
@@ -414,9 +414,66 @@ let arr2 = arr.fiter((item) => {
 }) 
 ```
 
++ every()&some()
+
+```javascript
+/** 
+ * 计算对象数组中每个电脑的扣件系统是否可用,大于16位操作系统表示可用,否则不可用
+*/
+var computers = [
+    {name:"Apple",ram:8},
+    {name:"IBM",ram:4},
+    {name:"Acer",ram:32},
+];
+ var result= computers.every(function(computer){
+   return computer.ram > 16
+})
+console.log(result)//false;
+
+var some = computers.some(function(computer){
+   return computer.ram > 16
+})
+console.log(some)//true;
+```
+
++ reduce(汇总)：
+
+  `reduce()` 方法接收一个函数作为累加器，数组中的每个值（从左到右）开始缩减，最终计算为一个值。`reduce()` 方法接受四个参数：初始值（或者上一次回调函数的返回值），当前元素值，当前索引，调用` reduce()` 的数组。
+
+```javascript
+// 数组求和
+var total = [ 0, 1, 2, 3 ].reduce(( acc, cur ) => {
+    return acc + cur
+}, 0);
+console.log(total)   // 6
+
+// 计算数组中每个元素出现的次数
+let names = ['tom', 'jim', 'jack', 'tom', 'jack'];
+
+const countNames = names.reduce((allNames, name) => {
+  if (name in allNames) {
+    allNames[name] ++;
+  }
+  else {
+    allNames[name] = 1;
+  }
+  return allNames;
+}, {});
+
+console.log(countNames)
+
+// 数组去重
+let arr = [1, 2, 1, 2, 3, 5, 4, 5, 3, 4, 4, 4, 4];
+let result = arr.sort().reduce((init, current) => {
+    if (init.length === 0 || init[init.length - 1] !== 			 current) {
+        	init.push(current);
+    }
+    return init;
+}, []);
+console.log(result);
+```
 
 
-reduce(汇总)：
 
 from()
 
