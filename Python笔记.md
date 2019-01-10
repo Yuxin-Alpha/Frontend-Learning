@@ -105,7 +105,7 @@ print (str + "TEST") # 连接字符串
   | %d   | 格式化整数                           |
   | %f   | 格式化浮点数字，可指定小数点后的精度 |
 
-截取字符串补充:
+截取字符串补充:Python不支持单字符类型，单字符在 Python 中也是作为一个字符串使用。
 
 ```python
 # 0、a,b为参数。从字符串指针为a的地方开始截取字符，到b的前一个位置（因为不包含b）
@@ -113,22 +113,22 @@ var1 = "hello world";
 print(var1[a: b]);
 
 # 1、如果a,b均不填写，默认取全部字符。即，下面这两个打印结果是一样的
-print(var1[: ]);  # hello world
+print(var1[:]);  # hello world
 print(var1);      # hello world
 
 # 2、如果a填写，b不填写（或填写的值大于指针下标），默认从a开始截取，至字符串最后一个位置
-print(var1[3: ]); # lo world
+print(var1[3:]); # lo world
 
 # 3、如果a不填写， b填写，默认从0位置开始截取，至b的前一个位置
-print(var1[: 8]); # hello wo
+print(var1[:8]); # hello wo
 
 # 4、如果a为负数，默认从尾部某一位置，开始向后截取
-print(var1[-2: ]); # ld
+print(var1[-2:]); # ld
 ```
 
 ### 列表
 
-列表中元素的类型可以不相同，它支持数字，字符串甚至可以包含列表（所谓嵌套）.和字符串一样，列表同样可以被索引和截取，列表被截取后返回一个包含所需元素的新列表.索引值以 0 为开始值，-1 为从末尾的开始位置。
+列表中元素的类型可以不相同，它支持数字，字符串甚至可以包含列表（所谓嵌套）.和字符串一样，列表同样可以被索引和截取，列表被截取后返回一个包含所需元素的新列表.索引值以 0 为开始值，-1 为从末尾的开始位置。列表都可以进行的操作包括索引，切片，加，乘，检查成员。
 
 ```python
 list = [ 'abcd', 786 , 2.23, 'runoob', 70.2 ]
@@ -149,6 +149,30 @@ list = ['Google', 'Runoob', 1997, 2000]
 print ("原始列表 : ", list)
 del list[2]
 print ("删除第三个元素 : ", list)
+
+# 内置函数
+# append() 方法用于在列表末尾添加新的对象。
+aList = [123, 'xyz', 'zara', 'abc'];
+aList.append( 2009 );
+print "Updated List : ", aList;
+
+# extend() 函数用于在列表末尾一次性追加另一个序列中的多个值（用新列表扩展原来的列表）。
+aList = [123, 'xyz', 'zara', 'abc', 123];
+bList = [2009, 'manni'];
+aList.extend(bList)
+print "Extended List : ", aList ;
+
+# index() 函数用于从列表中找出某个值第一个匹配项的索引位置。
+aList = [123, 'xyz', 'zara', 'abc'];
+print "Index for xyz : ", aList.index( 'xyz' ) ;
+print "Index for zara : ", aList.index( 'zara' ) ;
+
+# pop() 函数用于移除列表中的一个元素（默认最后一个元素），并且返回该元素的值。
+list1 = ['Google', 'Runoob', 'Taobao']
+list_pop=list1.pop(1)
+print "删除的项为 :", list_pop
+print "列表现在为 : ", list1
+
 
 ```
 
@@ -258,5 +282,158 @@ print (tinydict.values()) # 输出所有值
 
   `is`:is 是判断两个标识符是不是引用自一个对象
 
-格式化字符串：
+## 条件语句
 
+"判断条件"成立时（非零），则执行后面的语句，而执行内容可以多行，以缩进来区分表示同一范围。
+
+else 为可选语句，当需要在条件不成立时执行内容则可以执行相关语句.
+
+```python
+# if 基本用法
+flag = False
+name = 'luren'
+if name == 'python':         # 判断变量否为'python'
+    flag = True          # 条件成立时设置标志为真
+    print 'welcome boss'    # 并输出欢迎信息
+else:
+    print name              # 条件不成立时输出变量名称
+    
+# elif用法 
+num = 5     
+if num == 3:            # 判断num的值
+    print 'boss'        
+elif num == 2:
+    print 'user'
+elif num == 1:
+    print 'worker'
+elif num < 0:           # 值小于零时输出
+    print 'error'
+else:
+    print 'roadman'     # 条件均不成立时输出
+```
+
+由于 python 并不支持 switch 语句，所以多个条件判断，只能用 elif 来实现，如果判断需要多个条件需同时判断时，可以使用 or （或），表示两个条件有一个成立时判断条件成功；使用 and （与）时，表示只有两个条件同时成立的情况下，判断条件才成功。如果遇到很多中情况的时候，写很多的 **if/else** 不是很好维护，这时可以考虑用字典映射的方法替代：
+
+```python
+import os
+def zero():
+    return "zero"
+
+def one():
+    return "one"
+
+def two():
+    return "two"
+
+def num2Str(arg):
+    switcher={
+        0:zero,
+        1:one,
+        2:two,
+        3:lambda:"three"
+    }
+    func=switcher.get(arg,lambda:"nothing")
+    return func()
+
+if __name__ == '__main__':
+    print num2Str(0)
+```
+
+## 循环语句
+
++ while 语句:
+
+  ```python
+  # continue 和 break 用法
+   
+  i = 1
+  while i < 10:   
+      i += 1
+      if i%2 > 0:     # 非双数时跳过输出
+          continue
+      print i         # 输出双数2、4、6、8、10
+   
+  i = 1
+  while 1:            # 循环条件为1必定成立
+      print i         # 输出1~10
+      i += 1
+      if i > 10:     # 当i大于10时跳出循环
+          break
+  
+  # while … else 在循环条件为 false 时执行 else 语句块
+  count = 0
+  while count < 5:
+     print count, " is  less than 5"
+     count = count + 1
+  else:
+     print count, " is not less than 5"
+  ```
+
+
+
++ for循环:
+
+  ```python
+  for letter in 'Python':     # 第一个实例
+     print '当前字母 :', letter
+   
+  fruits = ['banana', 'apple',  'mango']
+  for fruit in fruits:        # 第二个实例
+     print '当前水果 :', fruit
+   
+  print "Good bye!"
+  
+  # range() 函数可创建一个整数列表
+  # 冒泡排序
+  arays = [1,8,2,6,3,9,4]
+  for i in range(len(arays)):
+      for j in range(i+1):
+          if arays[i] < arays[j]:
+              # 实现连个变量的互换
+              arays[i],arays[j] = arays[j],arays[i]
+  print arays
+  ```
+
++ break的正确姿势:跳出循环.
+
+  ```python
+  for letter in 'Python':     # 第一个实例
+     if letter == 'h':
+        break
+     print '当前字母 :', letter
+    
+  var = 10                    # 第二个实例
+  while var > 0:              
+     print '当前变量值 :', var
+     var = var -1
+     if var == 5:   # 当变量 var 等于 5 时退出循环
+        break
+  ```
+
+
++ continue的正确姿势:直接进入下一轮循环
+
+  ```python
+  for letter in 'Python':     # 第一个实例
+     if letter == 'h':
+        continue
+     print '当前字母 :', letter
+   
+  var = 10                    # 第二个实例
+  while var > 0:              
+     var = var -1
+     if var == 5:
+        continue
+     print '当前变量值 :', var
+  ```
+
+
++ pass的正确姿势:pass 不做任何事情，一般用做占位语句。
+
+  ```python
+  for letter in 'Python':
+     if letter == 'h':
+        pass
+        print '这是 pass 块'
+     print '当前字母 :', letter
+  ```
