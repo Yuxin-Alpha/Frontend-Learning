@@ -452,3 +452,44 @@ if __name__ == '__main__':
         print '这是 pass 块'
      print '当前字母 :', letter
   ```
+
+## 迭代器
+
+迭代器是一个可以记住遍历的位置的对象。
+
+迭代器对象从集合的第一个元素开始访问，直到所有的元素被访问完结束。迭代器只能往前不会后退。迭代器有两个基本的方法：**iter()** 和 **next()**。字符串，列表或元组对象都可用于创建迭代器。
+
+```python
+>>>list=[1,2,3,4]
+>>> it = iter(list)    # 创建迭代器对象
+>>> print (next(it))   # 输出迭代器的下一个元素
+1
+>>> print (next(it))
+2
+```
+
+## 函数
+
+- 函数代码块以 **def** 关键词开头，后接函数标识符名称和圆括号 **()**。
+
+- 任何传入参数和自变量必须放在圆括号中间，圆括号之间可以用于定义参数。
+- 函数的第一行语句可以选择性地使用文档字符串—用于存放函数说明。
+
+- 函数内容以冒号起始，并且缩进。
+- 必需参数须以正确的顺序传入函数。调用时的数量必须和声明时的一样。
+- **return [表达式]** 结束函数，选择性地返回一个值给调用方。不带表达式的return相当于返回 None
+
+```python
+# 计算面积函数
+def area(width, height):
+    return width * height
+ 
+def print_welcome(name):
+    print("Welcome", name)
+ 
+print_welcome("Runoob")
+w = 4
+h = 5
+print("width =", w, " height =", h, " area =", area(w, h))
+```
+
