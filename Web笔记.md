@@ -19,9 +19,9 @@ http:一次性链接;http1.1:保持链接;http2.0:强制https,自带双向通信
 
 4. websocket(双向通信默认可以跨域)
 
-##React
+## React
 
-###虚拟dom
+### 虚拟dom
 
 需要先解释DOM：DOM是使用JavaScript对象来表示页面中的元素
 
@@ -63,7 +63,7 @@ DOM的嵌套我们可以通过`childrens`属性来嵌套，运用这种思想，
 
 所谓的虚拟DOM，其实就是使用JavaScript的形式，来模拟页面DOM之间的嵌套关系，即，虚拟DOM是以JS对象的形式存在的，其本质是为了实现页面元素高效的按需更新。
 
-###Diff算法（差异查询算法）
+### Diff算法（差异查询算法）
 
 - tree diff
 
@@ -79,7 +79,7 @@ DOM的嵌套我们可以通过`childrens`属性来嵌套，运用这种思想，
 
 三个diff算法逐层递进，使得整两个DOM树的对比没有遗漏。
 
-###安装
+### 安装
 
 1. 运行`npm i react react-dom -S`安装包
    + react:  专门用于创建组件和虚拟DOM的，同时组件的声明周期都在这个包中
@@ -107,7 +107,83 @@ DOM的嵌套我们可以通过`childrens`属性来嵌套，运用这种思想，
 
    当然，我们可以这么创建一个元素，但是真正在书写前端页面的时候，一个页面就有成百上千个元素，所以，这么做成本实在太高了。为了能够实现快速开发，我们想到了在js文件中书写我们的HTML代码，但是js原本的语法并不允许我们这样做。由此，生成了JSX语法。
 
-###JSX语法
+### JSX语法
+
+## Vue
+
+### 写法规范
+
+1. 组件名应该始终是多个单词的,避免跟现有的以及未来的 HTML 元素.
+
+   ```vue
+   Vue.component('todo-item', {
+     // ...
+   })
+   
+   export default {
+     name: 'TodoItem',
+     // ...
+   }
+   ```
+
+2. data必须是一个函数,然后值被return出去:因为当data是一个对象时,它会在组件的所有实例中共享,如果该组件被复用,A组件对数据的修改将会影响另一个组件.
+
+   ```Vue
+   data: function () {
+     return {
+       listTitle: '',
+       todos: []
+     }
+   }
+   ```
+
+3. Prop属性应该尽量详细,至少要指定类型
+
+   ```vue
+   props: {
+     status: {
+       type: String,
+       required: true,
+       validator: function (value) {
+         return [
+           'syncing',
+           'synced',
+           'version-conflict',
+           'error'
+         ].indexOf(value) !== -1
+       }
+     }
+   }
+   ```
+
+4. 永远不要把 v-if 和 v-for 同时用在同一个元素上。
+
+5. 单文件组件的文件要么始终是单词大写开头,要么始终是横线连接.
+
+6. 在声明 prop 的时候，其命名应该始终使用 camelCase，而在模板和 JSX 中应该始终使用 kebab-case。
+
+   ```vue
+   props: {
+     greetingText: String
+   }
+   <WelcomeMessage greeting-text="hi"/>
+   ```
+
+7. 属性多行书写:
+
+   ```Vue
+   <img
+     src="https://vuejs.org/images/logo.png"
+     alt="Vue Logo"
+   >
+   <MyComponent
+     foo="a"
+     bar="b"
+     baz="c"
+   />
+   ```
+
+8. 组件模板应该只包含简单的表达式，复杂的表达式则应该重构为计算属性或方法。
 
 ## Webpack
 
