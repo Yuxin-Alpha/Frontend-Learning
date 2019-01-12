@@ -477,7 +477,7 @@ if __name__ == '__main__':
 
 - 函数内容以冒号起始，并且缩进。
 - 必需参数须以正确的顺序传入函数。调用时的数量必须和声明时的一样。
-- **return [表达式]** 结束函数，选择性地返回一个值给调用方。不带表达式的return相当于返回 None
+- **return [表达式]** 结束函数，选择性地返回一个值给调用方。不带表达式的return相当于返回 None.函数返回值的注意事项: 不同于 C 语言，Python 函数可以返回多个值，多个值以元组的方式返回
 
 ```python
 # 计算面积函数
@@ -492,4 +492,126 @@ w = 4
 h = 5
 print("width =", w, " height =", h, " area =", area(w, h))
 ```
+
+### 默认参数
+
+```python
+#可写函数说明
+def printinfo( name, age = 35 ):
+   "打印任何传入的字符串"
+   print ("名字: ", name)
+   print ("年龄: ", age)
+   return
+ 
+#调用printinfo函数
+printinfo( age=50, name="runoob" )
+print ("------------------------")
+printinfo( name="runoob" )
+```
+
+
+
+### 不定长参数
+
+加了星号` * `的参数会以元组(tuple)的形式导入，存放所有未命名的变量参数。
+
+```python
+def functionname([formal_args,] *var_args_tuple ):
+   "函数_文档字符串"
+   function_suite
+   return [expression]
+
+def printinfo( arg1, *vartuple ):
+   "打印任何传入的参数"
+   print ("输出: ")
+   print (arg1)
+   print (vartuple)
+ 
+# 调用printinfo 函数
+printinfo( 70, 60, 50 )
+```
+
+加了两个星号 ** 的参数会以字典的形式导入。
+
+```python
+def printinfo( arg1, **vardict ):
+   "打印任何传入的参数"
+   print ("输出: ")
+   print (arg1)
+   print (vardict)
+ 
+# 调用printinfo 函数
+printinfo(1, a=2,b=3)
+```
+
+### 匿名参数
+
+所谓匿名，意即不再使用 def 语句这样标准的形式定义一个函数。使用 lambda 来创建匿名函数。
+
+- lambda 只是一个表达式，函数体比 def 简单很多。
+
+- lambda的主体是一个表达式，而不是一个代码块。仅仅能在lambda表达式中封装有限的逻辑进去。
+
+- lambda 函数拥有自己的命名空间，且不能访问自己参数列表之外或全局命名空间里的参数。
+
+  ```python
+  sum = lambda arg1, arg2: arg1 + arg2
+   
+  # 调用sum函数
+  print ("相加后的值为 : ", sum( 10, 20 )) # 30
+  print ("相加后的值为 : ", sum( 20, 20 )) # 40
+  ```
+
+### 变量作用域
+
+程序的变量并不是在哪个位置都可以访问的，访问权限决定于这个变量是在哪里赋值的.在局部找不到，便会去局部外的局部找（例如闭包），再找不到就会去全局找，再者去内建中找。
+
+## 模块化
+
+`import sys` 引入 python 标准库中的 sys.py 模块；这是引入某一模块的方法。个模块只会被导入一次，不管你执行了多少次import.
+
+### \__name__属性
+
+一个模块被另一个程序第一次引入时，其主程序将运行。如果我们想在模块被引入时，模块中的某一程序块不执行，我们可以用__name__属性来使该程序块仅在该模块自身运行时执行。
+
+### dir() 函数
+
+内置函数,这个函数可以找到模块内定义的所有名称.
+
+### 包
+
+```python
+sound/                          顶层包
+      __init__.py               初始化 sound 包
+      formats/                  文件格式转换子包
+              __init__.py
+              wavread.py
+              wavwrite.py
+              aiffread.py
+              aiffwrite.py
+              auread.py
+              auwrite.py
+              ...
+      effects/                  声音效果子包
+              __init__.py
+              echo.py
+              surround.py
+              reverse.py
+              ...
+      filters/                  filters 子包
+              __init__.py
+              equalizer.py
+              vocoder.py
+              karaoke.py
+```
+
+导入方式:
+
+```python
+import sound.effects.echo
+# 或者
+from sound.effects import echo
+```
+
+## 文件
 
