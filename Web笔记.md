@@ -169,8 +169,56 @@ DOM的嵌套我们可以通过`childrens`属性来嵌套，运用这种思想，
   注意：不能使用箭头函数来定义method函数，因为箭头函数绑定了父级作用域的上下文，所以 `this` 将不会按照期望指向 Vue 实例，`this.a` 将是 undefined。
 
 + `el` 提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标。可以是 CSS 选择器，也可以是一个 HTMLElement 实例。
+
 + `template` 一个字符串模板作为 Vue 实例的标识使用。模板将会 **替换** 挂载的元素。
-+ `render` 
+
++ `render` 函数
+
+  ```vue
+  <h1>{{ blogTitle }}</h1>
+  // 或者
+  render: function (createElement) {
+    return createElement('h1', this.blogTitle)
+  }
+  ```
+
+  + Vue 通过建立一个**虚拟 DOM** 对真实 DOM 发生的变化保持追踪。
+
+    `createElement`：
+
+    ```vue
+    createElement(
+      // {String | Object | Function}
+      // 一个 HTML 标签字符串，组件选项对象，或者
+      // 解析上述任何一种的一个 async 异步函数。必需参数。
+      'div',
+    
+      // {Object}
+      // 一个包含模板相关属性的数据对象
+      // 你可以在 template 中使用这些特性。可选参数。
+      {},
+    
+      // {String | Array}
+      // 子虚拟节点 (VNodes)，由 `createElement()` 构建而成，
+      // 也可以使用字符串来生成“文本虚拟节点”。可选参数。
+      [
+        '先写一些文字',
+        createElement('h1', '一则头条'),
+        createElement(MyComponent, {
+          props: {
+            someProp: 'foobar'
+          }
+        })
+      ]
+    )
+    ```
+
+
+### 生命周期
+
+所有的生命周期钩子自动绑定 `this` 上下文到实例中，因此你可以访问数据，对属性和方法进行运算。不能使用箭头函数来定义一个生命周期方法。
+
+`beforeCreate()`:
 
 ### 使用插件
 
