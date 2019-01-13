@@ -111,6 +111,82 @@ DOM的嵌套我们可以通过`childrens`属性来嵌套，运用这种思想，
 
 ## Vue
 
+### API
+
++ `Vue.extend()`使用基础 Vue 构造器，创建一个“子类”,参数是一个包含组件选项的对象.
+
++ `Vue.nextTick()`在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。
+
++ `Vue.set()`向响应式对象中添加一个属性，并确保这个新属性同样是响应式的，且触发视图更新
+
++ `Vue.directive(id,{})`注册或获取全局指令。
+
++ `Vue.component()`注册或获取全局组件。注册还会自动使用给定的`id`设置组件的名称
+
+  ```vue
+  // 注册组件，传入一个选项对象 (自动调用 Vue.extend)
+  Vue.component('my-component', { /* ... */ })
+  
+  // 获取注册的组件 (始终返回构造器)
+  var MyComponent = Vue.component('my-component')
+  ```
+
+### 选项
+
++ `data`  Vue 实例的数据对象。Vue 将会递归将 data 的属性转换为 getter/setter，从而让 data 的属性能够响应数据变化,实例创建之后，可以通过 `vm.$data` 访问原始数据对象。
+
++ `props` props 可以是数组或对象，用于接收来自父组件的数据。props 可以是简单的数组
+
++ `computed` 计算属性将被混入到 Vue 实例中。所有 getter 和 setter 的 this 上下文自动地绑定为 Vue 实例。计算属性的结果会被缓存，除非依赖的响应式属性变化才会重新计算。注意，如果某个依赖 (比如非响应式属性) 在该实例范畴之外，则计算属性是**不会**被更新的。
+
+  ```vue
+  var vm = new Vue({
+    data: { a: 1 },
+    computed: {
+      // 仅读取
+      aDouble: function () {
+        return this.a * 2
+      },
+      // 读取和设置
+      aPlus: {
+        get: function () {
+          return this.a + 1
+        },
+        set: function (v) {
+          this.a = v - 1
+        }
+      }
+    }
+  })
+  vm.aPlus   // => 2
+  vm.aPlus = 3
+  vm.a       // => 2
+  vm.aDouble // => 4
+  ```
+
++ `methods` methods 将被混入到 Vue 实例中。可以直接通过 VM 实例访问这些方法，或者在指令表达式中使用。方法中的 `this` 自动绑定为 Vue 实例。
+
+  注意：不能使用箭头函数来定义method函数，因为箭头函数绑定了父级作用域的上下文，所以 `this` 将不会按照期望指向 Vue 实例，`this.a` 将是 undefined。
+
++ `el` 提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标。可以是 CSS 选择器，也可以是一个 HTMLElement 实例。
++ `template` 一个字符串模板作为 Vue 实例的标识使用。模板将会 **替换** 挂载的元素。
++ `render` 
+
+### 使用插件
+
+通过全局方法 `Vue.use()` 使用插件。它需要在你调用 `new Vue()` 启动应用之前完成：
+
+```vue
+// 调用 `MyPlugin.install(Vue)`
+Vue.use(MyPlugin)
+
+new Vue({
+  //... options
+})
+```
+
+`Vue.use` 会自动阻止多次注册相同插件，届时只会注册一次该插件。
+
 ### 写法规范
 
 1. 组件名应该始终是多个单词的,避免跟现有的以及未来的 HTML 元素.
