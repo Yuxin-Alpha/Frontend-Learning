@@ -311,3 +311,53 @@ new Vue({
 
 ## Webpack
 
+ webpack 处理应用程序时，它会递归地构建一个依赖关系图,其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 *bundle*。
+
+### 入口起点
+
+指示 webpack 应该使用哪个模块，来作为构建其内部依赖图的开始。可以通过配置 `entry` 属性，来指定一个入口起点,默认值为 `./src`.
+
+```javascript
+module.exports = {
+  entry: './path/to/my/entry/file.js'
+};
+```
+
+### 出口
+
+**output** 属性告诉 webpack 在哪里输出它所创建的 bundles，以及如何命名这些文件，默认值为 `./dist`。
+
+```javascript
+const path = require('path');
+
+module.exports = {
+  entry: './path/to/my/entry/file.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'my-first-webpack.bundle.js'
+  }
+};
+```
+
+### loader
+
+处理非 JavaScript 文件（因为webpack 自身只理解 JavaScript）,loader 可以将所有类型的文件转换为 webpack 能够处理的有效模块. 在 webpack 的配置中 **loader** 有两个目标:`test` 属性(用于标识应该被对应的loader进行转换的文件)与`use` 属性(使用什么loader进行转换).
+
+```javascript
+const path = require('path');
+
+const config = {
+  output: {
+    filename: 'my-first-webpack.bundle.js'
+  },
+  module: {
+    rules: [
+      { test: /\.txt$/, use: 'raw-loader' }
+    ]
+  }
+};
+
+module.exports = config;
+```
+
+当txt文件被导入(require或者import)的时候,先使用`raw-loader`转换一下,再打包.
