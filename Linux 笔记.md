@@ -215,11 +215,13 @@ user：Linux服务器用户名
 
 remote：服务器IP
 
-`ssh -p 22 clement@192.168.7.01`登录例子
+`ssh -P 22 clement@192.168.7.01`登录例子
 
 ### SSH常用指令
 
 scp：远程拷贝文件
+
+`scp -P 22 01.py clement@10.0.2.15 :Desktop/`
 
 
 
