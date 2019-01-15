@@ -64,6 +64,8 @@ vim 是 vi 的增强版本
 
 用户至少要属于一个组，每个用户的目录/home/xiaoming
 
+`id 用户` 查询用户信息   输出：用户代号，组代号 
+
 ### 用户/组——添加
 
 `useradd xiaoming`会自动创建一个xiaoming组，/home目录下会增加一个/xiaoming 目录
