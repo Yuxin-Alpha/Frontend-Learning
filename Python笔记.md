@@ -615,3 +615,48 @@ from sound.effects import echo
 
 ## 文件
 
+1. `open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None)`:打开一个文件,并返回文件对象.
+
+   参数说明:
+
+   + file: 必需，文件路径（相对或者绝对路径）。
+
+   + mode: 可选，文件打开模式
+
+   + buffering: 设置缓冲
+
+   + encoding: 一般使用utf8
+
+   + errors: 报错级别
+
+   + newline: 区分换行符
+
+   + closefd: 传入的file参数类型
+
+   + opener:
+
+2. `file对象`由open函数返回,常用函数:
+   + `file.close()`:关闭文件
+   + `file.flush()`:刷新缓冲区
+   + `file.isatty()`:检测文件是否连接到一个终端设备
+
+## 面向对象
+
+```python
+class MyClass:
+    """一实例"""
+    i = 12345
+    # 类有一个名为 __init__() 的特殊方法（构造方法），该方		法在类实例化时会自动调用
+    def __init__(self):
+    self.data = []
+    def f(self):
+        return 'hello world'
+ 
+# 实例化类
+x = MyClass()
+ 
+# 访问类的属性和方法
+print("MyClass 类的属性 i 为：", x.i)
+print("MyClass 类的方法 f 输出为：", x.f())
+```
+
