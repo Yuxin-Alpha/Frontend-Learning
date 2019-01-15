@@ -1,5 +1,33 @@
 # Web笔记
 
+## 浏览器
+
+浏览器功能:呈现web资源.
+
+工作机制:
+
+1. 输入网址。 
+
+2. 浏览器查找域名的IP地址。 
+
+  　　3. 浏览器给web服务器发送一个HTTP请求 
+  　　4. 网站服务的永久重定向响应 
+  　　5. 浏览器跟踪重定向地址 现在，浏览器知道了要访问的正确地址，所以它会发送另一个获取请求。 
+  　　6. 服务器“处理”请求，服务器接收到获取请求，然后处理并返回一个响应。 
+  　　7. 服务器发回一个HTML响应 
+  　　8. 浏览器开始显示HTML 
+  　　9. 浏览器发送请求，以获取嵌入在HTML中的对象
+
+我们先来了解一下一个html页面怎么被渲染最后呈现到浏览器用户眼前的.
+
+### 渲染
+
+由渲染引擎执行,会解析三种文件,`HTML`,`CSS`与`JS`,主要会经历这几个步骤
+
+1. 解析html以构建dom树 -> 2. 构建render树 -> 3.布局render树 ->4. 绘制render树
+
+渲染引擎会首先渲染解析`HTML`文件,第一步将每个`html`元素转换成一个`DOM`节点构建一棵`DOM`树,样式信息与HTML中的可视化指令一起用于创建渲染树,在构建渲染树后,根据`CSS`中的位置属性参与布局过程,每个`DOM`节点有自己的确切的坐标,最后是绘制阶段,渲染引擎将遍历整个渲染树,并使用UI后端层绘制每个节点.
+
 ## HTTP协议
 
 1. http:超文本传输协议
@@ -111,6 +139,155 @@ DOM的嵌套我们可以通过`childrens`属性来嵌套，运用这种思想，
 
 ## Vue
 
+mvvm模式(model-view-modelView):通过modelView作为中间层（即vm的实例），进行双向数据的绑定与变化.
+
+渲染原理:
+
+1. 通过建立虚拟dom树`document.createDocumentFragment()`,方法创建虚拟dom树。
+2. 一旦被监测的数据改变，会通过`Object.defineProperty`定义的数据拦截，截取到数据的变化。
+3. 截取到的数据变化，从而通过订阅——发布者模式，触发Watcher（观察者）,从而改变虚拟dom的中的具体数据。
+4. 最后，通过更新虚拟dom的元素值，从而改变最后渲染dom树的值，完成双向绑定
+
+`Object.defineProperty()`会在一个对象上定义一个新属性,或者修改一个对象的现有属性,并返回一个对象.上代码:
+
+```javascript
+var obj = {};
+Object.defineProperty(obj,'hello',{
+  get:function(){
+    // 我们在这里拦截到了数据
+    console.log("get方法被调用");
+  },
+  set:function(newValue){
+    // 改变数据的值，拦截下来
+    console.log("set方法被调用");
+  }
+});
+obj.hello//输出为“get方法被调用”，输出了值。
+obj.hello = 'new Hello';//输出为set方法被调用，修改了新值
+```
+
+在此基础上,我们可以做到简单的双向绑定:
+
+```javascript
+var obj = {};
+Object.defineProperty(obj,'hello',{
+  get:function(){
+    //我们在这里拦截到了数据
+    console.log("get方法被调用");
+  },
+  set:function(newValue){
+    //改变数据的值，拦截下来额
+    console.log("set方法被调用");
+    document.getElementById('test').value = newValue;
+    document.getElementById('test1').innerHTML = newValue;
+  }
+});
+document.getElementById('test').addEventListener('input',function(e){
+  // 修改obj.hello的值,触发该属性的set方法
+  obj.hello = e.target.value;
+})
+```
+
+html:
+
+```html
+<div id="mvvm">
+    <input v-model="text" id="test"></input>
+	<div id="test1"></div>
+</div>
+```
+
+实现Vue:
+
+```javascript
+function nodeContainer(node, vm, flag){
+  var flag = flag || document.createDocumentFragment();
+  var child;
+  while(child = node.firstChild){
+    compile(child, vm);
+    flag.appendChild(child);
+    if(child.firstChild){
+      // flag.appendChild(nodeContainer(child,vm));
+      nodeContainer(child, vm, flag);
+    }
+  }
+  return flag;
+}
+
+function compile(node, vm){
+  var reg = /\{\{(.*)\}\}/g;// 匹配双绑的双大括号
+  if(node.nodeType === 1){
+    var attr = node.attributes;
+    // 解析节点的属性
+    for(var i = 0;i < attr.length; i++){
+      if(attr[i].nodeName == 'v-model'){
+        var name = attr[i].nodeValue;
+        node.addEventListener('input',function(e){
+          console.log(vm[name]);
+          vm[name] = e.target.value;//改变实例里面的值
+        });
+        node.value = vm.data[name];// 讲实例中的data数据赋值给节点
+        // node.removeAttribute('v-model');
+      }
+    }
+  }
+  // 如果节点类型为text
+  if(node.nodeType === 3){  
+    if(reg.test(node.nodeValue)){
+      var name = RegExp.$1; // 获取匹配到的字符串
+      name = name.trim();
+      node.nodeValue = vm.data[name];
+    }
+  }
+}
+
+function Vue(options){
+  this.data = options.data;
+  
+  var id = options.el;
+  observe(data,this);
+  var dom = nodeContainer(document.getElementById(id),this);
+  document.getElementById(id).appendChild(dom);  
+}
+
+var Demo = new Vue({
+  el:'mvvm',
+  data:{
+    text:'HelloWorld',
+    d:'123'
+  }
+})
+```
+
+data属性的响应式:
+
+```javascript
+function defineReactive (obj, key, value){
+  Object.defineProperty(obj,key,{
+    get:function(){
+      console.log("get了值"+value);
+      return value;//获取到了值
+    },
+    set:function(newValue){
+      if(newValue === value){
+        return; // 如果值没变化，不用触发新值改变
+      }
+      value = newValue;// 改变了值
+      console.log("set了最新值"+value);
+    }
+  })
+}
+
+// 循环调用
+function observe (obj,vm){
+  Object.keys(obj).forEach(function(key){
+    defineReactive(vm,key,obj[key]);
+  })
+}
+```
+
+
+
 ### API
 
 + `Vue.extend()`使用基础 Vue 构造器，创建一个“子类”,参数是一个包含组件选项的对象.
@@ -218,7 +395,27 @@ DOM的嵌套我们可以通过`childrens`属性来嵌套，运用这种思想，
 
 所有的生命周期钩子自动绑定 `this` 上下文到实例中，因此你可以访问数据，对属性和方法进行运算。不能使用箭头函数来定义一个生命周期方法。
 
-`beforeCreate()`:
+`beforeCreate()`:实例初始化之后,此时还不能数据观测.
+
+`created()`:实例创建完成之后立即调用,完成数据观测,属性和方法的运算,但未挂载,所以实例中的`$el`属性是不可见的.
+
+`beforeMount`:在实例挂载之前被调用,该钩子函数子在服务器端渲染不被调用
+
+`mounted`:
+
+### 实例属性
+
+`vm.$parent`:父实例
+
+`vm.$root`:当前组件树的跟实例
+
+`vm.$refs`:保存所有注册过`ref`特性的所有DOM元素和组件实例
+
+### 实例方法
+
+`vm.$on`:监听当前实例上的自定义事件.回调函数会接收由`vm.$emit`触发事件传入事件触发函数的额外参数.
+
+
 
 ### 使用插件
 
