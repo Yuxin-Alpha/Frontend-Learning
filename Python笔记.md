@@ -644,11 +644,14 @@ from sound.effects import echo
 
 ```python
 class MyClass:
-    """一实例"""
+    # 实例
     i = 12345
+    
     # 类有一个名为 __init__() 的特殊方法（构造方法），该方		法在类实例化时会自动调用
     def __init__(self):
-    self.data = []
+    	self.data = []
+        
+        
     def f(self):
         return 'hello world'
  
