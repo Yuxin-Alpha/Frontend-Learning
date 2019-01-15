@@ -111,6 +111,155 @@ DOM的嵌套我们可以通过`childrens`属性来嵌套，运用这种思想，
 
 ## Vue
 
+mvvm模式(model-view-modelView):通过modelView作为中间层（即vm的实例），进行双向数据的绑定与变化.
+
+渲染原理:
+
+1. 通过建立虚拟dom树`document.createDocumentFragment()`,方法创建虚拟dom树。
+2. 一旦被监测的数据改变，会通过`Object.defineProperty`定义的数据拦截，截取到数据的变化。
+3. 截取到的数据变化，从而通过订阅——发布者模式，触发Watcher（观察者）,从而改变虚拟dom的中的具体数据。
+4. 最后，通过更新虚拟dom的元素值，从而改变最后渲染dom树的值，完成双向绑定
+
+`Object.defineProperty()`会在一个对象上定义一个新属性,或者修改一个对象的现有属性,并返回一个对象.上代码:
+
+```javascript
+var obj = {};
+Object.defineProperty(obj,'hello',{
+  get:function(){
+    // 我们在这里拦截到了数据
+    console.log("get方法被调用");
+  },
+  set:function(newValue){
+    // 改变数据的值，拦截下来
+    console.log("set方法被调用");
+  }
+});
+obj.hello//输出为“get方法被调用”，输出了值。
+obj.hello = 'new Hello';//输出为set方法被调用，修改了新值
+```
+
+在此基础上,我们可以做到简单的双向绑定:
+
+```javascript
+var obj = {};
+Object.defineProperty(obj,'hello',{
+  get:function(){
+    //我们在这里拦截到了数据
+    console.log("get方法被调用");
+  },
+  set:function(newValue){
+    //改变数据的值，拦截下来额
+    console.log("set方法被调用");
+    document.getElementById('test').value = newValue;
+    document.getElementById('test1').innerHTML = newValue;
+  }
+});
+document.getElementById('test').addEventListener('input',function(e){
+  // 修改obj.hello的值,触发该属性的set方法
+  obj.hello = e.target.value;
+})
+```
+
+html:
+
+```html
+<div id="mvvm">
+    <input v-model="text" id="test"></input>
+	<div id="test1"></div>
+</div>
+```
+
+实现Vue:
+
+```javascript
+function nodeContainer(node, vm, flag){
+  var flag = flag || document.createDocumentFragment();
+  var child;
+  while(child = node.firstChild){
+    compile(child, vm);
+    flag.appendChild(child);
+    if(child.firstChild){
+      // flag.appendChild(nodeContainer(child,vm));
+      nodeContainer(child, vm, flag);
+    }
+  }
+  return flag;
+}
+
+function compile(node, vm){
+  var reg = /\{\{(.*)\}\}/g;// 匹配双绑的双大括号
+  if(node.nodeType === 1){
+    var attr = node.attributes;
+    // 解析节点的属性
+    for(var i = 0;i < attr.length; i++){
+      if(attr[i].nodeName == 'v-model'){
+        var name = attr[i].nodeValue;
+        node.addEventListener('input',function(e){
+          console.log(vm[name]);
+          vm[name] = e.target.value;//改变实例里面的值
+        });
+        node.value = vm.data[name];// 讲实例中的data数据赋值给节点
+        // node.removeAttribute('v-model');
+      }
+    }
+  }
+  // 如果节点类型为text
+  if(node.nodeType === 3){  
+    if(reg.test(node.nodeValue)){
+      var name = RegExp.$1; // 获取匹配到的字符串
+      name = name.trim();
+      node.nodeValue = vm.data[name];
+    }
+  }
+}
+
+function Vue(options){
+  this.data = options.data;
+  
+  var id = options.el;
+  observe(data,this);
+  var dom = nodeContainer(document.getElementById(id),this);
+  document.getElementById(id).appendChild(dom);  
+}
+
+var Demo = new Vue({
+  el:'mvvm',
+  data:{
+    text:'HelloWorld',
+    d:'123'
+  }
+})
+```
+
+data属性的响应式:
+
+```javascript
+function defineReactive (obj, key, value){
+  Object.defineProperty(obj,key,{
+    get:function(){
+      console.log("get了值"+value);
+      return value;//获取到了值
+    },
+    set:function(newValue){
+      if(newValue === value){
+        return; // 如果值没变化，不用触发新值改变
+      }
+      value = newValue;// 改变了值
+      console.log("set了最新值"+value);
+    }
+  })
+}
+
+// 循环调用
+function observe (obj,vm){
+  Object.keys(obj).forEach(function(key){
+    defineReactive(vm,key,obj[key]);
+  })
+}
+```
+
+
+
 ### API
 
 + `Vue.extend()`使用基础 Vue 构造器，创建一个“子类”,参数是一个包含组件选项的对象.
@@ -218,7 +367,27 @@ DOM的嵌套我们可以通过`childrens`属性来嵌套，运用这种思想，
 
 所有的生命周期钩子自动绑定 `this` 上下文到实例中，因此你可以访问数据，对属性和方法进行运算。不能使用箭头函数来定义一个生命周期方法。
 
-`beforeCreate()`:
+`beforeCreate()`:实例初始化之后,此时还不能数据观测.
+
+`created()`:实例创建完成之后立即调用,完成数据观测,属性和方法的运算,但未挂载,所以实例中的`$el`属性是不可见的.
+
+`beforeMount`:在实例挂载之前被调用,该钩子函数子在服务器端渲染不被调用
+
+`mounted`:
+
+### 实例属性
+
+`vm.$parent`:父实例
+
+`vm.$root`:当前组件树的跟实例
+
+`vm.$refs`:保存所有注册过`ref`特性的所有DOM元素和组件实例
+
+### 实例方法
+
+`vm.$on`:监听当前实例上的自定义事件.回调函数会接收由`vm.$emit`触发事件传入事件触发函数的额外参数.
+
+
 
 ### 使用插件
 
