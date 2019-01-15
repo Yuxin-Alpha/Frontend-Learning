@@ -36,7 +36,7 @@ Linux只有一个根目录，Linux的世界里面，一切都是文件
 
 修改文件属性与权限：
 
-1. `chgrp`修改文件所属用户组
+1. `chgrp —R `修改文件所属用户组
 
 2. `chown`修改文件拥有者
 
@@ -64,7 +64,7 @@ vim 是 vi 的增强版本
 
 用户至少要属于一个组，每个用户的目录/home/xiaoming
 
-### 用户添加
+### 用户/组——添加
 
 `useradd xiaoming`会自动创建一个xiaoming组，/home目录下会增加一个/xiaoming 目录
 
@@ -203,7 +203,19 @@ Command 命令名：相应的功能
 
 SSH数据传输是加密并且压缩的，可以防止信息泄露，并且提高传输速度
 
-通过IP地址找到计算机，再通过端口号找到web服务器的应用程序
+通过IP地址找到计算机，再通过端口号找到web服务器的应用程序.
+
+先下载ssh服务:
+
+`sudo apt-get install openssh-server `
+
+再检查服务是否开启：
+
+`ps -s | grep ssh`
+
+启动服务：
+
+`sudo service ssh start` 
 
 ```shell
 ssh [-p port] user@remote
