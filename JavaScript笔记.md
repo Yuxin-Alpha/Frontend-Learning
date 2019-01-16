@@ -1,8 +1,14 @@
 # JavaScript笔记
 
+一般情况下，一个进程一次只能执行一个任务。                                                   
+
 ##	js运行机制
 
-对于运行机制的了解，无非涉及三个问题，即：单线程，异步，单线程如何实现异步。
+对于运行机制的了解，无非涉及三个问题，即：单线程，异步，单线程如何实现异步。如果有很多任务需要执行，不外乎三种解决方法。
+
+1. **排队:**因为一个进程一次只能执行一个任务，只好等前面的任务执行完了，再执行后面的任务。
+2. **新建进程:**使用fork命令，为每个任务新建一个进程。
+3. **新建线程:**因为进程太耗费资源，所以如今的程序往往允许一个进程包含多个线程，由线程去完成任务。
 
 ### 单线程
 
@@ -730,6 +736,69 @@ genObj.next();
 
   这样就比较好理解了，假设一个饭馆里面，炒菜是一个宏观的过程，通过两个`yield`（在厨房架立两个挡板，分成3个工作区）分成3个小步骤——洗菜，切菜，炒菜（每个工作区由不同的人做不一样的事情），每一个小步骤都可以产生一个成果（也就是所谓的中间生成参数），通过yield进行传递，最后的成果（熟的菜）需要通过`return`来获取，而第一步的参数，就是炒菜的形参。
 
+### `async`&`await`
+
+先说一下`async`的用法，它作为一个关键字放到函数前面，用于表示函数是一个异步函数，因为`async`就是异步的意思， 异步函数也就意味着该函数的执行不会阻塞后面代码的执行。`async `函数也是函数，平时我们怎么使用函数就怎么使用它，直接加括号调用就可以了
+
+```javascript
+async function timeout() {
+　　return 'hello world';
+}
+```
+
+`async `函数返回的是一个promise 对象，如果要获取到promise 返回值，我们应该用`then `方法:
+
+```javascript
+async function timeout() {
+    return 'hello world'
+}
+timeout().then(result => {
+    console.log(result);
+})
+console.log('虽然在后面，但是我先执行');
+```
+
+如果`async` 函数中有返回一个值 ,当调用该函数时，内部会调用`Promise.solve()` 方法把它转化成一个promise 对象作为返回，但如果`timeout `函数内部抛出错误呢？ 那么就会调用`Promise.reject() `返回一个`promise `对象.
+
+```javascript
+async function timeout(flag) {
+    if (flag) {
+        return 'hello world'
+    } else {
+        throw 'my god, failure'
+    }
+}
+console.log(timeout(true))  // 调用Promise.resolve() 返回promise 对象。
+console.log(timeout(false)); // 调用Promise.reject() 返回promise 对象。
+
+// 　如果函数内部抛出错误， promise 对象有一个catch 方法进行捕获
+timeout(false).catch(err => {
+    console.log(err)
+})
+```
+
+再说`await`关键字:后面可以放任何表达式，不过我们更多的是放一个返回promise 对象的表达式。注意await 关键字只能放到`async `函数里面.先上一段代码
+
+```javascript
+// 2s 之后返回双倍的值
+function doubleAfter2seconds(num) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(2 * num)
+        }, 2000);
+    } )
+}
+// 现在再写一个async 函数，从而可以使用await 关键字， await 后面放置的就是返回promise对象的一个表达式
+async function testResult() {
+    let result = await doubleAfter2seconds(30);
+    console.log(result);
+}
+// 调用
+testResult();
+```
+
+分析一哈过程:调用`testResult()`，它里面遇到了`await`,` await` 表示等一下，代码就暂停到这里，不再向下执行了，它等什么呢？等后面的`promise`对象执行完毕，然后拿到`promise resolve` 的值并进行返回，返回值拿到之后，它继续向下执行。再看我们的代码:遇到`await` 之后，代码就暂停执行了， 等待`doubleAfter2seconds(30)` 执行完毕，`doubleAfter2seconds(30)` 返回的promise 开始执行，2秒 之后，`promise resolve` 了， 并返回了值为60， 这时`await `才拿到返回值60， 然后赋值给result， 暂停结束，代码才开始继续执行，执行` console.log`语句。
+
 ### 模块语法
 
 ```javascript
@@ -956,6 +1025,267 @@ node不是什么新奇的东西，与浏览器类似，也是JavaScript的一种
   ```
 
 - 模块化
+
+### Koa
+
+`Koa`框架的node环境必须是7.6以上的.
+
+#### 基础
+
++ 架设`HTTP`服务
+
+  ```javascript
+  const Koa = require('koa');
+  const app = new Koa();
+  app.listen(3000);
+  ```
+
++ `Context`对象
+
+  表示一次对话的上下文（包括 HTTP 请求和 HTTP 回复）。通过加工这个对象，就可以控制返回给用户的内容。
+
+  ```javascript
+  const Koa = require('koa');
+  const app = new Koa();
+  
+  const main = ctx => {
+    ctx.response.body = 'Hello World';
+  };
+  
+  app.use(main);
+  app.listen(3000);
+  ```
+
+  上面代码中，`main`函数用来设置`ctx.response.body`。然后，使用`app.use`方法加载`main`函数。`ctx.response`代表 HTTP Response。同样地，`ctx.request`代表 HTTP Request。
+
+  运行这个 demo。
+
++ `HTTP Response` 类型
+
+  Koa 默认的返回类型是`text/plain`，如果想返回其他类型的内容，可以先用`ctx.request.accepts`判断一下，客户端希望接受什么数据（根据 HTTP Request 的`Accept`字段），然后使用`ctx.response.type`指定返回类型。
+
+  ```javascript
+  const main = ctx => {
+    if (ctx.request.accepts('xml')) {
+      ctx.response.type = 'xml';
+      ctx.response.body = '<data>Hello World</data>';
+    } else if (ctx.request.accepts('json')) {
+      ctx.response.type = 'json';
+      ctx.response.body = { data: 'Hello World' };
+    } else if (ctx.request.accepts('html')) {
+      ctx.response.type = 'html';
+      ctx.response.body = '<p>Hello World</p>';
+    } else {
+      ctx.response.type = 'text';
+      ctx.response.body = 'Hello World';
+    }
+  };
+  ```
+
++ 渲染模板
+
+  返回给用户的网页往往都写成模板文件。我们可以让 Koa 先读取模板文件，然后将这个模板返回给用户。
+
+  ```javascript
+  const fs = require('fs');
+  const main = ctx => {
+    ctx.response.type = 'html';
+    ctx.response.body = fs.createReadStream('./demos/template.html');
+  };
+  ```
+
+#### 路由
+
++ 原生路由
+
+  网站一般都有多个页面。通过`ctx.request.path`可以获取用户请求的路径，由此实现简单的路由。
+
+  ```javascript
+  const main = ctx => {
+    if (ctx.request.path !== '/') {
+      ctx.response.type = 'html';
+      ctx.response.body = '<a href="/">Index Page</a>';
+    } else {
+      ctx.response.body = 'Hello World';
+    }
+  };
+  ```
+
++ `Koa-route`
+
+  原生路由用起来不太方便，我们可以使用封装好的[`koa-route`](https://www.npmjs.com/package/koa-route)模块。
+
+  ```javascript
+  const route = require('koa-route');
+  
+  const about = ctx => {
+    ctx.response.type = 'html';
+    ctx.response.body = '<a href="/">Index Page</a>';
+  };
+  
+  const main = ctx => {
+    ctx.response.body = 'Hello World';
+  };
+  
+  app.use(route.get('/', main));
+  app.use(route.get('/about', about));
+  ```
+
+  根路径`/`的处理函数是`main`，`/about`路径的处理函数是`about`。
+
++ 静态资源
+
+  如果网站提供静态资源（图片、字体、样式表、脚本......），为它们一个个写路由就很麻烦，也没必要。`koa-static`模块封装了这部分的请求。
+
+  ```javascript
+  const path = require('path');
+  const serve = require('koa-static');
+  
+  const main = serve(path.join(__dirname));
+  app.use(main);
+  ```
+
++ 重定向
+
+  有些场合，服务器需要重定向（redirect）访问请求。比如，用户登陆以后，将他重定向到登陆前的页面。`ctx.response.redirect()`方法可以发出一个302跳转，将用户导向另一个路由。
+
+  ```javascript
+  const redirect = ctx => {
+    ctx.response.redirect('/');
+    ctx.response.body = '<a href="/">Index Page</a>';
+  };
+  
+  app.use(route.get('/redirect', redirect));
+  ```
+
+#### 错误处理
+
++ 500
+
+  如果代码运行过程中发生错误，我们需要把错误信息返回给用户。HTTP 协定约定这时要返回500状态码。Koa 提供了`ctx.throw()`方法，用来抛出错误，`ctx.throw(500)`就是抛出500错误。
+
+  ```javascript
+  const main = ctx => {
+    ctx.throw(500);
+  };
+  ```
+
+  
+
++ 404
+
+  如果将`ctx.response.status`设置成404，就相当于`ctx.throw(404)`，返回404错误。
+
+  ```javascript
+  const main = ctx => {
+    ctx.response.status = 404;
+    ctx.response.body = 'Page Not Found';
+  };
+  ```
+
++ 错误处理中间件
+
+  为了方便处理错误，最好使用`try...catch`将其捕获。但是，为每个中间件都写`try...catch`太麻烦，我们可以让最外层的中间件，负责所有中间件的错误处理。
+
+  ```javascript
+  const handler = async (ctx, next) => {
+    try {
+      await next();
+    } catch (err) {
+      ctx.response.status = err.statusCode || err.status || 500;
+      ctx.response.body = {
+        message: err.message
+      };
+    }
+  };
+  
+  const main = ctx => {
+    ctx.throw(500);
+  };
+  
+  app.use(handler);
+  app.use(main);
+  ```
+
++ error事件的监听
+
+  运行过程中一旦出错，Koa 会触发一个`error`事件。监听这个事件，也可以处理错误。
+
+  ```javascript
+  const main = ctx => {
+    ctx.throw(500);
+  };
+  
+  app.on('error', (err, ctx) =>
+    console.error('server error', err);
+  );
+  ```
+
+#### Web APP
+
++ `ctx.cookies`用来读写 Cookie。
+
+  ```javascript
+  const main = function(ctx) {
+    const n = Number(ctx.cookies.get('view') || 0) + 1;
+    ctx.cookies.set('view', n);
+    ctx.response.body = n + ' views';
+  }
+  ```
+
++ 表单
+
+  Web 应用离不开处理表单。本质上，表单就是 POST 方法发送到服务器的键值对。[`koa-body`](https://www.npmjs.com/package/koa-body)模块可以用来从 POST 请求的数据体里面提取键值对。
+
+  ```javascript
+  const koaBody = require('koa-body');
+  
+  const main = async function(ctx) {
+    const body = ctx.request.body;
+    if (!body.name) ctx.throw(400, '.name required');
+    ctx.body = { name: body.name };
+  };
+  
+  app.use(koaBody());
+  ```
+
++ 文件上传
+
+  [`koa-body`](https://www.npmjs.com/package/koa-body)模块还可以用来处理文件上传。
+
+  ```javascript
+  const os = require('os');
+  const path = require('path');
+  const koaBody = require('koa-body');
+  
+  const main = async function(ctx) {
+    const tmpdir = os.tmpdir();
+    const filePaths = [];
+    const files = ctx.request.body.files || {};
+  
+    for (let key in files) {
+      const file = files[key];
+      const filePath = path.join(tmpdir, file.name);
+      const reader = fs.createReadStream(file.path);
+      const writer = fs.createWriteStream(filePath);
+      reader.pipe(writer);
+      filePaths.push(filePath);
+    }
+  
+    ctx.body = filePaths;
+  };
+  
+  app.use(koaBody({ multipart: true }));
+  ```
+
+  
+
+
+
+
+
+
+
 
 
 ## Ajax
