@@ -39,7 +39,7 @@ console.log(3);
 
 `setTimeout()`函数是指经过指定的时间后，将内部回调函数进队（即满足了事件触发条件），如果此时主线程还没有执行完，它是不会先执行的。
 
-以下一个简单的回调函数，判断传入数字的奇偶，node约定将错误信息作为回调的第一个参数
+以下一个简单的回调函数，判断传入数字的奇偶，node约定将错误信息作为回调的第一个参数:
 
 ```javascript
 function isEvenOrOdd(number, callback){
@@ -1197,8 +1197,6 @@ node不是什么新奇的东西，与浏览器类似，也是JavaScript的一种
   };
   ```
 
-  
-
 + 404
 
   如果将`ctx.response.status`设置成404，就相当于`ctx.throw(404)`，返回404错误。
@@ -1305,7 +1303,6 @@ node不是什么新奇的东西，与浏览器类似，也是JavaScript的一种
   app.use(koaBody({ multipart: true }));
   ```
 
-  
 
 
 
