@@ -1005,7 +1005,7 @@ node不是什么新奇的东西，与浏览器类似，也是JavaScript的一种
 
   Post：数据不在url地址之中，而是在请求体中。
 
-  对于url的解析(get方法)：
+  对于url的解析(`get`方法)：
 
   ```javascript
   // url模块用来解析url
@@ -1030,7 +1030,7 @@ node不是什么新奇的东西，与浏览器类似，也是JavaScript的一种
    */
   ```
 
-  post方法：
+  `post`方法：
 
   ```javascript
   const http = require('http');
