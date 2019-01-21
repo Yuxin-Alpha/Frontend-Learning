@@ -876,7 +876,6 @@ export function area(radius) {
 export function circumference(radius) {
 	return 2 * Math.PI * radius;
 }
-
 // 加载
 import * as circle from './circle';
 console.log('圆面积:' + circle.area(4));
