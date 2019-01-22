@@ -1053,7 +1053,33 @@ node不是什么新奇的东西，与浏览器类似，也是JavaScript的一种
   server.listen(3000);
   ```
 
-- 模块化
+
+#### 操作mongoDB
+
+1. `npm install mongodb`下载mongodb的模块
+
+2. 测试程序:
+
+   ```javascript
+    var mongodb = require('mongodb');
+    var server = new mongodb.Server('localhost',27017,{auto_reconnect:true});
+    var db = new mongodb.Db('mydb',server,{safe:true});
+    db.open(function(err,db){
+        if(!err) {   
+           console.log('connect');
+        } else {
+          console.log(err);
+        }
+    });
+   
+   // 有两种方法链接collection，分别为：
+   
+   db.collection('mycoll',function(err,coll){});
+   
+   db.createCollection('mycoll',function(err,coll){});
+   ```
+
+   
 
 #### Express
 
