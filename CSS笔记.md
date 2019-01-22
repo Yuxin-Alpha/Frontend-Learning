@@ -37,7 +37,14 @@
 
   行内元素:不独占一行,挨个排列,一行排不下了,再排下一行,注意:有些行内元素是可以设置宽高的,比如`<input>`,`<img>`,`select`,`<textarea>`等.
 
++ 标准文档那个流的特性:
+  1. 无论多少个空格、换行、tab，都会折叠为一个空格。
+  2. 高矮不齐，底边对齐：行内的各个元素高度不一样时,底边在一条直线上,至于高度,要看所有行内的元素中,高度最高的那一个.
+  3. 自动换行,一行写不满,换行写.
+
 我们所说的脱离文档流,就是让这个元素脱离本身的流容器,而在上面飘着.其他盒子在排版的时候会当作没看见它.
+
+
 
 ## 权重
 
@@ -65,6 +72,19 @@
 + 相邻盒子外边距叠加
 
   两个上下方向相邻的元素框垂直相遇时，外边距会合并，合并后的外边距的高度等于两个发生合并的外边距中较高的那个边距值.注意:只有普通文档流中块框的垂直外边距才会发生外边距合并。行内框、浮动框或绝对定位之间的外边距不会合并。
+
+## 浮动
+
+浮动元素具有的性质:
+
+1. 浮动会使该元素脱离标准流.而且,一个行内元素浮动了,就能够设置宽高了,一个块级元素浮动了,他就不再独占一行了.
+2. 浮动的元素互相贴靠.
+3. 浮动的元素有"字围"效果.
+4. 收缩:一个浮动的元素,如果没有设置width,那么将自动收缩为内容的宽度.
+
+清除浮动:
+
+
 
 ## 位置属性:position
 
@@ -107,3 +127,106 @@
   `device-width` :设备的宽度
 
   `height`：和` width` 相对应，指定高度
+
+## Less
+
+1. 安装：`$ npm install less -g`
+
+2. 使用@value定义css的值，可以在less文件中通过prop：@value的形式定义样式（$ lessc main.less加载一下，否则加载不出来）
+
+3. `less`可以将公共属性抽离出来作为一个公共类，然后其余标签进行调用：
+
+   ```css
+   .bordered {
+       border-top: dotted 1px black;
+       border-bottom: solid 2px black;
+   }
+   
+   #menu a {
+       color: #111;
+       .bordered;
+   }
+   
+   #menu span {
+       height: 16px;
+       .bordered;
+   }
+   
+   #menu p {
+       color: red;
+       .bordered;
+   }
+   ```
+
+4. 类名动态化：
+
+   ```css
+   .border-radius(@radius) {
+     -webkit-border-radius: @radius;
+        -moz-border-radius: @radius;
+             border-radius: @radius;
+   }
+   
+   #header {
+     .border-radius(4px);
+   }
+   .button {
+     .border-radius(6px);
+   }
+   ```
+
+5. 函数的参数设置默认值（多个参数应该用;分开）：
+
+   ```css
+   .border-radius(@color; @padding:2) {
+     -webkit-border-radius: @radius;
+     -moz-border-radius: @radius;
+     border-radius: @radius;
+   }
+   ```
+
+6. 父子元素的写法:
+
+   ```css
+   .container {
+       padding: 0;
+   }
+   .container .article {
+       background-color: red;
+   }
+   
+   //可以转化为：
+   .container {
+       padding: 0;
+       .article {
+           background-color: red;
+       }
+   }
+   ```
+
+7. 可以通过引入&，以代替主类 #header：
+
+   ```css
+   #header :after {
+     content: " ";
+     display: block;
+     font-size: 0;
+     height: 0;
+     clear: both;
+     visibility: hidden;
+   }
+   //转化为：
+   #header {
+     &:after {
+       content: " ";
+       display: block;
+       font-size: 0;
+       height: 0;
+       clear: both;
+       visibility: hidden;
+     }
+   }
+   ```
+
+## Sass
+
