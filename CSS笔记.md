@@ -139,6 +139,45 @@
 
   `height`：和` width` 相对应，指定高度
 
+## Bootstrap
+
+Bootstrap 要求使用 `HTML5` 文件类型，所以需要添加` HTML5 doctype `声明。
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"> 
+  </head>
+</html>
+```
+
+为了让 Bootstrap 开发的网站对移动设备友好，确保适当的绘制和触屏缩放，需要在网页的 head 之中添加 `viewport meta` 标签
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+```
+
+### 容器类
+
++ `.container `类用于固定宽度并支持响应式布局的容器.
++ `.container-fluid` 类用于 100% 宽度，占据全部视口（`viewport`）的容器
+
+### 网格系统
+
+Bootstrap 提供了一套响应式、移动设备优先的流式网格系统，随着屏幕或视口尺寸的增加，系统会自动分为最多 12 列。
+
+- `.col-` 针对所有设备
+- `.col-sm- `平板 - 屏幕宽度等于或大于 `576px`
+- `.col-md- `桌面显示器 - 屏幕宽度等于或大于 `768px`
+- `.col-lg-` 大桌面显示器 - 屏幕宽度等于或大于` 992px`
+- `.col-xl- `超大桌面显示器 - 屏幕宽度等于或大于 `1200px`
+
+布局规则:
+
+- 网格每一行需要放在设置了 `.container` (固定宽度) 或 `.container-fluid` (全屏宽度) 类的容器中，这样就可以自动设置一些外边距与内边距。
+- 使用行来创建水平的列组。
+
 ## Less
 
 1. 安装：`$ npm install less -g`
