@@ -172,7 +172,12 @@ print "Extended List : ", aList ;
 # index() 函数用于从列表中找出某个值第一个匹配项的索引位置。
 aList = [123, 'xyz', 'zara', 'abc'];
 print "Index for xyz : ", aList.index( 'xyz' ) ;
-print "Index for zara : ", aList.index( 'zara' ) ;
+
+# remove() 删除列表中的某一项(指定的)
+aList.remove(123)
+
+# clear() 清空列表 
+aList.clear()
 
 # pop() 函数用于移除列表中的一个元素（默认最后一个元素），并且返回该元素的值。
 list1 = ['Google', 'Runoob', 'Taobao']
