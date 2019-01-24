@@ -140,17 +140,13 @@ print(var1[-2:]); # ld
 list = [ 'abcd', 786 , 2.23, 'runoob', 70.2 ]
 tinylist = [123, 'runoob']
  
-print (list)            # 输出完整列表
-print (list[0])         # 输出列表第一个元素
-print (list[1:3])       # 从第二个开始输出到第三个元素
-print (list[2:])        # 输出从第三个元素开始的所有元素
 print (tinylist * 2)    # 输出两次列表
 print (list + tinylist) # 连接列表
 
 len([1, 2, 3]) # 3
 [1, 2, 3] + [4, 5, 6] # [1, 2, 3, 4, 5, 6]
 
-# 删除元素
+# 删除元素 del关键字会将变量直接从内存中删除
 list = ['Google', 'Runoob', 1997, 2000] 
 print ("原始列表 : ", list)
 del list[2]
@@ -184,6 +180,14 @@ list1 = ['Google', 'Runoob', 'Taobao']
 list_pop=list1.pop(1)
 print "删除的项为 :", list_pop
 print "列表现在为 : ", list1
+
+# count() 用于计算一个元素在列表中出现的次数
+list1.count('Google')
+
+# 列表的循环遍历(迭代)
+name_list = ['张三', '李四', '王五', '王小二']
+for my_name in name_list:
+    print("我的名字叫%s" % my_name)
 ```
 
 ### 元组
