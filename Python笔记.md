@@ -252,7 +252,6 @@ dict[2]     = "dddddd"
  
 tinydict = {'name': 'runoob','code':1, 'site': 'www.runoob.com'}
  
- 
 print (dict['one'])       # 输出键为 'one' 的值
 print (dict[2])           # 输出键为 2 的值
 print (tinydict)          # 输出完整的字典

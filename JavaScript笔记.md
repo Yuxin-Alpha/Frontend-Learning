@@ -926,6 +926,26 @@ JavaScript可以通过V8引擎在浏览器中运行，所以我们先来了解�
 
 node不是什么新奇的东西，与浏览器类似，也是JavaScript的一种运行环境时，所以JavaScript能用的东西，node也能用。Chrome的V8+libuv组成了node环境，即引擎与作者定义的模块。Node使用观察者模式。Node线程保持一个事件循环，每当任何任务完成后得到结果，它触发通知事件侦听函数来执行相应的事件。在Node 应用，任何异步函数接受回调作为最后的参数，并回调函数接受错误作为第一个参数。
 
+#### 模块化
+
+CommonJS：模块定义，模块暴露，模块引入
+
+```javascript
+const str1 = 'hello';
+const str2 = 'world';
+
+module.exports = {
+    str1,
+    str2
+}
+
+// 引入
+const demo = require('./demo.js')
+let a = demo.str1;
+```
+
+
+
 #### NPM 
 
 + package.json
@@ -940,7 +960,7 @@ node不是什么新奇的东西，与浏览器类似，也是JavaScript的一种
   - **main** - 包的入口点
   - **keywords** - 关键字
 
-#### 模块化
+#### 常用模块
 
 
 
@@ -1078,7 +1098,6 @@ node不是什么新奇的东西，与浏览器类似，也是JavaScript的一种
    db.createCollection('mycoll',function(err,coll){});
    ```
 
-   
 
 #### Express
 
