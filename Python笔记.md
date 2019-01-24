@@ -156,7 +156,8 @@ print ("原始列表 : ", list)
 del list[2]
 print ("删除第三个元素 : ", list)
 
-# 内置函数
+# 内置方法
+
 # append() 方法用于在列表末尾添加新的对象。
 aList = [123, 'xyz', 'zara', 'abc'];
 aList.append( 2009 );
@@ -178,8 +179,6 @@ list1 = ['Google', 'Runoob', 'Taobao']
 list_pop=list1.pop(1)
 print "删除的项为 :", list_pop
 print "列表现在为 : ", list1
-
-
 ```
 
 ### 元组
