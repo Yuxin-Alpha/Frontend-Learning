@@ -130,6 +130,22 @@ print(var1[:8]); # hello wo
 
 # 4、如果a为负数，默认从尾部某一位置，开始向后截取
 print(var1[-2:]); # ld
+
+# 内置方法
+# 判断是否以指定的字符串开始
+var1.startswith("hello")
+
+# 判断是否以指定的字符串结束
+var1.endswith("world")
+
+# 查找指定的字符串在大字符中的索引,找不到返回-1
+var1.find("llo")
+
+# 替换指定的字符串,会返回一个新的字符串,但不会修改原有的字符串的内容
+var1.replace("world", "my love")
+
+# 删除字符串两边的空白字符
+var1.strip()
 ```
 
 ### 列表
