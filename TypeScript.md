@@ -10,13 +10,15 @@
 tsc demo.ts
 ```
 
-有类型的script:
+有类型的`script`:
 
 ```typescript
 // 变量声明
 var a:number;
 a = 12;
 a = 'abc'; // 报错，定义了类型是number
+
+// void表示空,一般用于函数返回,在变量赋值的时候没有意义
 ```
 
 热编译：
@@ -40,12 +42,6 @@ var arr:number[] = [12, 13, 14]; // 数组中必须都是number类型
 var arrNext:Array<number> = [15, 16, 17];
 // 元组类型(给每一个成员指定类型)
 var arr:[number, string] = [122, '145'];
-// 枚举（自定义数据类型）
-enum Flag {
-    success = 1,
-    error = 2
-};
-var s:Flag = Flag.success; // s被赋值为1
 
 // 任意类型(可用于DOM操作)
 var numNext:any = 123;
@@ -59,6 +55,12 @@ function run():void {
     // coding
 }
 
+// 枚举类型
+enum GENDER {
+    MALE,FAMALE
+}
+let sex:GENDER;
+sex = GENDER.MALE
 ```
 
 ## 函数
