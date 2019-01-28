@@ -672,7 +672,7 @@ from sound.effects import echo
 
 将功能独立的代码封装到一个方法中,然后将多个方法封装到一个类之中.类是抽象的,不能直接使用.
 
-注意,类中定义的方法,第一个参数必须是`self`.
+注意,类中定义的方法,第一个参数必须是`self`.不要在类的外部添加对象属性.当创建对象时,先分配空间,再调用init方法
 
 ```python
 # 类名符合大驼峰命名法
@@ -680,8 +680,9 @@ class MyClass:
     # 实例
     i = 12345
     
-    # 类有一个名为 __init__() 的特殊方法（构造方法），该方		法在类实例化时会自动调用
-    def __init__(self):
+    # 类有一个名为 __init__() 的特殊方法（构造方法），该方法在类实例化时会自动调用
+    def __init__(self, name):
+        self.name = name
     	self.data = []
         
         
@@ -689,7 +690,7 @@ class MyClass:
         return 'hello world'
  
 # 实例化类
-x = MyClass()
+x = MyClass("zhangsan")
  
 # 访问类的属性和方法
 print("MyClass 类的属性 i 为：", x.i)
@@ -700,7 +701,45 @@ print("MyClass 类的方法 f 输出为：", x.f())
 
 `__方法名__`Python针对对象提供的内置方法
 
+`__del__`对象销毁前自动调用
 
+`__str__`返回一个字符串,上述代码`print(x)`会输出这个对象在内存中的地址,如果希望输出别的东西,可以重写该函数	
+
+私有属性在外界不能被自由访问,对象的方法内部可以访问私有属性.私有方法不能在外界自由访问.
+
+### 继承
+
+子类拥有父类的所有属性和方法(注意子类不能访问父类的私有属性和私有方法):
+
+```python
+class Animal:
+    def eat(self):
+        print("吃")      
+    def drink(self):
+        print("喝")
+    def run(self):
+        print("跑")
+        
+        
+class Dog(Animal):
+    
+    # 重写 + super()调用
+    def eat(self):
+        print("吃肉")
+        super().eat()
+        
+        
+    def bark(self):
+        print("叫")
+```
+
++ 多继承:
+
+  ```python
+  class 子类名(父类名1, 父类名2...)
+  ```
+
+  注意:开发时尽量避免两个父类拥有同名方法.解释器会从左向右搜索方法直到`object`
 
 ## 代码规范
 
