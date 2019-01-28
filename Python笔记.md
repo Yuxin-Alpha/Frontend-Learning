@@ -724,8 +724,7 @@ class Animal:
         print("喝")
     def run(self):
         print("跑")
-        
-        
+              
 class Dog(Animal):
     
     # 重写 + super()调用
@@ -767,7 +766,6 @@ class Dog(Animal):
       print("请输入正确的整数")
   ```
 
-  
 
 ## 代码规范
 
