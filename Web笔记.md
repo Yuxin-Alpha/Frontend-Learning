@@ -64,12 +64,13 @@ http:一次性链接;http1.1:保持链接;http2.0:强制https,自带双向通信
 ###数据交互
 
 1. 表单 action:提交地址,method: 方式
-
 2. ajax(接收的时候,先接收头,再接收体)
-
 3. jsonp
-
 4. websocket(双向通信默认可以跨域)
+
+## Angular
+
+
 
 ## React
 
@@ -161,7 +162,119 @@ DOM的嵌套我们可以通过`childrens`属性来嵌套.用 JavaScript 对象�
 
    当然，我们可以这么创建一个元素，但是真正在书写前端页面的时候，一个页面就有成百上千个元素，所以，这么做成本实在太高了。为了能够实现快速开发，我们想到了在js文件中书写我们的HTML代码，但是js原本的语法并不允许我们这样做。由此，生成了JSX语法。
 
+### 组件
+
+使用脚手架工具的时候,`index.js`文件是整个项目的入口文件
+
+```react
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+// 加载一个App组件
+import App from './App';
+
+// 这个函数将App组件挂载到id是root的节点上
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+组件定义的语法:
+
+```react
+import React, { Component } from 'react';
+// 通过类的继承,定义一个App类来继承React下的Component类
+class App extends Component {
+  // render函数是Component类的内置函数,render函数返回什么,页面之中就显示什么
+  render() {
+    return (
+      <div>
+        hello world
+      </div>
+    );
+  }
+}
+// 将组件暴露出去,以便其他文件import
+export default App;
+
+```
+
+
+
 ### JSX语法
+
+> 组件名的作为标签使用时,必须使用大写,jsx中的html代码必须有元素包裹,否则报错
+
+```react
+// Fragment由React16版本提供,本身是一个占位符,不会渲染到页面上,因此不会影响组件的CSS样式或者布局
+import React, { Component, Fragment } from 'react';
+
+class TodoList extends Component{
+    render() {
+        return (
+            // <Fragment> 标签进行占位
+            <Fragment>
+                <div><input type="text"/><button>提交</button></div>
+                <ul>
+                    <li>学英语</li>
+                    <li>learning React</li>
+                </ul>
+            </Fragment>
+        )
+    }
+}
+
+export default TodoList;
+
+```
+
+### 响应式设计思想与事件绑定
+
+不要操作dom,React永远操作的都是数据.数据定义语法:
+
+```react
+class TodoList extends Component{
+    // 因为TodoList是一个类,那么它一定有constructor这个构造函数,我们在使用TodoList的时候,这个函数会被最先执行
+    constructor(props) {
+        super(props);
+        // state用来存储数据
+        this.state = {
+            inputValue: '',
+            list: []
+        }
+    }
+    render() {
+
+        return (
+            <Fragment>
+                <div>
+                    <input
+                        {/*数据绑定 注意{}来包裹React表达式*/}
+                        value={this.state.inputValue}
+                        {/*在绑定事件时一定要通过bind函数来修改this指向*/}
+                        onChange={this.handleInputChange.bind(this)}
+                    />
+                    <button>提交</button>
+                </div>
+                <ul>
+                    <li>学英语</li>
+                    <li>learning React</li>
+                </ul>
+            </Fragment>
+        )
+    }
+	// 注意: react中不允许直接改变state中的数据,必须通过setState函数对其进行重新赋值
+    handleInputChange(e) {
+        this.setState({
+            inputValue: e.target.value
+        })
+    }
+}
+
+export default TodoList;
+```
+
+###  组件之间传值
+
+
 
 ## Vue
 
