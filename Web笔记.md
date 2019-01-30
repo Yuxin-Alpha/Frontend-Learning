@@ -274,7 +274,100 @@ export default TodoList;
 
 ###  组件之间传值
 
-React中组件之间的传值是单项的,父组件向子组件传值通过属性传值,而子组件向父组件传值通过触发函数来传值
+React中组件之间的传值是单项的,父组件向子组件传值通过属性传值,而子组件向父组件传值通过触发函数来传值:
+
+```react
+// 父组件
+class TodoList extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            inputValue: '',
+            list: []
+        }
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleBtnClick = this.handleBtnClick.bind(this);
+        this.handleItemDelete = this.handleItemDelete.bind(this);
+    }
+    render() {
+
+        return (
+            <Fragment>
+                {/*我是一个注释*/}
+                <div>
+                    <input
+                        className='input'
+                        value={this.state.inputValue}
+                        onChange={this.handleInputChange}
+                    />
+                    <button
+                        onClick={this.handleBtnClick}
+                    >提交</button>
+                </div>
+                <ul>{ this.getTodoItem() }</ul>
+            </Fragment>
+        )
+    }
+
+    getTodoItem() {
+        return this.state.list.map((item, index) => {
+            // 子组件调用
+            return <TodoItem
+                key={index}
+                deleteItem={this.handleItemDelete}
+                content={item}
+                index={index}
+            />
+        })
+    }
+
+    handleInputChange(e) {
+        const value = e.target.value;
+        this.setState(() => ({
+            inputValue: value
+        }))
+    }
+
+    handleBtnClick() {
+        this.setState((prevState) => ({
+            list: [...prevState.list, prevState.inputValue],
+            inputValue: ''
+        }))
+    }
+    handleItemDelete(index) {
+        this.setState((prevState) => {
+            const list = [...prevState.list];
+            list.splice(index, 1);
+            return { list }
+        })
+    }
+}
+
+// 子组件
+class TodoItem extends Component {
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
+    render() {
+        const { content } = this.props;
+        return <div onClick={this.handleClick}>{ content }</div>
+    }
+
+    handleClick() {
+        const { deleteItem, index} = this.props;
+        deleteItem(index)
+    }
+}
+```
+
+我们可以观察到子组件在接受父组件的数据或者函数的时候，都是通过`this.props`来接收。
+
+注意写法：
+
+1. 在组件中实现函数绑定的时候最好在`constructor()`中完成，否则影响性能
+2. 竟可能将比较长的jsx代码封装到函数中然后返回，在render函数中直接调用这个函数即可
+3. 竟可能使用解构赋值来解构`this.props`
 
 ## Vue
 
