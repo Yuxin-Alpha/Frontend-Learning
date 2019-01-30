@@ -896,6 +896,7 @@ customName(); // 'foo'
 
 /* 注意,使用 export default 时,对应的 import 语句不需要使用大括号;第二组是不使用 export default 时,对应的 import 语
 句需要使用大括号。*/
+
 export default function crc32() { // 输出
 // ...
 }
