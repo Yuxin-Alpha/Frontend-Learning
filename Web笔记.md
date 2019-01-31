@@ -369,6 +369,34 @@ class TodoItem extends Component {
 2. 竟可能将比较长的jsx代码封装到函数中然后返回，在render函数中直接调用这个函数即可
 3. 竟可能使用解构赋值来解构`this.props`
 
++ 属性校验
+
+  1. `import PropTypes from 'prop-types'`引入属性校验的包,脚手架自带
+
+  2. `propTypes`指定每个从父组件获得的属性或者函数的类型
+
+     ```react
+     TodoItem.propTypes = {
+         // isRequired表示该属性或者方法必须传入
+         test: PropTypes.string.isRequired,
+         content: PropTypes.string.isRequired,
+         deleteItem: PropTypes.func,
+         index: PropTypes.number
+     }
+     ```
+
+  3. `defaultProps`指定每个属性或者方法的默认值,如果父组件没有传入,则使用默认值代替:
+
+     ```react
+     TodoItem.defaultProps = {
+         test: 'hello world'
+     }
+     ```
+
++ `props,state与render()`的关系:当组件的`state`或者`props`发生改变的时候,`render()`就回重新执行
+
+  
+
 ## Vue
 
 `mvvm`模式(model-view-modelView):通过modelView作为中间层（即vm的实例），即模型-视图-视图模型。【模型】指的是后端传递的数据。【视图】指的是所看到的页面。【视图模型】mvvm模式的核心，它是连接view和model的桥梁。它有两个方向：一是将【模型】转化成【视图】，即将后端传递的数据转化成所看到的页面。实现的方式是：数据绑定。二是将【视图】转化成【模型】，即将所看到的页面转化成后端的数据。实现的方式是：DOM 事件监听。这两个方向都实现的，我们称之为数据的双向绑定。总结：在MVVM的框架下视图和模型是不能直接通信的。它们通过ViewModel来通信，ViewModel通常要实现一个observer观察者，当数据发生变化，ViewModel能够监听到数据的这种变化，然后通知到对应的视图做自动更新，而当用户操作视图，ViewModel也能监听到视图的变化，然后通知数据做改动，这实际上就实现了数据的双向绑定。并且MVVM中的View 和 ViewModel可以互相通信。
