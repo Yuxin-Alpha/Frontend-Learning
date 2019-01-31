@@ -395,7 +395,148 @@ class TodoItem extends Component {
 
 + `props,state与render()`的关系:当组件的`state`或者`props`发生改变的时候,`render()`就回重新执行
 
+### 生命周期函数
+
+在某一个时刻,组件会自动调用的函数.
+
+React组件在创建的时候会经历4个过程:
+
++ Initialization(初始化数据)
+
+  `constructor()`负责对`state`与`props`进行初始化
+
++ Mounting(渲染并挂载),挂载的意思就是组件第一次出现在页面中的时候
+
+  `componentWillMount()`在组件即将被挂载到页面的时刻自动调用
+
+  `render()`挂载组件
+
+  `componentDidMount()`组件被挂载到页面之后自动调用,这里常常写一些ajax请求
+
+  ```react
+  // 引入axios插件来发送ajax
+  import axios from 'axios'
   
+  // 在生命周期函数之中这么写
+  componentDidMount() {
+          axios.get('/api/todolist').then(() => {
+              console.log('success');
+          }).catch(err => {
+              console.log(err);
+          })
+      }
+  ```
+
+  
+
++ Updation(组件更新的过程),即数据(props或者state)发生变化
+
+  `shouldComponentUpdate()`组件数据更新之前自动调用,注意这个函数必须返回一个布尔类型的结果,类似于询问->需要更改组件嘛?所以如果返回true,意思就是,需要更新,就回继续执行下面的生命周期函数.
+
+  `componentWillUpdate()`在`shouldComponentUpdate()`返回true后执行,表示组件的数据即将被更新.
+
+  `render()`再次被调用
+
+  `componentDidUpdate()`在组件的数据完成更新后自动调用
+
+  > 注意,上述的数据生命周期函数只针对state中的数据,在props中`componentWillReceiveProps()`当一个组件从父组件接收参数时,当父组件的render函数被执行的时候,这个生命周期函数会被执行.
+
++ Unmounting
+
+  `componentWillUnmount()`当组件即将在页面中被剔除的时候自动调用
+
+### CSS过渡动画
+
+```react	
+class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            show: true
+        }
+        this.handleToggle = this.handleToggle.bind(this);
+    }
+    
+    render() {
+        return (
+        	<Fragment>
+                <div className={this.state.show ? 'show' : 'hide'}>hello</div>
+                <button onClick={this.handleToggle}>toggle</button>
+            </Fragment>
+        
+        )
+    }
+    handleToggle() {
+        this.setState({
+            show: this.state.show ? false : true
+        })
+    }
+}
+```
+
+```css
+.show {
+    animation: show-item 2s ease-in forwards;
+}
+
+.hide {
+    animation: hide-item 2s ease-in forwards;
+}
+
+@keyframes show-item {
+    0% {
+        opacity: 0;
+        color: red;
+    }
+    50% {
+        opacity: 0.5;
+        color: green;
+    }
+    100% {
+        opacity: 1;
+        color: blue;
+    }
+}
+
+@keyframes hide-item {
+    0% {
+        opacity: 1;
+        color: red;
+    }
+    50% {
+        opacity: 0.5;
+        color: green;
+    }
+    100% {
+        opacity: 0;
+        color: blue;
+    }
+}
+
+```
+
+`react-transition-group`的使用:
+
+1. 
+
+### Redux
+
+`React`只是一个轻量级的视图层框架,在项目中无法解决组件之间复杂的数据传递问题:比如组件越级获取数据,越级触发父组件,所以在开发项目的过程中,我们需要搭配数据层的框架来实现业务功能.`Redux`就是非常优秀的数据层框架.
+
+Redux = Reducer + Flux
+
+模拟借书流程:
+
++ 组件(Component):借书的人
++ Action Creators:借书人的需求(即:需要借什么样的书)
++ Store:图书管的管理员(负责管理各种书籍)
++ Reducers:管理员手上的书籍记录
+
+所以,Redux的工作流程就可以是这样,借书的人想要借书,所以他需要找到图书管理员,告诉他我需要什么样的书籍,图书管理员没有办法记住所有的书本信息,所以掏出了小本本找到借书人想要借的书,然后将这本书借给借书人.
+
+
+
+
 
 ## Vue
 
