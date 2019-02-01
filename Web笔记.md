@@ -538,9 +538,11 @@ class App extends Component {
 // 新建store仓库
 ```
 
+其中:`store`是唯一的,在`/store`文件下的`index.js`文件中,`reducer`拿到`store`中的数据进行深拷贝,对深拷贝后的数据进行处理,并返回,`store`拿到新的数据对自己本身存储的数据进行更新.
 
+> 注意:`reducer`必须是一个纯函数,即给定输入一定会有输出,而且这个输出是固定的,而且这个函数不能有任何的副作用.
 
-
+### Redux-thunk
 
 
 
