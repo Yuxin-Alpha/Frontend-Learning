@@ -548,6 +548,62 @@ class App extends Component {
 
 ## Vue
 
+### 基本语法
+
+```vue
+<div id="app">
+    {{ content }}
+</div>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            content: 'hello world1'
+        }
+    })
+    setTimepit(() => {
+        app.$data.content = 'bye world'
+    })
+</script>
+```
+
+通过new操作符实例化一个Vue对象,该对象的el属性表示这个Vue对象挂载的目标,这个案例中是`id`值为app的DOM元素.而data属性是这个Vue对象的数据,里面可以定义任意多的数据,这样Vue对象可以将数据的值渲染到已经挂载的目标对象.可以通过`app.$data.content`来获取Vue对象中数据名为`content`的数据值.
+
+### 指令
+
+```vue
+<div id="app">
+    <input type="text" v-model="inputValue">
+    <button @click="handleBtnClick">提交</button>
+    <ul>
+        <li v-for="item in list">{{item}}</li>
+    </ul>
+</div>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            list: ['123', '456', '789'],
+            inputValue: ''
+        },
+        methods: {
+            handleBtnClick() {
+                this.list.push(this.inputValue);
+                this.inputValue = '';
+            }
+        }
+    })
+</script>
+```
+
+`v-model`指令:可以对Vue对象的数据进行双向绑定,所谓双向绑定,当修改input框中的value时,被v-model绑定的data数据就回修改,我们在修改被绑定的data数据的时候,input框中的value也会改变
+
+`v-on`指令:将方法绑定给一个标签,方法有不同的触发方法,这里是我们比较常见的点击事件,这里绑定的语法可以用`@`代替,当被`v-on`绑定的方法被触发的时候,Vue会自动到对象app中去寻找这个方法,然后调用.
+
+`v-for`指令:循环遍历app对象中data的一个列表数据.
+
+### MVVM模式
+
 `mvvm`模式(model-view-modelView):通过modelView作为中间层（即vm的实例），即模型-视图-视图模型。【模型】指的是后端传递的数据。【视图】指的是所看到的页面。【视图模型】mvvm模式的核心，它是连接view和model的桥梁。它有两个方向：一是将【模型】转化成【视图】，即将后端传递的数据转化成所看到的页面。实现的方式是：数据绑定。二是将【视图】转化成【模型】，即将所看到的页面转化成后端的数据。实现的方式是：DOM 事件监听。这两个方向都实现的，我们称之为数据的双向绑定。总结：在MVVM的框架下视图和模型是不能直接通信的。它们通过ViewModel来通信，ViewModel通常要实现一个observer观察者，当数据发生变化，ViewModel能够监听到数据的这种变化，然后通知到对应的视图做自动更新，而当用户操作视图，ViewModel也能监听到视图的变化，然后通知数据做改动，这实际上就实现了数据的双向绑定。并且MVVM中的View 和 ViewModel可以互相通信。
 
 渲染原理:
@@ -695,9 +751,77 @@ function observe (obj,vm){
 }
 ```
 
-
-
 我们在导入包之后，在浏览器的内存中就多了一个Vue构造函数。
+
+### 组件化
+
+我们可以将页面分离成一个一个小的组件,那么一个大型页面组成就是各种小组件的拼装.
+
++ 全局组件
+
+  ```vue
+  <div id="app">
+      <input type="text" v-model="inputValue">
+      <button @click="handleBtnClick">提交</button>
+      <ul>
+          <todo-item v-for="item in list" v-bind:content="item">	</todo-item>
+      </ul>
+  </div>
+  <script>
+      Vue.component('TodoItem', {
+          props: ['content'],
+          template: '<li>{{content}}</li>'
+      });
+      var app = new Vue({
+          el: '#app',
+          data: {
+              list: [],
+              inputValue: ''
+          },
+          methods: {
+              handleBtnClick() {
+                  this.list.push(this.inputValue);
+                  this.inputValue = '';
+              }
+          }
+      })
+  </script>
+  ```
+
+  我们可以通过Vue自带的component方法来创建一个全局组件,`template`属性指的是这个组件的标签,`props`属性用来接收父组件传递过来的数据.
+
+  
+
++ 局部组件
+
+  ```vue
+  var TodoItem = {
+              props: ['content'],
+              template: '<li>{{content}}</li>'
+          }
+  var app = new Vue({
+  	el: '#app',
+  	component: {
+  		TodoItem: TodoItem
+  	},
+  	data: {
+  		list: [],
+  		inputValue: ''
+  	},
+  	methods: {
+  		handleBtnClick() {
+  			this.list.push(this.inputValue);
+  			this.inputValue = '';
+  		}
+  	}
+  })
+  ```
+
+  我们直接定义一个拥有Vue对象的各种属性的JS对象,然后在父组件中通过`component`属性引入这个对象,那么这个父组件中就可以使用这个JS对象,也就是我们所说的子组件.	
+
++ 组件之间的传值
+
+  
 
 ### API
 
