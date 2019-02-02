@@ -823,11 +823,63 @@ function observe (obj,vm){
 
   我们直接定义一个拥有Vue对象的各种属性的JS对象,然后在父组件中通过`component`属性引入这个对象,那么这个父组件中就可以使用这个JS对象,也就是我们所说的子组件.	
 
-+ 组件之间的传值
++ 组件之间的传值(单向数据流)
 
   父组件通过`v-bind`向子组件传值
 
   子组件通过`this.$emit()`触发函数来向父组件传值
+
+  > 注意在子组件中,`data`属性必须是一个函数,该组件中所有的数据通过`data`函数return出去,因为组件会被复用,否则会出现组件之间数据共享,相同的子组件,有一个数据改变了,其他的子组件也会跟着改变
+
+  组件参数校验:
+
+  ```javascript
+  Vue.component('child', {
+        template: '<div>{{content}}</div>',
+        props: {
+          content: {
+            type: String,
+            required: false,
+            default: 'default value',
+            validate(value) {
+              return value.length > 5
+            }
+          }
+        }
+      });
+  ```
+
+  
+
++ ref`属性,父组件可以通过`refs`的属性获取被`ref`属性标记的DOM元素
+
+  ```vue
+    <div id="root">
+      <div
+        @click="handleDivClick"
+        :class="{activated: isTrue}">hello
+        <p ref="div1">world</p>
+      </div>
+    </div>
+    <script>
+      var app = new Vue({
+        el: '#root',
+        data: {
+          isTrue: false
+        },
+        methods: {
+          handleDivClick() {
+            console.log(this.$ref.div1);
+            this.isTrue = !this.isTrue;
+          }
+        }
+      });
+    </script>
+  ```
+
+  
+
++ 插槽
 
 ### 生命周期钩子
 
@@ -1017,20 +1069,6 @@ var app = new Vue({
       ]
     )
     ```
-
-### 实例属性
-
-`vm.$parent`:父实例
-
-`vm.$root`:当前组件树的跟实例
-
-`vm.$refs`:保存所有注册过`ref`特性的所有DOM元素和组件实例
-
-### 实例方法
-
-`vm.$on`:监听当前实例上的自定义事件.回调函数会接收由`vm.$emit`触发事件传入事件触发函数的额外参数.
-
-
 
 ### 使用插件
 
