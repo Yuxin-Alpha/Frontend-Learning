@@ -849,9 +849,11 @@ function observe (obj,vm){
       });
   ```
 
+  非父子组件传值:发布订阅模式
+
   
 
-+ ref`属性,父组件可以通过`refs`的属性获取被`ref`属性标记的DOM元素
++ `ref`属性,父组件可以通过`refs`的属性获取被`ref`属性标记的DOM元素
 
   ```vue
     <div id="root">
@@ -879,7 +881,51 @@ function observe (obj,vm){
 
   
 
-+ 插槽
++ 插槽:子组件有一部分内容是根据父组件传递的DOM来进行渲染,这个时候就需要用到插槽
+
+  因为子组件标签的内部是不允许直接插入别的标签的,所以如果我们想要在子组件中放入一些别的东西,我们可以在子组件定义的时候加入`<slot>默认内容</slot>`,这个位置可以理解成一个预留的位置,子组件给父组件暴露了一个标签的位置,父组件可以在调用子组件的时候向子组件里面插入一个标签,如果父组件没有插入任何标签,则会显示插槽中的默认内容.
+
+  **具名插槽**:父组件在往子组件插入标签的时候,可以给插入的标签一个`slot`属性,比如
+
+  ```html
+  <child>
+      <div slot="header">头部信息</div>
+      <div slot="footer">底部信息</div>
+  </child>
+  ```
+
+  然后,在子组件的模板中对这两个标签(`div`)设置具名插槽来显示他们:
+
+  ```html
+  <div>
+      <slot name="header"></slot>
+      <div>体部信息</div>
+      <slot name="footer"></slot>
+  </div>
+  ```
+
+  **作用域插槽**：当父组件向子组件传递数据是一个列表，子组件需要根据父组件传递的数据循环渲染子组件时，需要用到匿名插槽：
+
+  ```html
+  <child>
+      作用域插槽必须用template标签包裹
+      <template slot-scope="props">
+          <h1>{{props.item}}</h1>
+      </template>
+  </child>
+  
+  
+  <--！子组件中 -->
+  <div>
+      <ul>
+          <slot v-for="item of list" :item=item></slot>
+      </ul>    
+  </div>
+  ```
+
+  
+
+  
 
 ### 生命周期钩子
 
