@@ -602,6 +602,10 @@ class App extends Component {
 
 `v-for`指令:循环遍历app对象中data的一个列表数据.
 
+`v-if`指令:条件渲染,在DOM中直接插入或者删除元素
+
+`v-show`指令:也是条件渲染,不过是将元素的样式`display`的值设置为`none`,如果元素要在页面之中频繁切换,应该使用这个指令来提高性能,毕竟DOM的删除和插入是直接操作DOM
+
 ### MVVM模式
 
 `mvvm`模式(model-view-modelView):通过modelView作为中间层（即vm的实例），即模型-视图-视图模型。【模型】指的是后端传递的数据。【视图】指的是所看到的页面。【视图模型】mvvm模式的核心，它是连接view和model的桥梁。它有两个方向：一是将【模型】转化成【视图】，即将后端传递的数据转化成所看到的页面。实现的方式是：数据绑定。二是将【视图】转化成【模型】，即将所看到的页面转化成后端的数据。实现的方式是：DOM 事件监听。这两个方向都实现的，我们称之为数据的双向绑定。总结：在MVVM的框架下视图和模型是不能直接通信的。它们通过ViewModel来通信，ViewModel通常要实现一个observer观察者，当数据发生变化，ViewModel能够监听到数据的这种变化，然后通知到对应的视图做自动更新，而当用户操作视图，ViewModel也能监听到视图的变化，然后通知数据做改动，这实际上就实现了数据的双向绑定。并且MVVM中的View 和 ViewModel可以互相通信。
@@ -882,6 +886,33 @@ var app = new Vue({
 计算属性的`getter`与`setter`:获取计算属性值的时候会调用`getter`函数,设置计算属性值的时候会调用`setter`函数
 
 ### 样式绑定
+
+```vue
+<style>
+    .activated{
+        color: red;
+    }
+</style>
+<div id="root">
+    <div
+         @click="handleDivClick"
+         :class="{activated: isTrue}">hello
+    </div>
+</div>
+<script>
+    var app = new Vue({
+        el: '#root',
+        data: {
+            isTrue: false
+        },
+        methods: {
+            handleDivClick() {
+                this.isTrue = !this.isTrue;
+            }
+        }
+    });
+</script>
+```
 
 
 
