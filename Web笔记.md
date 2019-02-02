@@ -865,11 +865,23 @@ var app = new Vue({
                 fullName() {
                     return this.firstName + this.lastName;
                 }
+				newName: {
+                    get() {
+						return this.firstName +" "+ this.lastName
+                    }
+                    set(value) {
+						alert(value)
+                    }
+				}
             }
         });
 ```
 
 >  计算属性会有缓存,如果它依赖的变量都没有改变,它是不会重新渲染的,其他的变量的改变并不能影响计算属性.
+
+计算属性的`getter`与`setter`:获取计算属性值的时候会调用`getter`函数,设置计算属性值的时候会调用`setter`函数
+
+### 样式绑定
 
 
 

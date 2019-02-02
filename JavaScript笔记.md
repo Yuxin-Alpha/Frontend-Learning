@@ -969,9 +969,82 @@ let a = demo.str1;
 
 #### 常用模块
 
++ **path模块**:用于处理文件与目录的路径
 
+  ```javascript
+  const { normalize, join, resolve, parse, format } = require('path');
+  // 1. path.normalize(path):会规范化给定的 path，并解析 '..' 和 '.' 片段
+  console.log(normalize.('/usr///local/bin'));   //  /usr/local/bin
+  console.log(normalize.('/usr//local/../bin'));  //  /usr/bin
+  
+  // 2. path.join([...paths]):使用平台特定的分隔符把全部给定的 path 片段连接到一起，并规范化生成的路径,也能解析 '..' 和 '.' 
+  console.log(join.('/usr', 'local', 'bin/'));   //  /usr/local/bin
+  console.log(join.('/usr', '../local', 'bin/'));  //  /usr/bin
+  
+  // 3. path.resolve([...paths]):会把一个路径或路径片段的序列解析为一个绝对路径
+  console.log(resolve.('./'));   //  /Users/clement/Desktop 返回当前路径的绝对路径
+  
+  // 4. path.parse(path):返回一个对象，对象的属性表示 path 的元素
+  //path.format() 会从一个对象返回一个路径字符串。 与 path.parse()方法相反
+  const filePath = '/usr/local/bin/test.html';
+  const ret = parse(filePath);
+  console.log(ret);
+  /*
+  { root: '/',
+     dir: '/usr/local/bin',
+     base: 'test.html',
+    ext: '.html',
+    name: 'test' }
+  */
+  console.log(format(ret));  // /usr/local/bin/test.html
+  ```
 
-- **服务器搭建**
+  `__dirname`、`__filename`总是返回文件的绝对路径
+  `process.cwd()`总是返回执行node命令所在的文件夹
+
++ **buffer模块**
+
+  可以在 TCP 流或文件系统操作等场景中处理二进制数据流,
+
+  ```javascript
+  // 1. Buffer.byteLength():返回一个字符串的实际字节长度。
+  console.log(Buffer.byteLength('test'));   // 4
+  console.log(Buffer.byteLength('中国'));  // 6
+  
+  // 2. Buffer.from(array):通过一个八位字节的 array 创建一个新的 Buffer ，如果 array 不是一个数组，则抛出 TypeError 错误。
+  console.log(Buffer.from([1, 2, 3]));  // <Buffer 01 02 03>
+  
+  // 3. Buffer.isBuffer(obj):如果 obj 是一个 Buffer 则返回 true ，否则返回 false
+  console.log(Buffer.isBuffer({ 'a': 1 }));  // false
+  console.log(Buffer.isBuffer(Buffer.from([1, 2, 3])));  // true
+  ```
+
+  常用属性:
+
+  `buf.length` 长度
+  `buf.toString()` 转为字符串
+  `buf.fill()` 填充
+  `buf.equals()` 判断是否相等
+  `buf.indexOf()` 是否包含，如果包含返回位置值，不包含返回-1
+
++ **events模块**
+
+  所有能触发事件的对象都是 `EventEmitter `类的实例。 这些对象开放了一个 `eventEmitter.on()` 函数，允许将一个或多个函数绑定到会被对象触发的命名事件上。 事件名称通常是驼峰式的字符串，但也可以使用任何有效的 JavaScript 属性名。`eventEmitter.on() `方法用于注册监听器，`eventEmitter.emit() `方法用于触发事件。
+
+  ```javascript
+  const EventEmitter = require('events');
+  
+  class CustomEvent extends EventEmitter {}
+  const myEmitter = new CustomEvent();
+  
+  myEmitter.on('error', err => {
+      console.log(err);
+  })
+  // 当有一个错误的时候，会显示Error: This is an error!，然后显示具体错误内容。
+  myEmitter.emit('error', new Error('This is an error!'));
+  ```
+
+- **http模块**
 
   ```javascript
   const http = require('http');
@@ -988,6 +1061,8 @@ let a = demo.str1;
   ```
 
 - **fs模块**
+
+  通过 `require('fs') `使用该模块。 所有的方法都有异步和同步的形式。异步方法的最后一个参数都是一个回调函数。 传给回调函数的参数取决于具体方法，但回调函数的第一个参数都会保留给异常。
 
   ```javascript
   const fs = require('fs');
@@ -1105,8 +1180,38 @@ let a = demo.str1;
    db.createCollection('mycoll',function(err,coll){});
    ```
 
-
 #### Express
+
+下载:`npm install express --save`
+
+##### 请求处理
+
+```javascript
+// 1.引入express搭建一个最基本的服务器
+const express = require('express');
+// 2.使用express创建服务
+var server = express();
+
+// 3.设置路由
+server.get("/",function(req,res){
+        res.send("你好");
+    });
+
+// 4.监听端口号
+server.listen(8080);
+```
+
+`app.get()`,该方法中有两个参数，第一个参数为请求路径，不分大小写，第二个为回调函数，请求路径可以使用正则匹配，`app.post()`也是同样的参数形式。
+
+##### 静态文件
+
+`Express` 提供了内置的中间件 `express.static` 来设置静态文件如：图片， `CSS, JavaScript` 等，你可以使用 `express.static` 中间件来设置静态文件路径。
+
+`app.use(express.static('public'));`
+
+##### 中间件
+
+路由`get、post`这些东西，就是中间件，中间件讲究顺序，匹配上第一个之后，就不会往后匹配了。`next`函数才能够继续往后匹配。如果我的的`get、post`回调函数中，没有`next`参数，那么就匹配上第一个路由，就不会往下匹配了。如果想往下匹配的话，那么需要写`next()`.`app.use()`也是一个中间件。与`get、post`不同的是，他的网址不是精确匹配的。而是能够有小文件夹拓展的。
 
 #### Koa
 
