@@ -923,9 +923,56 @@ function observe (obj,vm){
   </div>
   ```
 
-  
+### 动画
 
-  
+需要添加动画的标签必须被<transition></transition>标签包裹
+
+```html
+<transition name="fade">
+  <div v-if="show">
+    hello
+  </div>
+</transition>
+```
+
+Vue在遇到`tansition`标签的时候会创建一个动画流程（显示与隐藏）：
+
+1. 在动画即将执行的一瞬间，会向内部的标签增加两个样式类：`fade-enter`&`fade-enter-active`
+2. 开始执行：也就是动画执行的第二针的时候，会去掉第一步的：`fade-enter`样式类，并且加入`fade-enter-to`这个样式类
+3. 动画即将结束的时候，会去掉`fade-enter-active`&`fade-enter-to`两个样式类
+
+  隐藏也是一样的：
+
+1. 在动画即将执行的一瞬间，会向内部的标签增加两个样式类：`fade-leave`&`fade-leave-active`
+2. 开始执行：也就是动画执行的第二针的时候，会去掉第一步的：`fade-leave`样式类，并且加入`fade-leave-to`这个样式类
+3. 动画即将结束的时候，会去掉`fade-leave-active`&`fade-leave-to`两个样式类
+
+`animate.css`库的使用：首先必须导入animate这个库，然后需要定义`enter-active-class`&`leave-active-class`，即入场与出场动画的样式类，样式类需要指定animated，然后后面跟上需要使用的动画效果即可。至于加入的`apper`是为了解决页面刚载入的时候标签没有动画效果的问题。
+
+```html
+<transition
+    name="fade"
+    apper
+    apper-active-class="animated swing"
+    enter-active-class="animated swing"
+    leave-active-class="animated shake"
+            
+    >
+    <div v-if="show">
+        hello
+    </div>
+</transition>
+
+<button @click="handleDivClick">切换</button>
+```
+
+过渡效果：
+
+```html
+
+```
+
+
 
 ### 生命周期钩子
 
@@ -1012,7 +1059,46 @@ var app = new Vue({
 </script>
 ```
 
+### 路由（Vue-Router）
 
+路由就是根据网址的不同，返回不同的内容给用户。
+
+具体使用方法：
+
+1. 在src文件下新建router文件，然后新建index.js文件。
+
+2. 在index文件中导入这个插件`import Router from 'vue-router'`
+
+3. 在导出路由配置对象之前，必须先使用这个插件对象`Vue.use(Router)`
+
+4. 接着，使用new操作符实例化一个Router对象并将其暴露出去
+
+   ```javascript
+   import Vue from 'vue'
+   import Router from 'vue-router'
+   // 在此导入路由配置需要的组件，这里的@符号指的是src目录
+   import HelloWorld from '@/components/HelloWorld'
+   
+   Vue.use(Router)
+   
+   export default new Router({
+     routes: [
+       {
+         // 当用户访问根路径的时候，展示HelloWorld这个组件
+         path: '/',
+         name: 'HelloWorld',
+         component: HelloWorld
+       }
+     ]
+   })
+   
+   ```
+
+   
+
+5. 在src目录下的入口文件，也就是`main.js`中导入被暴露的路由对象，然后使用这个导入的路由对象
+
+`<router-view/>`显示的就是当前路由地址所对应的内容
 
 ### API
 
