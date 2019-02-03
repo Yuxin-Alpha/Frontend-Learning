@@ -363,9 +363,11 @@ var obj = { foo: function() {} };
 
 在说this的过程中一定要说的几个函数:
 
-1. `bind()`
-2. `call()`
-3. `apply()`
+1. `bind(obj)`
+2. `call(obj, [arr])`
+3. `apply(obj, argu1, argu2)`
+
+这三个函数都是修改this的指向，this原本是指向当前函数的执行栈环境，这个执行栈环境，可以是一个函数，也可以是一个对象，我们可以通过修改上述的三个函数显式地将this绑定到第一个参数上。
 
 ## ES6
 
