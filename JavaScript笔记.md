@@ -133,6 +133,24 @@ function _new(func) {
 
 ### 对象创建
 
+对象的创建有两种方式：
+
+```javascript
+// 1. 字面量
+var myObj = {
+    key: value
+    ...
+}
+
+// 2. 构造形式,必须逐个添加属性
+var yourObj = new Object()
+yourObj.key = value
+```
+
+
+
+
+
 - 工厂模式：
 
 ```javascript
