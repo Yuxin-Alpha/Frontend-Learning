@@ -63,8 +63,6 @@ node会将一个任务和一个回调函数一起传给操作系统，任务完�
 
 node进程启动过后会默认创建一个线程，线程（主线程）用于执行代码。
 
-
-
 #### 宏任务，微任务
 
 - macro-task(宏任务)：包括整体代码script，setTimeout，setInterval
