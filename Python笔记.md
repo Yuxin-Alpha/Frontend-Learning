@@ -228,7 +228,6 @@ print (tuple + tinytuple) # 连接元组
 
 ```python
 student = {'Tom', 'Jim', 'Mary', 'Tom', 'Jack', 'Rose'}
- 
 print(student)   # 输出集合，重复的元素被自动去掉
  
 # 成员测试
