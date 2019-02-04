@@ -65,9 +65,9 @@ node进程启动过后会默认创建一个线程，线程（主线程）用于�
 
 #### 宏任务，微任务
 
-- macro-task(宏任务)：包括整体代码script，setTimeout，setInterval
+- `macro-task`(宏任务)：包括整体代码script，setTimeout，setInterval
 
-- micro-task(微任务)：Promise，process.nextTick
+- `micro-task`(微任务)：Promise，process.nextTick
 
   事件轮循在循环时先执行宏任务，再执行微任务
 
