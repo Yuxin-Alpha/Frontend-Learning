@@ -63,13 +63,11 @@ node会将一个任务和一个回调函数一起传给操作系统，任务完�
 
 node进程启动过后会默认创建一个线程，线程（主线程）用于执行代码。
 
-
-
 #### 宏任务，微任务
 
-- macro-task(宏任务)：包括整体代码script，setTimeout，setInterval
+- `macro-task`(宏任务)：包括整体代码script，setTimeout，setInterval
 
-- micro-task(微任务)：Promise，process.nextTick
+- `micro-task`(微任务)：Promise，process.nextTick
 
   事件轮循在循环时先执行宏任务，再执行微任务
 
@@ -110,9 +108,9 @@ person.name = 'lisi';
 
 ### new 操作符
 
-在了解对象如何创建之前，我们先了解一下new操作符。
+在了解对象如何创建之前，我们先了解一下`new`操作符。
 
-new构造函数的过程中，需要经历以下4个步骤：
+`new`构造函数的过程中，需要经历以下4个步骤：
 
 1. 创建新的对象
 2. 将构造函数的作用域赋给刚才创建的新对象（我们前面提到了，this的问题，不修改的话，其指向由调用该构造函数的上下文决定）
