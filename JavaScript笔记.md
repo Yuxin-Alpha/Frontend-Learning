@@ -588,7 +588,6 @@ class VipUser extends User{
    };
    ```
 
-
 2. 属性名表达式：
 
    ```javascript
