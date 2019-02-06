@@ -1,0 +1,42 @@
+[
+  {
+    "name":"123132132",
+    "content":"this is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据；\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\n",
+    "type":"label",
+    "info_spans":[[0,12],[40,52]],
+    "info_strings":[
+      {
+        "class":"子规则1",
+	"father":"root",
+        "is_deleted":false,
+        "spans":[[1,9]]
+      },
+      {
+        "class":"子规则11",
+        "type":"label",
+	"father":"son1",
+        "is_deleted":false,
+        "spans":[[25,30],[55,57]]
+      }
+    ]
+  },
+  {
+    "name":"4651245",
+    "content":"this is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据；\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\nthis is a test,这是一个测试，对的测试数据;\n",
+    "info_spans":[[0,12],[40,52]],
+    "info_strings":[
+      {
+        "class":"info_strings第一个子规则",
+        "type":"label",
+        "is_deleted":false,
+        "spans":[[1,9]]
+      },
+      {
+        "class":"info_strings第二个子规则的子规则",
+        "type":"label",
+        "is_deleted":false,
+        "spans":[[25,30],[55,57]]
+      }
+    ]
+  }
+]
