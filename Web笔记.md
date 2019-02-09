@@ -196,8 +196,6 @@ export default App;
 
 ```
 
-
-
 ### JSX语法
 
 ```react
@@ -225,7 +223,7 @@ ReactDOM.render(
 );
 ```
 
-将一个标签赋值给一个Js变量，类似于这样的语法叫做JSX语法，在使用JS表达式的时候必须使用`{}`来进行包裹，对于页面来说，我们通过ReactDOM提供的render函数来对被赋值为标签的变量进行挂载。Babel 转译器会把 JSX 转换成一个名为 `React.createElement()` 的方法调用。
+将一个标签赋值给一个Js变量，类似于这样的语法叫做`JSX`语法，在使用JS表达式的时候必须使用`{}`来进行包裹，对于页面来说，我们通过ReactDOM提供的render函数来对被赋值为标签的变量进行挂载。Babel 转译器会把 JSX 转换成一个名为 `React.createElement()` 的方法调用。
 
 - 属性
 
@@ -233,11 +231,11 @@ ReactDOM.render(
   const element = <img src={user.avatarUrl} />;
   ```
 
-  标签内部的属性也可以使用JSX，如上代码.
+  标签内部的属性也可以使用`JSX`，如上代码.
 
 - 
 
-> 组件名的作为标签使用时,必须使用大写,jsx中的html代码必须有元素包裹,否则报错
+> 组件名的作为标签使用时,必须使用大写,`jsx`中的html代码必须有元素包裹,否则报错
 
 ```react
 // Fragment由React16版本提供,本身是一个占位符,不会渲染到页面上,因此不会影响组件的CSS样式或者布局
