@@ -1095,7 +1095,7 @@ var app = new Vue({
 
 具体使用方法：
 
-1. 在src文件下新建router文件，然后新建index.js文件。
+1. 在src文件下新建router文件，然后新建`index.js`文件。
 
 2. 在index文件中导入这个插件`import Router from 'vue-router'`
 
