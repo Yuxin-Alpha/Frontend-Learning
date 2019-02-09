@@ -266,7 +266,7 @@ export default TodoList;
 
 ### 响应式设计思想与事件绑定
 
-不要操作dom,React永远操作的都是数据.数据定义语法:
+不要操作`dom`,React永远操作的都是数据.数据定义语法:
 
 ```react
 class TodoList extends Component{
@@ -603,7 +603,7 @@ class App extends Component {
 </script>
 ```
 
-通过new操作符实例化一个Vue对象,该对象的el属性表示这个Vue对象挂载的目标,这个案例中是`id`值为app的DOM元素.而data属性是这个Vue对象的数据,里面可以定义任意多的数据,这样Vue对象可以将数据的值渲染到已经挂载的目标对象.可以通过`app.$data.content`来获取Vue对象中数据名为`content`的数据值.
+通过`new`操作符实例化一个Vue对象,该对象的el属性表示这个Vue对象挂载的目标,这个案例中是`id`值为app的DOM元素.而data属性是这个Vue对象的数据,里面可以定义任意多的数据,这样Vue对象可以将数据的值渲染到已经挂载的目标对象.可以通过`app.$data.content`来获取Vue对象中数据名为`content`的数据值.
 
 ### 指令
 
