@@ -828,7 +828,7 @@ function observe (obj,vm){
   </script>
   ```
 
-  我们可以通过Vue自带的component方法来创建一个全局组件,`template`属性指的是这个组件的标签,`props`属性用来接收父组件传递过来的数据.
+  我们可以通过Vue自带的`component()`来创建一个全局组件,`template`属性指的是这个组件的标签,`props`属性用来接收父组件传递过来的数据.
 
 - 局部组件
 
