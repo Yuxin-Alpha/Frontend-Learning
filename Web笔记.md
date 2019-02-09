@@ -90,7 +90,7 @@ http:一次性链接;http1.1:保持链接;http2.0:强制https,自带双向通信
 </div>
 ```
 
-这个代码没有什么难度，但是我们可以通过JavaScript模拟构造这么一个html的元素：
+这个代码没有什么难度，但是我们可以通过`JavaScript`模拟构造这么一个html的元素：
 
 ```javascript
 var div = {
