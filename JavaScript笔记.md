@@ -369,7 +369,7 @@ var obj = { foo: function() {} };
 
 没有块级作用域，内层变量可能会覆盖外层变量
 
-var 可以重复定义，不能限制修改，没有块级作用域
+`var `可以重复定义，不能限制修改，没有块级作用域
 
 `let&const`弥补上面的缺陷
 
@@ -496,8 +496,6 @@ let result = arr.sort().reduce((init, current) => {
 }, []);
 console.log(result);
 ```
-
-
 
 from()
 
