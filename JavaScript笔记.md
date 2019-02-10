@@ -501,7 +501,7 @@ from()
 
 - JSON
 
-  + `JSON .stringify(json)`将JSON对象转化成字符串
+  + `JSON.stringify(json)`将JSON对象转化成字符串
   + `JSON.parse(json)`将字符串变为对象
 
 #### 字符串
