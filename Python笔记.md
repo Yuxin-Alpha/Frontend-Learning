@@ -594,7 +594,7 @@ printinfo(1, a=2,b=3)
 
 ## 模块化
 
-`import sys` 引入 python 标准库中的 sys.py 模块；这是引入某一模块的方法。个模块只会被导入一次，不管你执行了多少次import.
+`import sys` 引入 python 标准库中的 `sys.py `模块；这是引入某一模块的方法。个模块只会被导入一次，不管你执行了多少次import.
 
 ### \__name__属性
 
@@ -645,23 +645,24 @@ from sound.effects import echo
 
    参数说明:
 
-   + file: 必需，文件路径（相对或者绝对路径）。
+   + `file`: 必需，文件路径（相对或者绝对路径）。
 
-   + mode: 可选，文件打开模式
+   + `mode`: 可选，文件打开模式
 
-   + buffering: 设置缓冲
+   + `buffering`: 设置缓冲
 
-   + encoding: 一般使用utf8
+   + `encoding`: 一般使用utf8
 
-   + errors: 报错级别
+   + `errors`: 报错级别
 
-   + newline: 区分换行符
+   + `newline`: 区分换行符
 
-   + closefd: 传入的file参数类型
+   + `closefd`: 传入的file参数类型
 
-   + opener:
+   + `opener`:
 
 2. `file对象`由open函数返回,常用函数:
+
    + `file.close()`:关闭文件
    + `file.flush()`:刷新缓冲区
    + `file.isatty()`:检测文件是否连接到一个终端设备
