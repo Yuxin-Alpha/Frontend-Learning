@@ -145,10 +145,6 @@ var yourObj = new Object()
 yourObj.key = value
 ```
 
-
-
-
-
 - 工厂模式：
 
 ```javascript
