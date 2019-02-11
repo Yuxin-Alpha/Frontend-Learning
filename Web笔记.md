@@ -201,6 +201,43 @@ export default App;
 
 ### JSX语法
 
+```react
+const element = <h1>Hello, world!</h1>;
+
+// 或者
+function formatName(user) {
+  return user.firstName + ' ' + user.lastName;
+}
+
+const user = {
+  firstName: 'Harper',
+  lastName: 'Perez'
+};
+
+const element = (
+  <h1>
+    Hello, {formatName(user)}!
+  </h1>
+);
+
+ReactDOM.render(
+  element,
+  document.getElementById('root')
+);
+```
+
+将一个标签赋值给一个Js变量，类似于这样的语法叫做JSX语法，在使用JS表达式的时候必须使用`{}`来进行包裹，对于页面来说，我们通过ReactDOM提供的render函数来对被赋值为标签的变量进行挂载。Babel 转译器会把 JSX 转换成一个名为 `React.createElement()` 的方法调用。
+
++ 属性
+
+  ```react
+  const element = <img src={user.avatarUrl} />;
+  ```
+
+  标签内部的属性也可以使用JSX，如上代码.
+
++ 
+
 > 组件名的作为标签使用时,必须使用大写,jsx中的html代码必须有元素包裹,否则报错
 
 ```react
