@@ -1216,7 +1216,7 @@ var app = new Vue({
 
 - `methods` methods 将被混入到 Vue 实例中。可以直接通过 VM 实例访问这些方法，或者在指令表达式中使用。方法中的 `this` 自动绑定为 Vue 实例。
 
-  注意：不能使用箭头函数来定义method函数，因为箭头函数绑定了父级作用域的上下文，所以 `this` 将不会按照期望指向 Vue 实例，`this.a` 将是 undefined。
+  注意：不能使用箭头函数来定义method函数，因为箭头函数绑定了父级作用域的上下文，所以 `this` 将不会按照期望指向 Vue 实例，`this.a` 将是` undefined`。
 
 - `el` 提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标。可以是 CSS 选择器，也可以是一个 HTMLElement 实例。
 
@@ -1404,3 +1404,28 @@ module.exports = config;
 ```
 
 当txt文件被导入(require或者import)的时候,先使用`raw-loader`转换一下,再打包.
+
+## 前端工程笔记
+
+1. 在样式中引入样式文件的时候一定要在路径前面加`~`
+
+   ```vue
+   <style lang="stylus" scoped>
+     @import "~style/varibles.styl"
+   </style>
+   ```
+
+2. 可以通过`webpack.base.config.js`对一些常用路径进行配置，记得修改了之后要重启服务器：
+
+   ```vue
+    resolve: {
+       extensions: ['.js', '.vue', '.json'],
+       alias: {
+         'vue$': 'vue/dist/vue.esm.js',
+         '@': resolve('src'),
+         'style': resolve('src/assets/style')
+       }
+    },
+   ```
+
+3. 
