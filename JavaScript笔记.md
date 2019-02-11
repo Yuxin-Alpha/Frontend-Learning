@@ -1,8 +1,8 @@
 # JavaScript笔记
 
-一般情况下，一个进程一次只能执行一个任务。                                                   
+一般情况下，一个进程一次只能执行一个任务。需要注意的是js的内存分配和执行机理和别的语言不太一样。                                                  
 
-##	js运行机制
+## js运行机制
 
 对于运行机制的了解，无非涉及三个问题，即：单线程，异步，单线程如何实现异步。如果有很多任务需要执行，不外乎三种解决方法。
 
@@ -148,10 +148,6 @@ var yourObj = new Object()
 yourObj.key = value
 ```
 
-
-
-
-
 - 工厂模式：
 
 ```javascript
@@ -210,8 +206,6 @@ var person1 = new Person();
 
 > 原型模式的缺点：原型上的东西被所有实例对象共享，某个实例对原型对象做了改变，那么其余的实例也会随着改变。
 
-
-
 - 组合使用构造函数模式与原型模式：
 
 1. 构造函数模式：负责定义每个实例自己的属性;
@@ -235,7 +229,7 @@ Person.prototype = {
 
 ### 对象继承
 
-在理解JavaScript之前，我们需要明白一点，所有函数的默认原型都指向`Object.prototype`，即他们都是Object对象的实例，即某函数的原型中有个`__proto__`属性指向`Object`。我们在自定义对象的时候，之所以能够调用`hasOwnProperty`或者`toString`这样的方法，是因为这些方法都是`Object.prototype`上的方法，而我们自定义的函数，其对象又默认是`Object.prototype`的实例，所以我们自定义的函数可以通过原型链找到顶端的`Object`，调用其原型上的内置方法。
+在理解`JavaScript`之前，我们需要明白一点，所有函数的默认原型都指向`Object.prototype`，即他们都是Object对象的实例，即某函数的原型中有个`__proto__`属性指向`Object`。我们在自定义对象的时候，之所以能够调用`hasOwnProperty`或者`toString`这样的方法，是因为这些方法都是`Object.prototype`上的方法，而我们自定义的函数，其对象又默认是`Object.prototype`的实例，所以我们自定义的函数可以通过原型链找到顶端的`Object`，调用其原型上的内置方法。
 
 - 原型链模式实现继承：
 
@@ -322,7 +316,7 @@ var sayName = function() {
 - 作用域：某个函数在调用时，会创建一个执行环境以及相应的作用域链。作用域链有当前函数，由内而外，一个一个排列，最终到达全局作用域。
 ## this问题
 
-在理解this之前，需要先理解对象再内存中的数据结构：
+在理解`this`之前，需要先理解对象在内存中的数据结构：
 
 ```javascript
 var obj = { foo:  5 };
@@ -378,7 +372,7 @@ var obj = { foo: function() {} };
 
 没有块级作用域，内层变量可能会覆盖外层变量
 
-var 可以重复定义，不能限制修改，没有块级作用域
+`var `可以重复定义，不能限制修改，没有块级作用域
 
 `let&const`弥补上面的缺陷
 
@@ -506,13 +500,11 @@ let result = arr.sort().reduce((init, current) => {
 console.log(result);
 ```
 
-
-
 from()
 
 - JSON
 
-  + `JSON .stringify(json)`将JSON对象转化成字符串
+  + `JSON.stringify(json)`将JSON对象转化成字符串
   + `JSON.parse(json)`将字符串变为对象
 
 #### 字符串
@@ -590,7 +582,6 @@ class VipUser extends User{
    	···
    };
    ```
-
 
 2. 属性名表达式：
 
