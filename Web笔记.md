@@ -1428,4 +1428,17 @@ module.exports = config;
     },
    ```
 
-3. 
+3. 对于没有后端支持的前期，如果需要访问接口，可以在`/static`目录下新建`/mock`文件夹，然后在该文件中增加本地数据项，然后在`/config`目录下的`index.js`文件中找到`dev`属性，对其proxyTable属性进行配置，意思就是可以通过这个配置项目，将ajax请求代理到开发者想要代理的位置：
+
+   ```javascript
+   proxyTable: {
+         '/api': {
+           target: 'http://localhost:8080',
+           pathRewrite: {
+             '^/api': '/static/mock'
+           }
+         }
+       },
+   ```
+
+4. 
