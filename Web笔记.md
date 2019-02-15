@@ -132,34 +132,71 @@ DOM的嵌套我们可以通过`childrens`属性来嵌套.用 JavaScript 对象�
 
 三个diff算法逐层递进，使得整两个DOM树的对比没有遗漏。
 
+
+
 ### 安装
 
-1. 运行`npm i react react-dom -S`安装包
+运行`npm i react react-dom -S`安装包
 
-   - react:  专门用于创建组件和虚拟DOM的，同时组件的声明周期都在这个包中
-   - react-dom: 专门进行dom操作，主要用于`ReactDOM.render()`，将我们生成好的虚拟DOM渲染到页面上（因为我们生成的虚拟DOM在浏览器的内存中）
+- react:  专门用于创建组件和虚拟DOM的，同时组件的声明周期都在这个包中
+- react-dom: 专门进行dom操作，主要用于`ReactDOM.render()`，将我们生成好的虚拟DOM渲染到页面上（因为我们生成的虚拟DOM在浏览器的内存中）
 
-2. 初探：
+### 语法
 
-   ```javascript
-   import React from 'react'
-   import ReactDOM from 'react-dom'
-   
-   // 创建虚拟DOM元素
-   // 参数1： 创建元素的类型， 接受字符串，表示元素的名称
-   // 参数2: 是一个对象或者null，表示当前这个DOM元素的属性
-   // 参数3：子节点(包括其它虚拟DOM获取的文本子节点)
-   // 参数n：其它子节点
-   // <h1 id="myh1" title="this is a h1">这是一个大大的h1</h1>
-   const myh1 = React.createElement('h1', {id: 'myh1', title: "this is a h1"}, '这是个大大的h1')
-   
-   // 使用ReactDOM把虚拟DOM渲染到页面上
-   // 参数1：要渲染的那个虚拟DOM元素
-   // 参数2：指定页面上的容器
-   ReactDOM.render(myh1, document.getElementById('app'))
-   ```
+```javascript
+function formatName(user) {
+  return user.firstName + ' ' + user.lastName;
+}
+// 定义变量
+const user = {
+  firstName: 'Harper',
+  lastName: 'Perez'
+};
+// 声明一个React元素
+const element = (
+  <h1 tabIndex="0" title={user.avatarUrl}>
+    Hello, {formatName(user)}!
+  </h1>
+);
+// 上述的声明等价于
+// const element = {
+//   type: 'h1',
+//   props: {
+//     className: 'greeting',
+//     children: 'Hello, world'
+//   }
+// };
 
-   当然，我们可以这么创建一个元素，但是真正在书写前端页面的时候，一个页面就有成百上千个元素，所以，这么做成本实在太高了。为了能够实现快速开发，我们想到了在js文件中书写我们的HTML代码，但是js原本的语法并不允许我们这样做。由此，生成了JSX语法。
+// 使用render函数将上述标签挂载到id为root的DOM元素中
+ReactDOM.render(
+  element,
+  document.getElementById('root')
+);
+```
+
+在React元素中，使用JavaScript表达式需要使用`{}`进行包裹，不论是标签上的属性还是标签内部需要渲染的数据。React 元素都是不可变的。当元素被创建之后，你是无法改变其内容或属性的。一个元素就好像是动画里的一帧，它代表应用界面在某一时间点的样子。
+
+```javascript
+// Fragment由React16版本提供,本身是一个占位符,不会渲染到页面上,因此不会影响组件的CSS样式或者布局
+import React, { Component, Fragment } from 'react';
+
+class TodoList extends Component{
+    render() {
+        return (
+            // <Fragment> 标签进行占位
+            <Fragment>
+                <div><input type="text"/><button>提交</button></div>
+                <ul>
+                    <li>学英语</li>
+                    <li>learning React</li>
+                </ul>
+            </Fragment>
+        )
+    }
+}
+
+export default TodoList;
+```
 
 ### 组件
 
@@ -180,7 +217,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 ```react
 import React, { Component } from 'react';
-// 通过类的继承,定义一个App类来继承React下的Component类
+// 通过类的继承,定义一个App类来继承React下的Component类，组件名的作为标签使用时,必须使用大写,`jsx`中的html代码必须有元素包裹,否则报错
 class App extends Component {
   // render函数是Component类的内置函数,render函数返回什么,页面之中就显示什么
   render() {
@@ -196,106 +233,7 @@ export default App;
 
 ```
 
-### JSX语法
-
-```react
-const element = <h1>Hello, world!</h1>;
-
-// 或者
-function formatName(user) {
-  return user.firstName + ' ' + user.lastName;
-}
-
-const user = {
-  firstName: 'Harper',
-  lastName: 'Perez'
-};
-
-const element = (
-  <h1>
-    Hello, {formatName(user)}!
-  </h1>
-);
-
-ReactDOM.render(
-  element,
-  document.getElementById('root')
-);
-```
-
-将一个标签赋值给一个Js变量，类似于这样的语法叫做`JSX`语法，在使用JS表达式的时候必须使用`{}`来进行包裹，对于页面来说，我们通过ReactDOM提供的render函数来对被赋值为标签的变量进行挂载。Babel 转译器会把 JSX 转换成一个名为 `React.createElement()` 的方法调用。
-
-- 属性
-
-  ```react
-  const element = <img src={user.avatarUrl} />;
-  ```
-
-  标签内部的属性也可以使用`JSX`，如上代码.
-
-- 
-
-```react
-const element = <h1>Hello, world!</h1>;
-
-// 或者
-function formatName(user) {
-  return user.firstName + ' ' + user.lastName;
-}
-
-const user = {
-  firstName: 'Harper',
-  lastName: 'Perez'
-};
-
-const element = (
-  <h1>
-    Hello, {formatName(user)}!
-  </h1>
-);
-
-ReactDOM.render(
-  element,
-  document.getElementById('root')
-);
-```
-
-将一个标签赋值给一个Js变量，类似于这样的语法叫做JSX语法，在使用JS表达式的时候必须使用`{}`来进行包裹，对于页面来说，我们通过ReactDOM提供的render函数来对被赋值为标签的变量进行挂载。Babel 转译器会把 JSX 转换成一个名为 `React.createElement()` 的方法调用。
-
-+ 属性
-
-  ```react
-  const element = <img src={user.avatarUrl} />;
-  ```
-
-  标签内部的属性也可以使用JSX，如上代码.
-
-+ 
-
-> 组件名的作为标签使用时,必须使用大写,`jsx`中的html代码必须有元素包裹,否则报错
-
-```react
-// Fragment由React16版本提供,本身是一个占位符,不会渲染到页面上,因此不会影响组件的CSS样式或者布局
-import React, { Component, Fragment } from 'react';
-
-class TodoList extends Component{
-    render() {
-        return (
-            // <Fragment> 标签进行占位
-            <Fragment>
-                <div><input type="text"/><button>提交</button></div>
-                <ul>
-                    <li>学英语</li>
-                    <li>learning React</li>
-                </ul>
-            </Fragment>
-        )
-    }
-}
-
-export default TodoList;
-
-```
+可以把组件理解成一个函数，他可以接收任意的输入值（props），并返回一个需要在页面上展示的React元素。当React遇到的元素是用户自定义的组件，它会将JSX属性作为一个单个对象（props）传递给该组件。注意，组件本身不能修改自己的props，即必须像纯函数那样使用props。
 
 ### 响应式设计思想与事件绑定
 
