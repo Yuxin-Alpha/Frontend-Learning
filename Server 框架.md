@@ -37,7 +37,33 @@ server.listen(8080);
 
 `Koa`框架的node环境必须是7.6以上的.
 
+`npm install -g koa-generator`全局安装脚手架工具
+
+`koa2 -e koa2-learn`使用koa2指令新建一个名字为`koa2-learn`的项目，-e表示使用ejs模板引擎。
+
+然后进入`koa2-learn`目录下，执行`npm run dev`，项目会采用nodemon指令执行，也就是热更新加载。
+
+### async、await
+
+```javascript
+const router = require('koa-router')()
+// async放在箭头函数前，声明这个函数是一个内部函数，只有被async修饰的函数，其内部才可以使用await修饰符(但是await不是必须有的)
+router.get('/', async (ctx, next) => {
+  // A,B,C是三个异步的方法（Promise对象），a表示我要拿到A最后执行完返回的东西，在a没有拿到A事件返回的结果之前，代码不会向下执行，剩下两个同理
+  const a = await A;
+  const b = await B;
+  const c = await C;
+  await ctx.render('index', {
+    title: 'Hello Koa 2!'
+  })
+})
+```
+
+
+
 ### 基础
+
+Koa构造函数new出来的app，可以看做是承载http服务的洋葱，接受请求，发出响应。接受的时候，都是一层一层处理，一层处理好之后交给下一层。但是一个洋葱是成环的，也就是最后处理请求的那一层，最先发出响应，这样可以保证：假设有3层，由外向内依次是A，B，C，如果B处理过请求之后，C对B做的处理做了非法的修改，并生成了响应结果返回，B层可以检查到，这是一种栈式思维。
 
 - 架设`HTTP`服务
 
@@ -49,7 +75,7 @@ server.listen(8080);
 
 - `Context`对象
 
-  表示一次对话的上下文（包括 HTTP 请求和 HTTP 回复）。通过加工这个对象，就可以控制返回给用户的内容。
+  表示一次对话的上下文（包括 HTTP 请求和 HTTP 回复）。这个对象是属于app的全局对象，不管是什么中间件都可以拿到这个对象。通过加工这个对象，就可以控制返回给用户的内容。
 
   ```javascript
   const Koa = require('koa');
@@ -128,17 +154,37 @@ server.listen(8080);
   const about = ctx => {
     ctx.response.type = 'html';
     ctx.response.body = '<a href="/">Index Page</a>';
-  };
+  }; 
   
+  // body用来返回接口
   const main = ctx => {
     ctx.response.body = 'Hello World';
   };
+  
+  // render 函数用来渲染页面
+  router.get('/hello', async (ctx, next) => {
+    await ctx.render('index', {
+      title: 'Hello Koa 2!'
+    })
+  })
   
   app.use(route.get('/', main));
   app.use(route.get('/about', about));
   ```
 
   根路径`/`的处理函数是`main`，`/about`路径的处理函数是`about`。
+
+- 使用prefix函数添加前缀来分模块编写接口：
+
+  ```javascript
+  const router = require('koa-router')()
+  
+  router.prefix('/users')
+  // 此时的'/'不是指页面的根路径，而是'/users/'
+  router.get('/', function (ctx, next) {
+    ctx.body = 'this is a users response!'
+  })
+  ```
 
 - 静态资源
 
@@ -164,6 +210,27 @@ server.listen(8080);
   
   app.use(route.get('/redirect', redirect));
   ```
+
+### 中间件
+
+我们手写一个简单的中间件：
+
+```javascript
+function pv (ctx) {
+    global.console.log(cstx.path)
+}
+module.exports = function () {
+    return async function (ctx, next) {
+        // 表示当前pv这个中间件运行完毕后交给下一个中间件处理
+        pv(ctx)
+        await next()
+    }
+}
+```
+
+为什么这么写呢，我们可以发现，koa实例是通过use()这个函数来使用引入的中间件的，所以我们在自己手写中间件的过程中需要导出一个函数。
+
+
 
 ### 错误处理
 
