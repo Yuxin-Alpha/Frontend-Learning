@@ -10,6 +10,8 @@ SQL:结构化查询语言
 
 ## MongoDB
 
+> export PATH=/usr/local/mongodb/bin:$PATH
+>
 > cd /usr/local/mongodb/bin
 
 > ./mongo
