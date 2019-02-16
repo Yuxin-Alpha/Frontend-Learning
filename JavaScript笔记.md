@@ -657,6 +657,22 @@ class VipUser extends User{
    }
    ```
 
+### Set
+
+类似于数组的数据结构，但成员的值都是唯一的。
+
+通过构造函数来new实例
+
+```javascript
+const set = new Set([1, 2, 3, 3, 5, 5, 7, 7, 7])
+// set 值是[1, 2, 3, 5, 7]
+```
+
+set对象上自带size属性，返回成员总数
+
+其原型上拥有四个函数`add(value)`, `delete(value)`,`has(value)`, `clear()`
+
+
 
 ### Promise
 
