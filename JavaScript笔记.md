@@ -1222,51 +1222,6 @@ let a = demo.str1;
   server.listen(3000);
   ```
 
-#### mongoose
-
-mongoose提供一个概念叫做范式，也就是用一个式子来描述你的数据表。也就是我们数据表的模型。
-
-+ 先下载`npm install mongoose`
-
-```javascript
-// 项目中引入 mongoose ，然后连接我们本地的 test 数据库。connect() 返回一个状态待定（pending）的连接
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  // we're connected!
-});
-// 带有 String 类型 name 属性的 schema
-var kittySchema = mongoose.Schema({
-  name: String
-});
-// 接着我们需要把这个 schema 编译成一个 model,model 是我们构造 document 的 Class。 在例子中，每个 document 都是一只喵，它的属性和行为都会被声明在 schema。
-const Cat = mongoose.model('Cat', kittySchema);
-// 创造一只猫
-const kitty = new Cat({ name: 'Zildjian' });
-kitty.save().then(() => console.log('meow'));
-```
-
-+ Schema
-
-  Mongoose 的一切始于 Schema。每个 schema 都会映射到一个 MongoDB collection ，并定义这个collection里的文档的构成。document 里每个属性的类型都会被转换为 在 `blogSchema` 里定义对应的 SchemaType。 例如 `title` 属性会被转换为 SchemaType String， 而 `date`属性会被转换为 SchemaType `Date`。 还可以像上面 `meta` 属性，更详细地指定嵌套在里面的属性类型。
-
-  ```javascript
-   var blogSchema = new Schema({
-      title:  String,
-      author: String,
-      body:   String,
-      comments: [{ body: String, date: Date }],
-      date: { type: Date, default: Date.now },
-      hidden: Boolean,
-      meta: {
-        votes: Number,
-        favs:  Number
-      }
-    });
-  ```
-
 
 ## Ajax
 

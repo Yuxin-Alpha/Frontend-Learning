@@ -230,6 +230,104 @@ module.exports = function () {
 
 为什么这么写呢，我们可以发现，koa实例是通过use()这个函数来使用引入的中间件的，所以我们在自己手写中间件的过程中需要导出一个函数。
 
++ **mongoose**的使用 ：
+
+  1. `npm install mongoose --save`
+
+  2. 在服务器文件夹下新建`/dbs/config.js`,在文件中配置数据库的位置
+
+     ```javascript
+     // config.js文件夹下，地址中的dbs就是目标数据库的库名
+     module.exports = {
+         dbs: 'mongodb://127.0.0.1:27017/dbs'
+     }
+     ```
+
+  3. 在`app.js`中引入相应的包，为了使koa提供的http服务可以使用数据库服务，我们需要将http服务连接到数据库服务上
+
+     ```javascript
+     // app.js文件中
+     // ...省略部分中间件的引入
+     const mongoose = require('mongoose')
+     const dbConfig = require('./dbs/config')
+     // 使用mongoose的connect方法连接到指定的数据库，如果不存在就创建一个。
+     mongoose.connect(dbConfig.dbs, {
+       useNewUrlParser: true
+     })
+     ```
+
+  4. 新建`dbs/models`目录，其中存放各种集合的对应模型
+
+     ```javascript
+     // 在models文件夹下新建一个person.js文件
+     const mongoose = require('mongoose')
+     // 实例化一个范式，范式的模子由传入的对象决定，相当于
+     let personSchema = new mongoose.Schema({
+         name: String,
+         age: Number
+     })
+     // 使用mongoose提供的model方法，按照范式的模子打造一个名字叫做Person的数据模型
+     module.exports = mongoose.model('Person', personSchema)
+     ```
+
+  5. 在路由文件中，可以指定接口来操纵数据库：
+
+     ```javascript
+     // 在router/users.js 文件夹中
+     const router = require('koa-router')()
+     const Person = require('../dbs/models/person')
+     // 访问接口/users/addPerson对数据库的数据进行添加
+     router.post('/addPerson', async function(ctx) {
+       const person = new Person({
+         name: ctx.request.body.name,
+         age: ctx.request.body.age
+       })
+       let code = 101
+       try {
+         await person.save()
+       } catch (e) {
+         code = 404
+       }
+       ctx.body = {
+         code
+       }
+     })
+     // 访问接口/users/getPerson对数据库的数据进行查找
+     router.post('/getPerson', async function(ctx) {
+       const result = await Person.findOne({
+         name: ctx.request.body.name
+       })
+       const results = await Person.find({
+         name:ctx.request.body.name
+       })
+       ctx.body = {
+         code: 0,
+         result,
+         results
+       }
+     })
+     // 访问接口/users/updatePerson对数据库的数据进行修改
+     router.post('/updatePerson', async function(ctx) {
+       const result = await Person.where({
+         name: ctx.request.body.name
+       }).update({
+         age: ctx.request.body.age
+       })
+       ctx.body = {
+         code: 666,
+         result
+       }
+     })
+     // 访问接口/users/removePerson对数据库的数据进行删除，但是不要这么做
+     router.post('/removePerson', async function(ctx) {
+       const result = await Person.where({
+         name: ctx.request.body.name
+       }).remove()
+       ctx.body = {
+         code: 0
+       }
+     })
+     ```
 
 
 ### 错误处理
