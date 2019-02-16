@@ -256,6 +256,8 @@ module.exports = function () {
      })
      ```
 
+     当然，我们这里`dbConfig`配置的是本地的数据库，如果数据库服务在其他的服务器上，我们可以将其配置成：`mongoose.connect('mongodb://username:password@host:port/database?options...')`
+
   4. 新建`dbs/models`目录，其中存放各种集合的对应模型
 
      ```javascript
