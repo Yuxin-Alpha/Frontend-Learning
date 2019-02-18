@@ -278,106 +278,106 @@ const app = new Koa();
 app.use(require('koa-static')(root, opts));
 ```
 
-+ **mongoose**的使用 ：
+### mongoose
 
-  1. `npm install mongoose --save`
+1. `npm install mongoose --save`
 
-  2. 在服务器文件夹下新建`/dbs/config.js`,在文件中配置数据库的位置
+2. 在服务器文件夹下新建`/dbs/config.js`,在文件中配置数据库的位置
 
-     ```javascript
-     // config.js文件夹下，地址中的dbs就是目标数据库的库名
-     module.exports = {
-         dbs: 'mongodb://127.0.0.1:27017/dbs'
+   ```javascript
+   // config.js文件夹下，地址中的dbs就是目标数据库的库名
+   module.exports = {
+       dbs: 'mongodb://127.0.0.1:27017/dbs'
+   }
+   ```
+
+3. 在`app.js`中引入相应的包，为了使koa提供的http服务可以使用数据库服务，我们需要将http服务连接到数据库服务上
+
+   ```javascript
+   // app.js文件中
+   // ...省略部分中间件的引入
+   const mongoose = require('mongoose')
+   const dbConfig = require('./dbs/config')
+   // 使用mongoose的connect方法连接到指定的数据库，如果不存在就创建一个。
+   mongoose.connect(dbConfig.dbs, {
+     useNewUrlParser: true
+   })
+   ```
+
+   当然，我们这里`dbConfig`配置的是本地的数据库，如果数据库服务在其他的服务器上，我们可以将其配置成：`mongoose.connect('mongodb://username:password@host:port/database?options...')`
+
+4. 新建`dbs/models`目录，其中存放各种集合的对应模型
+
+   ```javascript
+   // 在models文件夹下新建一个person.js文件
+   const mongoose = require('mongoose')
+   // 实例化一个范式，范式的模子由传入的对象决定，相当于
+   let personSchema = new mongoose.Schema({
+       name: String,
+       age: Number
+   })
+   // 使用mongoose提供的model方法，按照范式的模子打造一个名字叫做Person的数据模型
+   module.exports = mongoose.model('Person', personSchema)
+   ```
+
+5. 在路由文件中，可以指定接口来操纵数据库：
+
+   ```javascript
+   // 在router/users.js 文件夹中
+   const router = require('koa-router')()
+   const Person = require('../dbs/models/person')
+   // 访问接口/users/addPerson对数据库的数据进行添加
+   router.post('/addPerson', async function(ctx) {
+     const person = new Person({
+       name: ctx.request.body.name,
+       age: ctx.request.body.age
+     })
+     let code = 101
+     try {
+       await person.save()
+     } catch (e) {
+       code = 404
      }
-     ```
-
-  3. 在`app.js`中引入相应的包，为了使koa提供的http服务可以使用数据库服务，我们需要将http服务连接到数据库服务上
-
-     ```javascript
-     // app.js文件中
-     // ...省略部分中间件的引入
-     const mongoose = require('mongoose')
-     const dbConfig = require('./dbs/config')
-     // 使用mongoose的connect方法连接到指定的数据库，如果不存在就创建一个。
-     mongoose.connect(dbConfig.dbs, {
-       useNewUrlParser: true
+     ctx.body = {
+       code
+     }
+   })
+   // 访问接口/users/getPerson对数据库的数据进行查找
+   router.post('/getPerson', async function(ctx) {
+     const result = await Person.findOne({
+       name: ctx.request.body.name
      })
-     ```
-
-     当然，我们这里`dbConfig`配置的是本地的数据库，如果数据库服务在其他的服务器上，我们可以将其配置成：`mongoose.connect('mongodb://username:password@host:port/database?options...')`
-
-  4. 新建`dbs/models`目录，其中存放各种集合的对应模型
-
-     ```javascript
-     // 在models文件夹下新建一个person.js文件
-     const mongoose = require('mongoose')
-     // 实例化一个范式，范式的模子由传入的对象决定，相当于
-     let personSchema = new mongoose.Schema({
-         name: String,
-         age: Number
+     const results = await Person.find({
+       name:ctx.request.body.name
      })
-     // 使用mongoose提供的model方法，按照范式的模子打造一个名字叫做Person的数据模型
-     module.exports = mongoose.model('Person', personSchema)
-     ```
-
-  5. 在路由文件中，可以指定接口来操纵数据库：
-
-     ```javascript
-     // 在router/users.js 文件夹中
-     const router = require('koa-router')()
-     const Person = require('../dbs/models/person')
-     // 访问接口/users/addPerson对数据库的数据进行添加
-     router.post('/addPerson', async function(ctx) {
-       const person = new Person({
-         name: ctx.request.body.name,
-         age: ctx.request.body.age
-       })
-       let code = 101
-       try {
-         await person.save()
-       } catch (e) {
-         code = 404
-       }
-       ctx.body = {
-         code
-       }
+     ctx.body = {
+       code: 0,
+       result,
+       results
+     }
+   })
+   // 访问接口/users/updatePerson对数据库的数据进行修改
+   router.post('/updatePerson', async function(ctx) {
+     const result = await Person.where({
+       name: ctx.request.body.name
+     }).update({
+       age: ctx.request.body.age
      })
-     // 访问接口/users/getPerson对数据库的数据进行查找
-     router.post('/getPerson', async function(ctx) {
-       const result = await Person.findOne({
-         name: ctx.request.body.name
-       })
-       const results = await Person.find({
-         name:ctx.request.body.name
-       })
-       ctx.body = {
-         code: 0,
-         result,
-         results
-       }
-     })
-     // 访问接口/users/updatePerson对数据库的数据进行修改
-     router.post('/updatePerson', async function(ctx) {
-       const result = await Person.where({
-         name: ctx.request.body.name
-       }).update({
-         age: ctx.request.body.age
-       })
-       ctx.body = {
-         code: 666,
-         result
-       }
-     })
-     // 访问接口/users/removePerson对数据库的数据进行删除，但是不要这么做
-     router.post('/removePerson', async function(ctx) {
-       const result = await Person.where({
-         name: ctx.request.body.name
-       }).remove()
-       ctx.body = {
-         code: 0
-       }
-     })
-     ```
+     ctx.body = {
+       code: 666,
+       result
+     }
+   })
+   // 访问接口/users/removePerson对数据库的数据进行删除，但是不要这么做
+   router.post('/removePerson', async function(ctx) {
+     const result = await Person.where({
+       name: ctx.request.body.name
+     }).remove()
+     ctx.body = {
+       code: 0
+     }
+   })
+   ```
 
 
 ### 错误处理
@@ -499,6 +499,51 @@ app.use(require('koa-static')(root, opts));
   ```
 
 ### 源码分析
+
+Koa主要的代码在`/lib`文件夹下，一共有`Request.js`,`Response.js`,`Context.js`,`Application.js`四个文件
+
+```javascript
+// Application.js
+ module.exports = class Application extends Emitter {
+  constructor() {
+    super();
+    // 定义下面的属性
+    this.proxy = false;
+    // 管理中间件的数组
+    this.middleware = [];
+    this.subdomainOffset = 2;
+    this.env = process.env.NODE_ENV || 'development';
+    // 创造三个对象
+    this.context = Object.create(context);
+    this.request = Object.create(request);
+    this.response = Object.create(response);
+  }
+  // ....
+}
+```
+
+这个文件暴露一个对象出去，当我们调用一个构造函数的时候，会初始化属性和方法。
+
+实例的app通过`use()`来调用中间件
+
+```javascript
+ //中间件使用的use方法
+  use(fn) {
+    if (typeof fn !== 'function') throw new TypeError('middleware must be a function!');
+    // 为了加载koa1.x版本的中间件
+    if (isGeneratorFunction(fn)) {
+      deprecate('Support for generators will be removed in v3. ' +
+                'See the documentation for examples of how to convert old middleware ' +
+                'https://github.com/koajs/koa/blob/master/docs/migration.md');
+      fn = convert(fn);
+    }
+    debug('use %s', fn._name || fn.name || '-');
+    this.middleware.push(fn);
+    return this;
+  }
+```
+
+这个方法维持一个middleware数组，如果有中间件加载，就push进去
 
 
 
