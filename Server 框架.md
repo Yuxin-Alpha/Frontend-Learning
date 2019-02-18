@@ -119,8 +119,6 @@ router.get('/', async (ctx, next) => {
 
 ### 基础
 
-Koa构造函数new出来的app，可以看做是承载http服务的洋葱，接受请求，发出响应。接受的时候，都是一层一层处理，一层处理好之后交给下一层。但是一个洋葱是成环的，也就是最后处理请求的那一层，最先发出响应，这样可以保证：假设有3层，由外向内依次是A，B，C，如果B处理过请求之后，C对B做的处理做了非法的修改，并生成了响应结果返回，B层可以检查到，这是一种栈式思维。
-
 - 架设`HTTP`服务
 
   ```javascript
@@ -183,91 +181,9 @@ Koa构造函数new出来的app，可以看做是承载http服务的洋葱，接�
   };
   ```
 
-### 路由
-
-- 原生路由
-
-  网站一般都有多个页面。通过`ctx.request.path`可以获取用户请求的路径，由此实现简单的路由。
-
-  ```javascript
-  const main = ctx => {
-    if (ctx.request.path !== '/') {
-      ctx.response.type = 'html';
-      ctx.response.body = '<a href="/">Index Page</a>';
-    } else {
-      ctx.response.body = 'Hello World';
-    }
-  };
-  ```
-
-- `Koa-route`
-
-  原生路由用起来不太方便，我们可以使用封装好的[`koa-route`](https://www.npmjs.com/package/koa-route)模块。
-
-  ```javascript
-  const route = require('koa-route');
-  
-  const about = ctx => {
-    ctx.response.type = 'html';
-    ctx.response.body = '<a href="/">Index Page</a>';
-  }; 
-  
-  // body用来返回接口
-  const main = ctx => {
-    ctx.response.body = 'Hello World';
-  };
-  
-  // render 函数用来渲染页面
-  router.get('/hello', async (ctx, next) => {
-    await ctx.render('index', {
-      title: 'Hello Koa 2!'
-    })
-  })
-  
-  app.use(route.get('/', main));
-  app.use(route.get('/about', about));
-  ```
-
-  根路径`/`的处理函数是`main`，`/about`路径的处理函数是`about`。
-
-- 使用prefix函数添加前缀来分模块编写接口：
-
-  ```javascript
-  const router = require('koa-router')()
-  
-  router.prefix('/users')
-  // 此时的'/'不是指页面的根路径，而是'/users/'
-  router.get('/', function (ctx, next) {
-    ctx.body = 'this is a users response!'
-  })
-  ```
-
-- 静态资源
-
-  如果网站提供静态资源（图片、字体、样式表、脚本......），为它们一个个写路由就很麻烦，也没必要。`koa-static`模块封装了这部分的请求。
-
-  ```javascript
-  const path = require('path');
-  const serve = require('koa-static');
-  
-  const main = serve(path.join(__dirname));
-  app.use(main);
-  ```
-
-- 重定向
-
-  有些场合，服务器需要重定向（redirect）访问请求。比如，用户登陆以后，将他重定向到登陆前的页面。`ctx.response.redirect()`方法可以发出一个302跳转，将用户导向另一个路由。
-
-  ```javascript
-  const redirect = ctx => {
-    ctx.response.redirect('/');
-    ctx.response.body = '<a href="/">Index Page</a>';
-  };
-  
-  app.use(route.get('/redirect', redirect));
-  ```
-
 ### 中间件
+
+Koa构造函数new出来的app，可以看做是承载http服务的洋葱，接受请求，发出响应。接受的时候，都是一层一层处理，一层处理好之后交给下一层。但是一个洋葱是成环的，也就是最后处理请求的那一层，最先发出响应，这样可以保证：假设有3层，由外向内依次是A，B，C，如果B处理过请求之后，C对B做的处理做了非法的修改，并生成了响应结果返回，B层可以检查到，这是一种栈式思维。当我们调用`app.use()`时，会在内部形成一个中间件数组，框架内部会将执行下一个中间件的操作放在next方法的内部，执行这个方法后，就会执行下一个中间件
 
 我们手写一个简单的中间件：
 
@@ -285,6 +201,82 @@ module.exports = function () {
 ```
 
 为什么这么写呢，我们可以发现，koa实例是通过use()这个函数来使用引入的中间件的，所以我们在自己手写中间件的过程中需要导出一个函数。
+
+### koa-router
+
+- 原生路由
+
+  网站一般都有多个页面。通过`ctx.request.path`可以获取用户请求的路径，由此实现简单的路由。
+
+  ```javascript
+  const main = ctx => {
+    if (ctx.request.path !== '/') {
+      ctx.response.type = 'html';
+      ctx.response.body = '<a href="/">Index Page</a>';
+    } else {
+      ctx.response.body = 'Hello World';
+    }
+  };
+  ```
+
+- `Koa-router`
+
+  原生路由用起来不太方便，我们可以使用封装好的[`koa-route`](https://www.npmjs.com/package/koa-route)模块。
+
+  ```javascript
+  var Koa = require('koa');
+  var Router = require('koa-router');
+  
+  var app = new Koa();
+  var router = new Router();
+  
+  router.get('/', (ctx, next) => {
+    // ctx.router available
+  });
+  
+  app
+    .use(router.routes())
+    .use(router.allowedMethods());
+  ```
+
+  根路径`/`的处理函数是`main`，`/about`路径的处理函数是`about`。
+
+- 使用prefix函数添加前缀来分模块编写接口：
+
+  ```javascript
+  const router = require('koa-router')()
+  
+  router.prefix('/users')
+  // 此时的'/'不是指页面的根路径，而是'/users/'
+  router.get('/', function (ctx, next) {
+    ctx.body = 'this is a users response!'
+  })
+  ```
+
+- 重定向
+
+  有些场合，服务器需要重定向（redirect）访问请求。比如，用户登陆以后，将他重定向到登陆前的页面。`ctx.response.redirect()`方法可以发出一个302跳转，将用户导向另一个路由。
+
+  ```javascript
+  const redirect = ctx => {
+    ctx.response.redirect('/');
+    ctx.response.body = '<a href="/">Index Page</a>';
+  };
+  
+  app.use(route.get('/redirect', redirect));
+  ```
+
+### koa-static
+
+对于静态服务文件服务，我们使用这个中间件
+
+```javascript
+const Koa = require('koa');
+const app = new Koa();
+// root指的是静态文件存放的路径
+// 例如 (__direname + '/static/html', {extension: ['html']})
+app.use(require('koa-static')(root, opts));
+```
 
 + **mongoose**的使用 ：
 
