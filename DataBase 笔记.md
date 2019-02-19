@@ -39,3 +39,6 @@ db.createCollection("mycol", { capped : true, autoIndexId : true, size : 6142800
 更新文档：`db.col.update({'title':'MongoDB 教程'},{$set:{'title':'MongoDB'}})`
 
 删除文档：`db.inventory.deleteMany({ status : "A" })`
+
+## Ridis
+
