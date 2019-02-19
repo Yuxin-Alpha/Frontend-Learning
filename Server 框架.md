@@ -55,6 +55,12 @@ var reg = new RegExp(pattern,flags);
   // {n,m} : n次到m次
   ```
 
+### 中间件
+
+Express使用中间件Web请求一个一个处理，并通过其中一个中间件返回
+
+
+
 ### 路由
 
 下面是一个简单的路由页面代码。
