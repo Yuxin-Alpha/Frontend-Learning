@@ -108,6 +108,29 @@ app.use("/api/users", users);
 
 `app.use(express.static('public'));`
 
+###  源码分析
+
+```javascript
+const http = require('http')
+// 合并对象的第三方模块
+const mixin = require('merge-descriptors')
+module.exports = function createServer() {
+  const app = function (req, res) {
+    res.end('Response From Server')
+  }
+  mixin(app, proto, false)
+  // 调用过后会得到返回的对象 
+  return app
+}
+const proto = Object.create(null)
+proto.listen = function (port) {
+  const server = http.createServer(this)
+  return server.listen.apply(server, arguments)
+}
+```
+
+
+
 ## Koa
 
 `Koa`框架的node环境必须是7.6以上的.
