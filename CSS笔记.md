@@ -119,6 +119,62 @@
 
   这个属性顺带提一下,这个属性必须作用在已经定位后的元素上.(这个属性需要更新)
 
+## Flex布局
+
+采用 Flex 布局的元素，称为 Flex 容器，它的所有子元素自动成为容器成员。
+
+主轴的开始位置（与边框的交叉点）叫做`main start`，结束位置叫做`main end`；交叉轴的开始位置叫做`cross start`，结束位置叫做`cross end`。容器内的子元素默认沿主轴排列。单个子元素占据的主轴空间叫做`main size`，占据的交叉轴空间叫做`cross size`。需注意使用flex容器内元素，即`flex item`的`float`，`clear`、`vertical-align`属性将失效。
+
+容器的属性：
+
+1. `flex-direction`：子元素排列方向（水平向左，水平向右，垂直向下，垂直向右）
+
+   ```css
+   .box {
+     flex-direction: row | row-reverse | column | column-reverse;
+   }
+   ```
+
+2. `flex-wrap`：子元素排列不下的时候，如何换行（不换行，第一行在上方，第一行在下方）
+
+   ```css
+   .box{
+     flex-wrap: nowrap | wrap | wrap-reverse;
+   }
+   ```
+
+3. `flex-flow`：上面两个属性的简写，默认值为`row nowrap`
+
+   ```javascript
+   .box {
+     flex-flow: <flex-direction> || <flex-wrap>;
+   }
+   ```
+
+4. `justify-content`：定义了项目在主轴上的对齐方式。（往左挤，往右挤，中间挤，两边靠边中间宽，分散排列）
+
+   ```javascript
+   .box {
+     justify-content: flex-start | flex-end | center | space-between | space-around;
+   }
+   ```
+
+5. `align-items`：定义项目在交叉轴上如何对齐（起点对齐，终点对齐，中点对齐，第一行文字对齐，默认值）
+
+   ```css
+   .box {
+     align-items: flex-start | flex-end | center | baseline | stretch;
+   }
+   ```
+
+子元素属性：
+
+1. `order`属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。
+2. `flex-grow`属性定义项目的放大比例，默认为`0`，即如果存在剩余空间，也不放大。如果所有项目的`flex-grow`属性都为1，则它们将等分剩余空间（如果有的话）。如果一个项目的`flex-grow`属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。
+3. `flex-shrink`属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。
+4. `flex-basis`属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为`auto`，即项目的本来大小。
+5. `flex`属性是`flex-grow`, `flex-shrink` 和 `flex-basis`的简写，默认值为`0 1 auto`。后两个属性可选。
+
 ## 布局常见问题
 
 
