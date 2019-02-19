@@ -55,24 +55,41 @@ var reg = new RegExp(pattern,flags);
   // {n,m} : n次到m次
   ```
 
-### 请求处理
+### 路由
+
+下面是一个简单的路由页面代码。
 
 ```javascript
-// 1.引入express搭建一个最基本的服务器
-const express = require('express');
-// 2.使用express创建服务
-var server = express();
-
-// 3.设置路由
-server.get("/",function(req,res){
-        res.send("你好");
-    });
-
-// 4.监听端口号
-server.listen(8080);
+const express = require("express")
+// 调用其中的Router函数，这个函数返回一个路由对象
+const router = express.Router()
+// 拿到数据模型
+const User = require("../../models/users/User")
+// get方法测试接口 
+router.get('/test', (req, res) => {
+  res.json({msg: "api works"})
+})
+module.exports = router;
 ```
 
-`app.get()`,该方法中有两个参数，第一个参数为请求路径，不分大小写，第二个为回调函数，请求路径可以使用正则匹配，`app.post()`也是同样的参数形式。
+这里没有什么复杂的代码，这个时候我们需要在服务器上使用这个被暴露的路由对象，使他在服务器上生效。
+
+```javascript
+// ...
+// 引入users接口配置好的路由对象
+const users = require("./routes/api/users");
+const bodyParser = require("body-parser");
+// ...
+// 在服务器上使用这两个中间件来解析请求。
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+// 使用这个接口对象，其对应的url是localhost:5000/api/users
+// 这个时候我们访问localhost:5000/api/users/test就可以接受到返回的数据
+app.use("/api/users", users);
+// ...
+```
+
+上部分代码中，我们省略了包引入，服务器生成，数据库链接，以及服务器监听的代码。
 
 ### 静态文件
 
@@ -84,10 +101,6 @@ server.listen(8080);
 `Express` 提供了内置的中间件 `express.static` 来设置静态文件如：图片， `CSS, JavaScript` 等，你可以使用 `express.static` 中间件来设置静态文件路径。
 
 `app.use(express.static('public'));`
-
-### 中间件
-
-路由`get、post`这些东西，就是中间件，中间件讲究顺序，匹配上第一个之后，就不会往后匹配了。`next`函数才能够继续往后匹配。如果我的的`get、post`回调函数中，没有`next`参数，那么就匹配上第一个路由，就不会往下匹配了。如果想往下匹配的话，那么需要写`next()`.`app.use()`也是一个中间件。与`get、post`不同的是，他的网址不是精确匹配的。而是能够有小文件夹拓展的。
 
 ## Koa
 
