@@ -751,18 +751,66 @@ promise
 });
 ```
 
-### Iterator
+### Iterator（遍历器）
 
-一种接口,为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署 Iterator 接口,就可以完成遍历操作(即依次处理该数据结构的所有成员)。
+为了处理类似集合（数组，对象，Set，Map）这类的数据结构的接口机制。部署了这个接口的数据结构，其成员就可以被遍历。
 
-遍历过程:
+过程：
 
-1. 创建一个指针对象,指向当前数据结构的起始位置。也就是说,遍历器对象本质上,就是一个指针对象。
-2. 第一次调用指针对象的 next 方法,可以将指针指向数据结构的第一个成员。
-3. 第二次调用指针对象的 next 方法,指针就指向数据结构的第二个成员。
-4. 不断调用指针对象的 next 方法,直到它指向数据结构的结束位置。
+1. 创建一个指针对象,指向当前数据结构的起始位置。也就是说,遍历器对象本质上,就是一个指针对象
+2. 第一次调用指针对象的 next 方法,可以将指针指向数据结构的第一个成员
+3. 第二次调用指针对象的 next 方法,指针就指向数据结构的第二个成员
+4. 不断调用指针对象的 next 方法,直到它指向数据结构的结束位置
 
-每一次调用 next 方法,都会返回数据结构的当前成员的信息,即,就是返回一个包含 value 和 done 两个属性的对象。其中, value 属性是当前成员的值, done 属性是一个布尔值,表示遍历是否结束。
+每次调用`next()`都会返回一个`{value: "", done: true|false}`,value字段返回当前成员的值，而`done`表示遍历是否结束。
+
+默认的 `Iterator `接口部署在数据结构的` Symbol.iterator `属性
+
+```javascript
+let arr = ['a', 'b', 'c'];
+// 为数组部署这个属性
+let iter = arr[Symbol.iterator]();
+```
+
+使用场合：
+
++ 解构赋值：对数组和 Set 结构进行解构赋值时,会默认调用 Symbol.iterator 方法
+
+  ```javascript
+  let set = new Set().add('a').add('b').add('c');
+  let [x,y] = set;
+  // x='a'; y='b'
+  let [first, ...rest] = set;
+  // first='a'; rest=['b','c'];
+  ```
+
++ 扩展运算符：扩展运算符(...)也会调用默认的 Iterator 接口
+
+  ```javascript
+  // 例一
+  var str = 'hello';
+  [...str] // ['h','e','l','l','o']
+  // 例二
+  let arr = ['b', 'c'];
+  ['a', ...arr, 'd']
+  // ['a', 'b', 'c', 'd']
+  ```
+
+遍历对象：
+
+```javascript
+let es6 = {
+    edition: 6,
+    committee: "TC39",
+    standard: "ECMA-262"
+};
+// 因为forEach函数无法和break,continue或者return 结合
+for (var key of Object.keys(someObject)) {
+	console.log(key + ': ' + someObject[key]);
+}
+```
+
+
 
 ### Generator
 
@@ -782,7 +830,7 @@ genObj.next();
 genObj.next();
 ```
 
-`show()`函数会返回一个一个`Iterator`实例,
+`show()`函数会返回一个一个`Iterator`实例,当调用Generantor函数的时候，函数不会执行。
 
 `Generator`函数通过`yield`将代码块分割成无数个小的函数，每次调用next()，则执行一个小函数。Generator函数返回的`Iterator`运行的过程中，如果碰到了`yield`， 就会把`yield`后面的值返回， 此时函数相当于停止了， 下次再执行`next()`方法的时候， 函数又会从上次退出去的地方重新开始执行.注意:如果把**yield**和**return**一起使用的话， 那么return的值也会作为最后的返回值， 如果return语句后面还有yield， 那么这些yield不生效.
 
@@ -840,6 +888,34 @@ genObj.next();
   这样就比较好理解了，假设一个饭馆里面，炒菜是一个宏观的过程，通过两个`yield`（在厨房架立两个挡板，分成3个工作区）分成3个小步骤——洗菜，切菜，炒菜（每个工作区由不同的人做不一样的事情），每一个小步骤都可以产生一个成果（也就是所谓的中间生成参数），通过yield进行传递，最后的成果（熟的菜）需要通过`return`来获取，而第一步的参数，就是炒菜的形参。
 
   yield*这种语句让我们可以在Generator函数里面再套一个Generator， 当然你要在一个Generator里面调用另外的Generator需要使用: **yield\* 函数()** 这种语法.
+
++ 解决异步编程
+
+  ```javascript
+  function* gen(x) {
+  	var y = yield x + 2;
+  	return y;
+  }
+  var g = gen(1);
+  g.next() // { value: 3, done: false }
+  g.next() // { value: undefined, done: true }
+  ```
+
+  调用 Generator 函数,会返回一个内部指针(即遍历器) g 。这是 Generator 函数不同于普通函数的另一个地方,即执行它不会返回结果,返回的是指针对象。调用指针 g 的 next 方法,会移动内部指针(即执行异步任务的第一段),指向第一个遇到的 yield 语句,上例是执行到 x + 2 为止。next 方法的作用是分阶段执行 Generator 函数。每次调用 next 方法,会返回一个对象,表示当前阶段的信息( value 属性和 done 属性)。value 属性是 yield 语句后面表达式的值,表示当前阶段的值; done 属性是一个布尔值,表示 Generator 函数是否执行完毕,即是否还有下一个阶段。
+
+  案例：
+
+  ```javascript
+  var fetch = require('node-fetch');
+  
+  function* gen(){
+  	var url = 'https://api.github.com/users/github';
+  	var result = yield fetch(url);
+  	console.log(result.bio);
+  }
+  ```
+
+  
 
 ### `async`&`await`
 
