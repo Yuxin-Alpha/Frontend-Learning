@@ -165,6 +165,11 @@ person.name = 'lisi';
 
 对象属性的访问器属性：我们在使用或者修改每个对象的属性时，其实都是通过其内置的getter方法与setter方法实现的，`[[Get]]`用于读取，`[[Set]]`用于设置。
 
+我们在使用对象中的属性时，应该使用中括号，也就是`obj["value"]`，不要使用`obj.value`:
+
++ 点语法后面不能跟关键字或者保留字
++ 点语法后面不能跟数字
+
 ### new 操作符
 
 在了解对象如何创建之前，我们先了解一下`new`操作符。
@@ -276,6 +281,7 @@ function Person(name, age, job) {
     this.job = job;
 }
 Person.prototype = {
+    // 不要忘记
     constructor: Person,
     sayName: funtion() {
       //do someThing
@@ -285,7 +291,7 @@ Person.prototype = {
 
 ### 对象继承
 
-在理解`JavaScript`之前，我们需要明白一点，所有函数的默认原型都指向`Object.prototype`，即他们都是Object对象的实例，即某函数的原型中有个`__proto__`属性指向`Object`。我们在自定义对象的时候，之所以能够调用`hasOwnProperty`或者`toString`这样的方法，是因为这些方法都是`Object.prototype`上的方法，而我们自定义的函数，其对象又默认是`Object.prototype`的实例，所以我们自定义的函数可以通过原型链找到顶端的`Object`，调用其原型上的内置方法。
+所有函数的默认原型都指向`Object.prototype`，即他们都是Object对象的实例，即某函数的原型中有个`__proto__`属性指向`Object`。我们在自定义对象的时候，之所以能够调用`hasOwnProperty`或者`toString`这样的方法，是因为这些方法都是`Object.prototype`上的方法，而我们自定义的函数，其对象又默认是`Object.prototype`的实例，所以我们自定义的函数可以通过原型链找到顶端的`Object`，调用其原型上的内置方法。
 
 - 原型链模式实现继承：
 
