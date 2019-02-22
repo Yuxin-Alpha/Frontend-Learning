@@ -337,11 +337,32 @@ var sayName = function() {
 在ES6之前，函数内部的this是由该函数的调用方式决定的。
 
 1. 函数调用方式，`this`指向`window`
+
 2. 方法调用方式，`this`指向调用该方法的对象
+
 3. new关键字调用构造函数，函数内部的this会指向构造函数的实例
+
 4. 上下文调用：
+
    + `bind(obj)`:函数在bind之后并不会立即执行，返回一个this指向被修改为obj的函数。再次调用新返回的函数，this的指向就已经修改了。
+
+     ```javascript
+     // 手写一个bind函数
+     // bind方法应该被所有函数使用，所以应该放到函数的原型上
+     // 所有函数对象的构造函数都是Function
+     // 表示新函数的内部的this值
+     Function.prototype._bind = function(target) {
+         var _that = this
+         return function() => {
+             _that.call(target);
+         }
+     }
+     ```
+
+     
+
    + `call(obj, [arr])`修改调用函数的`this`指向，指向参数`obj`,如果obj是基本类型,this就是对应的内置对象，如果obj 是`undefinded`或者`null` ，`this`指向`window`
+
    + `apply(obj, argu1, argu2)`:原理与call相同，只是参数形式不一样。
 
 我们所说的this，无非就是要调用变量，不同的变量是由不同的运行环境提供的，而不同的运行环境又由不同的运行函数提供，所以，this的出现，其实是为了获得当前的运行环境。
@@ -360,17 +381,58 @@ var sayName = function() {
 
 `let&const`弥补上面的缺陷
 
+### 判断数据类型
+
+`Object.prototype.toString.call()`:
+
+1. 5 =>` '[ object Number ]'`
+
+2. "abc" =>` '[ object String ]'`
+
+3. true =>` '[ object Boolean ]'`
+
+4. null =>` '[ object Null ]'`
+
+5. undefined =>` '[ object Undefined ]'`
+
+6. [1, 3, 5] =>` '[ object Array ]'`
+
+7. function() {} =>` '[ object Function ]'`
+
+8. new Date =>` '[ object Date ]'`
+
+9. /abc/ =>` '[ object RegExp ]'`
+
+   
+
 ### 解构赋值
 
 > 左右两边必须一样，定义和赋值必须同步完成，右边必须是个“东西”
 >
 > ` let {a, b} = {15, 12}` {15, 12}不是所谓的“东西”
 
+```javascript
+let obj = {
+    name: "zhangsan",
+    age: 18
+}
+let {name: objName, age:objAge} = obj
+// objName = "zhangsan"
+// objAge = 18
+```
+
 ### 函数
 
-箭头函数：对原来函数的一种简写
+箭头函数：对匿名函数的一种简写
 
 > 箭头函数不能带名字，如果有且仅有一个参数，() 可以省；如果函数体有且只有一个return 语句，{}可以省
+
+箭头函数有４个主要点：
+
+1. 函数体中的this在定义时绑定，而不是调用时
+2. 不可以当做构造函数
+3. 不可以使用`arguments`对象，可以使用rest参数代替
+4. 不可以使用yield命令
 
 默认参数：
 
@@ -392,7 +454,7 @@ function show(a, ...args) {
 
 > 剩余参数必须是最后一个形参
 
-#### 数组/json
+### 数组/json
 
 - map(映射)：一对一，进去是几个，出来还是几个
 
@@ -491,7 +553,7 @@ from()
   + `JSON.stringify(json)`将JSON对象转化成字符串
   + `JSON.parse(json)`将字符串变为对象
 
-#### 字符串
+### 字符串
 
 1. `starsWith('a')`是否以a开头
 2. `endsWith('a')`是否以a结尾
@@ -502,7 +564,30 @@ let str = 'world';
 console.log(`hello${str}`) // hello world
 ```
 
-#### 对象
+### 对象
+
+对象拷贝：
+
+```javascript
+// 使用Object.assign()进行对象的浅拷贝
+let person = {
+    name: "zhangsan",
+    age: 26,
+    gender: "男"
+}
+
+let newPerson = Object.assign({}, person)
+// 注意，这里的newPerson　和　person指向的是不同的内存区域
+
+
+// 还可以使用对象扩展运算符
+let newPersonOne = {...person, name: "lisi"}
+console.log(newPersonOne) // {name: "lisi", age:26, gender: "男"}
+```
+
+
+
+
 
 有了专门的构造器，与类分开了
 
@@ -638,48 +723,7 @@ while (true) {
 
 #### 回调函数
 
-所谓"回调函数"`（callback）`，就是那些会被主线程挂起来的代码。"任务队列"中的事件，除了IO设备的事件以外，还包括一些用户产生的事件（比如鼠标点击、页面滚动等等。当主线程开始执行异步任务，就是执行对应的回调函数（异步任务必须指定回调函数）。需要注意一个好玩的东西：
-
-```javascript
-console.log(1);
-setTimeout(() => {
-  console.log(2);
-},1000);
-setTimeout(() => {
-  console.log(3);
-},500);
-setTimeout(() => {
-  console.log(1);
-},200);
-console.log(3);
-//输出是1 3 1 3 2
-```
-
-`setTimeout()`函数是指经过指定的时间后，将内部回调函数进队（即满足了事件触发条件），如果此时主线程还没有执行完，它是不会先执行的。
-
-以下一个简单的回调函数，判断传入数字的奇偶，node约定将错误信息作为回调的第一个参数:
-
-```javascript
-function isEvenOrOdd(number, callback){
-    if(typeof number === 'number'){
-        if(number % 2){
-            callback(null, '当前传入的是奇数')
-        } else {
-          	callback(null, '当前传入的是偶数')  
-        }
-    } else {
-        callback(new Error('你传入的不是数字'))
-    }
-}
-isEvenOrOdd(10, (err, data) => {
-	if (err) throw err;
-    console.log(data);
-})
-```
-
-node会将一个任务和一个回调函数一起传给操作系统，任务完成后会触发回调函数（非阻塞机制）。
-
-node进程启动过后会默认创建一个线程，线程（主线程）用于执行代码。
+所谓"回调函数"`（callback）`，就是那些会被主线程挂起来的代码。"任务队列"中的事件，除了IO设备的事件以外，还包括一些用户产生的事件（比如鼠标点击、页面滚动等等。当主线程开始执行异步任务，就是执行对应的回调函数（异步任务必须指定回调函数）。
 
 #### 宏任务，微任务
 
@@ -693,7 +737,7 @@ node进程启动过后会默认创建一个线程，线程（主线程）用于�
 
 ### Promise
 
-用同步方式来书写异步代码。Promise本身是一个容器,里面保存这未来才会结束的事件的<b>结果</b>. 各种异步操作都可以使用相同的方法.
+Promise本身是一个容器, 我们将异步操作封装到一个promise实例中，异步操作执行完之后会返回一个结果，表示操作是否成功，成功与失败对应着两种不同的解决方法。
 
 该对象的状态不受外界影响.一共有pending,fulfilled与rejected3种状态,表示进行中,已成功,已失败.一旦状态发生变化了,就不会再变了.说白了，Promise的构造函数中传入一个异步事件，该事件有两个参数，是对该异步事件未来执行结果的两个处理函数，也就是发生两种结果的不同回调。
 
@@ -701,7 +745,8 @@ node进程启动过后会默认创建一个线程，线程（主线程）用于�
 const promise = new Promise(function(resolve, reject) {
 	// ... some code
 	if (/* 异步操作成功 */){
-        // resolve将状态变成resolved,并将异步操作的结果作为			// 参数返回
+        // resolve将状态变成resolved,并将异步操作的结果作为参数返回
+        
 		resolve(value);
 	} else {
 		reject(error);
@@ -725,8 +770,10 @@ const getJSON = function(url) {
 				return;
 			}
 			if (this.status === 200) {
+                // 要在成功的时候调用resolve函数来告知外界promise的状态变成功了，这样promise的then方法才能继续执行
 				resolve(this.response);
 			} else {
+                // 同理，如果发生了错误，也要告知外界promise的状态变成了失败状态
 				reject(new Error(this.statusText));
 			}
 		};
@@ -746,6 +793,8 @@ const getJSON = function(url) {
 `then` 方法是定义在原型对象 Promise.prototype 上的,为 Promise 实例添加状态改变时的回调函数,then 方法的第一个参数是 resolved 状态的回调函数,第二个参数(可选)是 rejected 状态的回调函数
 
 #### catch方法
+
+catch方法不仅可以捕捉到异步操作的错误，还可以捕捉到异步操作成功后，处理then方法中存在的错误
 
 ```javascript
 getJSON('/posts.json').then(function(posts) {
