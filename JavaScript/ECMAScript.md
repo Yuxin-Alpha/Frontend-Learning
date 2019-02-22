@@ -621,38 +621,7 @@ class VipUser extends User{
 }
 ```
 
-1. `Object.assign`合并对象（浅拷贝）
-
-   ```javascript
-   const target = { a: 1 };
-   const source1 = { b: 2 };
-   const source2 = { c: 3 };
-   // 第一个参数是目标对象， 如果出现同名属性，后者会覆盖前者
-   Object.assign(target, source1, source2);
-   target // {a:1, b:2, c:3}
-   ```
-
-   用途:
-
-   ```javascript
-   Object.assign(SomeClass.prototype, {
-   	someMethod(arg1, arg2) {
-   		···
-   },
-   anotherMethod() {
-   		···
-   	}
-   });
-   // 等同于下面的写法
-   SomeClass.prototype.someMethod = function (arg1, arg2) {
-   	···
-   };
-   SomeClass.prototype.anotherMethod = function () {
-   	···
-   };
-   ```
-
-2. 属性名表达式：
+1. 属性名表达式：
 
    ```javascript
    // 第一种
