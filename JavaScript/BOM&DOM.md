@@ -15,13 +15,21 @@ var returnNodeA = somNodeA.insertBefore(newNode, someNodeA.firstChild)
 
 DOM节点类型：
 
-| Node     | Desc         | NodeType |
-| -------- | ------------ | -------- |
-| Element  | 元素         | 1        |
-| Text     | 纯文本内容   | 3        |
-| Document | 整个文档对象 | 9        |
+| Node             | Desc         | NodeType |
+| ---------------- | ------------ | -------- |
+| Element          | 元素         | 1        |
+| Attr             | 元素属性     | 2        |
+| Text             | 纯文本内容   | 3        |
+| CDATASection     | XML文档      | 4        |
+| Comment          | 注释         | 8        |
+| Document         | 整个文档对象 | 9        |
+| DocumentType     |              | 10       |
+| DocumentFragment |              | 11       |
 
+> NodeList是动态的，只要文档结构发生了改变，他们都会得到更新。也正因为如此，操作DOM的代价很高，对性能的影响很大，因为，每次访问NodeList都会运行一次查询
 
++ `querySelector()`接受一个CSS选择符，返回匹配到的第一个元素，如果没有就返回`null`。
++ `querySelectorAll()`的参数与上面的函数一样，但是返回值是一个NodeList。如果找不到，NodeList就是空的。
 
 ## BOM
 
