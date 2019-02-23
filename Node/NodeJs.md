@@ -26,9 +26,7 @@ const demo = require('./demo.js')
 let a = demo.str1;
 ```
 
-
-
-#### NPM 
+## NPM 
 
 - package.json
   - **name** - 包的名称
@@ -42,138 +40,138 @@ let a = demo.str1;
   - **main** - 包的入口点
   - **keywords** - 关键字
 
-#### 常用模块
+## path
 
-- **path模块**:用于处理文件与目录的路径
+用于处理文件与目录的路径
 
-  ```javascript
-  const { normalize, join, resolve, parse, format } = require('path');
-  // 1. path.normalize(path):会规范化给定的 path，并解析 '..' 和 '.' 片段
-  console.log(normalize.('/usr///local/bin'));   //  /usr/local/bin
-  console.log(normalize.('/usr//local/../bin'));  //  /usr/bin
-  
-  // 2. path.join([...paths]):使用平台特定的分隔符把全部给定的 path 片段连接到一起，并规范化生成的路径,也能解析 '..' 和 '.' 
-  console.log(join.('/usr', 'local', 'bin/'));   //  /usr/local/bin
-  console.log(join.('/usr', '../local', 'bin/'));  //  /usr/bin
-  
-  // 3. path.resolve([...paths]):会把一个路径或路径片段的序列解析为一个绝对路径
-  console.log(resolve.('./'));   //  /Users/clement/Desktop 返回当前路径的绝对路径
-  
-  // 4. path.parse(path):返回一个对象，对象的属性表示 path 的元素
-  //path.format() 会从一个对象返回一个路径字符串。 与 path.parse()方法相反
-  const filePath = '/usr/local/bin/test.html';
-  const ret = parse(filePath);
-  console.log(ret);
-  /*
-  { root: '/',
-     dir: '/usr/local/bin',
-     base: 'test.html',
-    ext: '.html',
-    name: 'test' }
-  */
-  console.log(format(ret));  // /usr/local/bin/test.html
-  ```
+```javascript
+const { normalize, join, resolve, parse, format } = require('path');
+// 1. path.normalize(path):会规范化给定的 path，并解析 '..' 和 '.' 片段
+console.log(normalize.('/usr///local/bin'));   //  /usr/local/bin
+console.log(normalize.('/usr//local/../bin'));  //  /usr/bin
 
-  `__dirname`、`__filename`总是返回文件的绝对路径
-  `process.cwd()`总是返回执行node命令所在的文件夹
+// 2. path.join([...paths]):使用平台特定的分隔符把全部给定的 path 片段连接到一起，并规范化生成的路径,也能解析 '..' 和 '.' 
+console.log(join.('/usr', 'local', 'bin/'));   //  /usr/local/bin
+console.log(join.('/usr', '../local', 'bin/'));  //  /usr/bin
 
-- **buffer模块**
+// 3. path.resolve([...paths]):会把一个路径或路径片段的序列解析为一个绝对路径
+console.log(resolve.('./'));   //  /Users/clement/Desktop 返回当前路径的绝对路径
 
-  可以在 TCP 流或文件系统操作等场景中处理二进制数据流,
+// 4. path.parse(path):返回一个对象，对象的属性表示 path 的元素
+//path.format() 会从一个对象返回一个路径字符串。 与 path.parse()方法相反
+const filePath = '/usr/local/bin/test.html';
+const ret = parse(filePath);
+console.log(ret);
+/*
+{ root: '/',
+   dir: '/usr/local/bin',
+   base: 'test.html',
+  ext: '.html',
+  name: 'test' }
+*/
+console.log(format(ret));  // /usr/local/bin/test.html
+```
 
-  ```javascript
-  // 1. Buffer.byteLength():返回一个字符串的实际字节长度。
-  console.log(Buffer.byteLength('test'));   // 4
-  console.log(Buffer.byteLength('中国'));  // 6
-  
-  // 2. Buffer.from(array):通过一个八位字节的 array 创建一个新的 Buffer ，如果 array 不是一个数组，则抛出 TypeError 错误。
-  console.log(Buffer.from([1, 2, 3]));  // <Buffer 01 02 03>
-  
-  // 3. Buffer.isBuffer(obj):如果 obj 是一个 Buffer 则返回 true ，否则返回 false
-  console.log(Buffer.isBuffer({ 'a': 1 }));  // false
-  console.log(Buffer.isBuffer(Buffer.from([1, 2, 3])));  // true
-  ```
+`__dirname`、`__filename`总是返回文件的绝对路径
+`process.cwd()`总是返回执行node命令所在的文件夹
 
-  常用属性:
+## buffer
 
-  `buf.length` 长度
-  `buf.toString()` 转为字符串
-  `buf.fill()` 填充
-  `buf.equals()` 判断是否相等
-  `buf.indexOf()` 是否包含，如果包含返回位置值，不包含返回-1
+可以在 TCP 流或文件系统操作等场景中处理二进制数据流,
 
-- **events模块**
+```javascript
+// 1. Buffer.byteLength():返回一个字符串的实际字节长度。
+console.log(Buffer.byteLength('test'));   // 4
+console.log(Buffer.byteLength('中国'));  // 6
 
-  所有能触发事件的对象都是 `EventEmitter `类的实例。 这些对象开放了一个 `eventEmitter.on()` 函数，允许将一个或多个函数绑定到会被对象触发的命名事件上。 事件名称通常是驼峰式的字符串，但也可以使用任何有效的 JavaScript 属性名。`eventEmitter.on() `方法用于注册监听器，`eventEmitter.emit() `方法用于触发事件。
+// 2. Buffer.from(array):通过一个八位字节的 array 创建一个新的 Buffer ，如果 array 不是一个数组，则抛出 TypeError 错误。
+console.log(Buffer.from([1, 2, 3]));  // <Buffer 01 02 03>
 
-  ```javascript
-  const EventEmitter = require('events');
-  
-  class CustomEvent extends EventEmitter {}
-  const myEmitter = new CustomEvent();
-  
-  myEmitter.on('error', err => {
-      console.log(err);
-  })
-  // 当有一个错误的时候，会显示Error: This is an error!，然后显示具体错误内容。
-  myEmitter.emit('error', new Error('This is an error!'));
-  ```
+// 3. Buffer.isBuffer(obj):如果 obj 是一个 Buffer 则返回 true ，否则返回 false
+console.log(Buffer.isBuffer({ 'a': 1 }));  // false
+console.log(Buffer.isBuffer(Buffer.from([1, 2, 3])));  // true
+```
 
-- **http模块**
+常用属性:
+
+`buf.length` 长度
+`buf.toString()` 转为字符串
+`buf.fill()` 填充
+`buf.equals()` 判断是否相等
+`buf.indexOf()` 是否包含，如果包含返回位置值，不包含返回-1
+
+## events
+
+所有能触发事件的对象都是 `EventEmitter `类的实例。 这些对象开放了一个 `eventEmitter.on()` 函数，允许将一个或多个函数绑定到会被对象触发的命名事件上。 事件名称通常是驼峰式的字符串，但也可以使用任何有效的 JavaScript 属性名。`eventEmitter.on() `方法用于注册监听器，`eventEmitter.emit() `方法用于触发事件。
+
+```javascript
+const EventEmitter = require('events');
+
+class CustomEvent extends EventEmitter {}
+const myEmitter = new CustomEvent();
+
+myEmitter.on('error', err => {
+    console.log(err);
+})
+// 当有一个错误的时候，会显示Error: This is an error!，然后显示具体错误内容。
+myEmitter.emit('error', new Error('This is an error!'));
+```
+
+## http
+
+```javascript
+const http = require('http');
+// 生成服务器，req -> 请求 res -> 响应
+let server = http.createServer((req, res) => {
+    // 向前台返回‘666’
+    res.write('666');
+    // 告诉前台，没有东西了，可以滚了
+    res.end()
+    
+});
+// 开启服务，在3000端口，并监听
+server.listen(3000);
+```
+
+## fs
+
+通过 `require('fs') `使用该模块。 所有的方法都有异步和同步的形式。异步方法的最后一个参数都是一个回调函数。 传给回调函数的参数取决于具体方法，但回调函数的第一个参数都会保留给异常。
+
+```javascript
+const fs = require('fs');
+// 读取hello.txt文件中存储的信息，并使用data(参数对象)保存
+fs.readFile('hello.txt', (err, data) => {
+    if (err) throw err;
+    // data此时是二进制数据
+    console.log(data);
+    // 此时data转化为文本信息
+    console.log(data.toString());
+});
+// 在world.txt中写入字符串'666'，如果写入的目标文件不存在，自动在当前目录创建该目标文件
+fs.writeFile('world.txt', '666', (err) => {
+    if (err) err;
+});
+```
+
+- **fs模块与http模块简单结合**
 
   ```javascript
   const http = require('http');
-  // 生成服务器，req -> 请求 res -> 响应
+  const fs = require('fs');
   let server = http.createServer((req, res) => {
-      // 向前台返回‘666’
-      res.write('666');
-      // 告诉前台，没有东西了，可以滚了
-      res.end()
-      
+      /* req.url -> '/index.html'
+       * 如果index.html文件在某个别的目录下，比如'/www'
+       * 那么我们所要读取的应该是'./www/index.html'
+       */
+      let file_name = './www' + req.url;
+      fs.readFile(file_name, (err, data) => {
+      	if (err) throw err;
+      	res.write(data);
+      	res.end()
+  	});
   });
-  // 开启服务，在3000端口，并监听
   server.listen(3000);
   ```
-
-- **fs模块**
-
-  通过 `require('fs') `使用该模块。 所有的方法都有异步和同步的形式。异步方法的最后一个参数都是一个回调函数。 传给回调函数的参数取决于具体方法，但回调函数的第一个参数都会保留给异常。
-
-  ```javascript
-  const fs = require('fs');
-  // 读取hello.txt文件中存储的信息，并使用data(参数对象)保存
-  fs.readFile('hello.txt', (err, data) => {
-      if (err) throw err;
-      // data此时是二进制数据
-      console.log(data);
-      // 此时data转化为文本信息
-      console.log(data.toString());
-  });
-  // 在world.txt中写入字符串'666'，如果写入的目标文件不存在，自动在当前目录创建该目标文件
-  fs.writeFile('world.txt', '666', (err) => {
-      if (err) err;
-  });
-  ```
-
-  - **fs模块与http模块简单结合**
-
-    ```javascript
-    const http = require('http');
-    const fs = require('fs');
-    let server = http.createServer((req, res) => {
-        /* req.url -> '/index.html'
-         * 如果index.html文件在某个别的目录下，比如'/www'
-         * 那么我们所要读取的应该是'./www/index.html'
-         */
-        let file_name = './www' + req.url;
-        fs.readFile(file_name, (err, data) => {
-        	if (err) throw err;
-        	res.write(data);
-        	res.end()
-    	});
-    });
-    server.listen(3000);
-    ```
 
 - **数据请求**
 
