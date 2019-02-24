@@ -77,7 +77,7 @@ console.log(format(ret));  // /usr/local/bin/test.html
 
 ## buffer
 
-可以在 TCP 流或文件系统操作等场景中处理二进制数据流,
+可以在 `TCP` 流或文件系统操作等场景中处理二进制数据流,
 
 ```javascript
 // 1. Buffer.byteLength():返回一个字符串的实际字节长度。
