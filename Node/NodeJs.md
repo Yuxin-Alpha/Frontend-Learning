@@ -177,9 +177,9 @@ fs.writeFile('world.txt', '666', (err) => {
 
   对于后台来说，前端发送的请求不论是form表单还是ajax亦或者jsonp，处理方式都是一样，只跟请求方式有关。
 
-  Get：数据在url地址之中；
+  `Get`：数据在url地址之中；
 
-  Post：数据不在url地址之中，而是在请求体中。
+  `Post`：数据不在url地址之中，而是在请求体中。
 
   对于url的解析(`get`方法)：
 
