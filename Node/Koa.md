@@ -200,7 +200,7 @@ app.use(require('koa-static')(root, opts));
    }
    ```
 
-3. 在`app.js`中引入相应的包，为了使koa提供的http服务可以使用数据库服务，我们需要将http服务连接到数据库服务上
+3. 在`app.js`中引入相应的包，为了使`koa`提供的`http`服务可以使用数据库服务，我们需要将http服务连接到数据库服务上
 
    ```javascript
    // app.js文件中
