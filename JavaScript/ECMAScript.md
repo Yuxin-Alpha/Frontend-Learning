@@ -359,8 +359,6 @@ var sayName = function() {
      }
      ```
 
-     
-
    + `call(obj, [arr])`修改调用函数的`this`指向，指向参数`obj`,如果obj是基本类型,this就是对应的内置对象，如果obj 是`undefinded`或者`null` ，`this`指向`window`
 
    + `apply(obj, argu1, argu2)`:原理与call相同，只是参数形式不一样。
@@ -849,7 +847,7 @@ for (var key of Object.keys(someObject)) {
 
 ### Generator
 
-生成器函数：中间能暂停(踹一脚走一步)，通常用于数据请求的时候，等待数据返回。Generator函数和普通的函数区别有两个， 1：`function`和函数名之间有一个\*号， 2：函数体内部使用了`yield`表达式；写法：
+生成器函数：中间能暂停(踹一脚走一步)，通常用于数据请求的时候，等待数据返回。`Generator`函数和普通的函数区别有两个， 1：`function`和函数名之间有一个\*号， 2：函数体内部使用了`yield`表达式；写法：
 
 ```javascript
 function *show() {
@@ -950,7 +948,6 @@ genObj.next();
   }
   ```
 
-  
 
 ### `async`&`await`
 
@@ -1053,7 +1050,7 @@ export function multiply(x, y) {
 };
 ```
 
-`import`的使用:由于 import 是静态执行,所以不能使用表达式和变量,这些只有在运行时才能得到结果的语法结构.
+`import`的使用:由于` import` 是静态执行,所以不能使用表达式和变量,这些只有在运行时才能得到结果的语法结构.
 
 ```javascript
 // main.js
