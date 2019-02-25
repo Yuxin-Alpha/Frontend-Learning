@@ -1,5 +1,3 @@
-# Server 框架
-
 ## Express
 
 下载:`npm install express --save`
@@ -66,15 +64,30 @@ app.use("/用户选择性URL", (req, res, next) => {
 })
 ```
 
-
-
 Express使用中间件Web请求一个一个处理，并通过其中一个中间件返回
-
-
 
 ### 路由
 
-下面是一个简单的路由页面代码。
+路往哪里走？监视`#/xxx`如果是没有刷新，局部内容改变此时是前端路由，如果点击a标签会刷新页面，响应一个新的页面回来，则是后端路由。既然我们是做服务器，我们来研究的就是后端路由。
+
+#### res扩展函数
+
+1. `res.download('./xxx.txt')`下载文件
+2. `res.json({})`响应json对象
+3. `res.send()`发送字符串数据，自动家文本类型
+4. `res.sendStatus()`响应状态码
+
+#### 处理post请求
+
+```javascript
+const bodyParser = require('body-parser')
+// 解析键值对application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+// 解析application/json
+app.use(bodyParser.json())
+```
+
+
 
 ```javascript
 const express = require("express")
