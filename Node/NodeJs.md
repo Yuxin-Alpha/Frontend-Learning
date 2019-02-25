@@ -119,6 +119,13 @@ myEmitter.emit('error', new Error('This is an error!'));
 
 ## http
 
+抽象四个对象：
+
+1. 服务器对象
+2. 客户端对象
+3. 请求对象—只读对象
+4. 响应对象—只写对象
+
 ```javascript
 const http = require('http');
 // 生成服务器，req -> 请求 res -> 响应

@@ -57,6 +57,17 @@ var reg = new RegExp(pattern,flags);
 
 ### 中间件
 
+app.use()是请求与响应中执行的一件事，按代码顺序来执行.
+
+```javascript
+app.use("/用户选择性URL", (req, res, next) => {
+    // ...some code 
+    next() // 这个函数是放行开关，表示继续执行下一件事
+})
+```
+
+
+
 Express使用中间件Web请求一个一个处理，并通过其中一个中间件返回
 
 
