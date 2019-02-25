@@ -87,8 +87,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 ```
 
-
-
 ```javascript
 const express = require("express")
 // 调用其中的Router函数，这个函数返回一个路由对象
