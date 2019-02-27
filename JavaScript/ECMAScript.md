@@ -1026,6 +1026,10 @@ let readfile = _fs.readfile;
 
 缺点: “运行时加载”,因为只有运行时才能得到这个对象,导致完全没办法在编译时做“静态优化”。
 
+`import`与`require`的不同：
+
+import属于加载前置的机制，因此要将其全放在代码顶部，代码解析逐个import获取一个引入的列表，先引入依赖，再向下执行代码，而require是属于加载滞后，代码执行到哪一行才进行加载
+
 ES6加载:
 
 `import { stat, exists, readFile } from 'fs';`
