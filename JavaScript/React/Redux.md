@@ -77,7 +77,7 @@ export default (state = defaultState, action) => {
 }
 ```
 
-接下来非常重要，因为这个时候store中的数据已经修改了，但是组件本身并不知道，所以我们需要在组件的constructor中订阅store的变化。
+接下来非常重要，因为这个时候store中的数据已经修改了，但是组件本身并不知道，所以我们需要在组件的`constructor`中订阅`store`的变化。
 
 ```javascript
 store.subscribe(this.handleStoreChange);
