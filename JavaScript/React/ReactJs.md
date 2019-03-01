@@ -170,7 +170,7 @@ class TodoList extends Component{
     // 因为TodoList是一个类,那么它一定有constructor这个构造函数,我们在使用TodoList的时候,这个函数会被最先执行
     constructor(props) {
         super(props);
-        // state用来存储数据
+        // state用来存储数据，表示组件的状态
         this.state = {
             inputValue: '',
             list: []
@@ -182,7 +182,7 @@ class TodoList extends Component{
             <Fragment>
                 <div>
                     <input
-                        {/*数据绑定 注意{}来包裹React表达式*/}
+                        {/*数据绑定 注意{}来包裹JSX表达式*/}
                         value={this.state.inputValue}
                         {/*在绑定事件时一定要通过bind函数来修改this指向*/}
                         onChange={this.handleInputChange.bind(this)}
@@ -311,6 +311,7 @@ class TodoItem extends Component {
   2. `propTypes`指定每个从父组件获得的属性或者函数的类型
 
      ```react
+     //　对父组件的属性进行强校验
      TodoItem.propTypes = {
          // isRequired表示该属性或者方法必须传入
          test: PropTypes.string.isRequired,
