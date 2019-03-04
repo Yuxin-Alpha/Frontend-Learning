@@ -90,3 +90,20 @@ handleStoreChange() {
 > 3. Reducer必须是纯函数，即给定输入一定会有输出,而且这个输出是固定的,而且这个函数不能有任何的副作用。
 
 ## Redux-thunk
+
+将异步请求从组件中抽离，放到actions中。
+
+```javascript
+// index.js文件
+import { createStore, applyMiddleware } from 'redux'
+import reducer from 'redux-thunk'
+import reducer from './reducer'
+
+const store = createStore(
+    reducer,
+    // 使用这个函数调用中间件
+    applyMiddleware(thunk)
+);
+export default store;
+```
+
