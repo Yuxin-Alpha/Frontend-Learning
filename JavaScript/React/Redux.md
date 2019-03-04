@@ -49,8 +49,6 @@ class Todolist extends Component {
 }
 ```
 
-> 注意:`reducer`必须是一个纯函数,即给定输入一定会有输出,而且这个输出是固定的,而且这个函数不能有任何的副作用.
-
 改变store中的数据：
 
 ```javascript
@@ -87,6 +85,8 @@ handleStoreChange() {
 }
 ```
 
-
+> 1. store必须是唯一的
+> 2. 只有store可以改变改变自己的内容
+> 3. Reducer必须是纯函数，即给定输入一定会有输出,而且这个输出是固定的,而且这个函数不能有任何的副作用。
 
 ## Redux-thunk
