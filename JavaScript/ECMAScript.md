@@ -1,6 +1,11 @@
 # ECMAScript笔记
 
-## 变量&运算符
+## 数据类型&运算符
+
+基本类型与引用类型：
+
+1. 值类型：string, Number, undefined, boolean, null
+2. 引用类型：Object(任意对象), Function(可以执行的对象), Array(拥有数值下标的属性)
 
 `||`与`&&`:
 
