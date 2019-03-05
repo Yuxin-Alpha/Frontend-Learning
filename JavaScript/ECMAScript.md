@@ -11,7 +11,7 @@
 
 判断数据类型：
 
-1. typeof：返回数据类型的字符串表达
+1. typeof：返回数据类型的字符串表达。`typeof`对变量执行操作的时候，得到的结果并不是该变量的类型，而是给变量持有值的类型，因为变量是没有类型的。　
 
    > 注意：typeof null　的值是'object' , typeof func 的值是'function'
 
