@@ -55,12 +55,12 @@ var reg = new RegExp(pattern,flags);
 
 ### 中间件
 
-app.use()是请求与响应中执行的一件事，按代码顺序来执行.
+app.use()是请求与响应中执行的一件事，按代码顺序来执行，use的第一个参数是虚拟目录。
 
 ```javascript
 app.use("/用户选择性URL", (req, res, next) => {
     // ...some code 
-    next() // 这个函数是放行开关，表示继续执行下一件事
+    next() // 这个函数是放行开关，表示继续执行下一件事，也就是下一个use()函数
 })
 ```
 
