@@ -98,7 +98,7 @@ server.use(router);
    + 设置默认引擎：`app.set('view engines', '.html')`
 3. 使用res.render(文件名, 数据对象)来对页面进行渲染
 
-> express这一套，默认在当前app.js同级的views目录进行查找
+> express这一套，默认在当前`app.js`同级的`views`目录进行查找
 
 #### 处理post请求
 
