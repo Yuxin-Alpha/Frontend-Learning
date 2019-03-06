@@ -181,6 +181,8 @@ function _new(func) {
 
 ### 对象创建
 
+任何函数都有`prototype`这个属性。
+
 对象的创建有两种方式：
 
 ```javascript
