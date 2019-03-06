@@ -64,7 +64,7 @@ app.use("/用户选择性URL", (req, res, next) => {
 })
 ```
 
-`Express`使用中间件Web请求一个一个处理，并通过其中一个中间件返回。
+`Express`使用中间件`Web`请求一个一个处理，并通过其中一个中间件返回。
 
 应用级中间件，路由级中间件，内置中间件，第三方中间件...
 
@@ -96,7 +96,7 @@ server.use(router);
 2. 配置：
    + 注册引擎：`app.engine('.html', express-art-template)`
    + 设置默认引擎：`app.set('view engines', '.html')`
-3. 使用res.render(文件名, 数据对象)来对页面进行渲染
+3. 使用`res.render`(文件名, 数据对象)来对页面进行渲染
 
 > express这一套，默认在当前`app.js`同级的`views`目录进行查找
 
