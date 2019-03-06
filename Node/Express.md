@@ -64,18 +64,41 @@ app.use("/用户选择性URL", (req, res, next) => {
 })
 ```
 
-`Express`使用中间件Web请求一个一个处理，并通过其中一个中间件返回
+`Express`使用中间件Web请求一个一个处理，并通过其中一个中间件返回。
 
-### 路由
+应用级中间件，路由级中间件，内置中间件，第三方中间件...
+
+### 路由中间件
 
 路往哪里走？监视`#/xxx`如果是没有刷新，局部内容改变此时是前端路由，如果点击a标签会刷新页面，响应一个新的页面回来，则是后端路由。既然我们是做服务器，我们来研究的就是后端路由。
+
+```javascript
+const express = require('express');
+let server = express();
+let router = express.Router();
+
+router.get('/login', (req, res) => {
+    res.end('login page');
+})
+server.use(router);
+```
 
 #### res扩展函数
 
 1. `res.download('./xxx.txt')`下载文件
-2. `res.json({})`响应json对象
+2. `res.json({})`响应json对象，由于end()只能响应字符串以及读文件的data(Buffer)
 3. `res.send()`发送字符串数据，自动家文本类型
 4. `res.sendStatus()`响应状态码
+
+#### 渲染模板(art-template)
+
+1. 下载`express-art-template`以及`art-template`
+2. 配置：
+   + 注册引擎：`app.engine('.html', express-art-template)`
+   + 设置默认引擎：`app.set('view engines', '.html')`
+3. 使用res.render(文件名, 数据对象)来对页面进行渲染
+
+> express这一套，默认在当前app.js同级的views目录进行查找
 
 #### 处理post请求
 
