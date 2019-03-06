@@ -181,7 +181,9 @@ function _new(func) {
 
 ### 对象创建
 
-任何函数都有`prototype`这个属性。
+任何函数都有`prototype`这个属性(显式原型)。
+
+任何实例都有\_\_proto\_\_这个属性(隐式原型)。
 
 对象的创建有两种方式：
 
@@ -345,6 +347,8 @@ var instance = new SonType();
   来一张图，好好理解原型链：
 
   ![原型链](/home/clement/Desktop/原型链.jpg)
+
+
 
 ## 闭包
 
