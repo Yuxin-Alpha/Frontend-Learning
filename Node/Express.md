@@ -156,22 +156,40 @@ app.use("/api/users", users);
 ###  源码分析
 
 ```javascript
+// 
 const http = require('http')
-// 合并对象的第三方模块
-const mixin = require('merge-descriptors')
-module.exports = function createServer() {
-  const app = function (req, res) {
-    res.end('Response From Server')
-  }
-  mixin(app, proto, false)
-  // 调用过后会得到返回的对象 
-  return app
+const url = require('url')
+function createApplication () {
+    let app = (req, res) => {
+        let m = req.method.toLowerCase()
+        let { pathName } = url.parse(req.url, true)
+        for (let i = 0; i < app.routes.length; i++) {
+            let { method, path, handle } = app.routes[i];
+            if(method === m && pathName === path) {
+                handle(req, res)
+            }
+        }
+        res.end(`Cannot ${m} ${pathName}`)
+    }
+    app.routes = [];
+    http.METHODS.forEach((method) => {
+        method = method.toLowerCase()
+        app.[method] = function (path, handler) {
+            let layer = {
+                method,
+                path,
+                handler
+            }
+            app.routes.push(layer);
+    	}
+    })
+    app.listen = function() {
+        let server = http.createServer(app);
+        server.listen(...arguments)
+    }
+    return app;
 }
-const proto = Object.create(null)
-proto.listen = function (port) {
-  const server = http.createServer(this)
-  return server.listen.apply(server, arguments)
-}
+moudule.export = createApplication;
 ```
 
 
