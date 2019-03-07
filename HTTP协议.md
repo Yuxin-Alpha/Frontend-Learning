@@ -24,6 +24,19 @@
 实现跨域：
 
 + jsonp
+
+  创建一个script标签将文件引入进来，
+
 + cors
+
 + postMessage
+
 + document.domain
+
++ location.hash
+
++ proxy
+
++ nginx
+
++ websocket
