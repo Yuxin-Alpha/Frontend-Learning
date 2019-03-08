@@ -2,14 +2,14 @@
 
 ## 基本使用
 
-1. npm install -g webpack webpack-cli 
+1. `npm install -g webpack webpack-cli `
 
-2. 执行　webpack filename进行编译
+2. 执行`webpack filename`进行编译
 
-   + webpack filename index.js --mode development 使用开发模式进行编译
-   + webpack filename index.js --mode production　使用生产模式进行编译
+   + `webpack filename index.js --mode development` 使用开发模式进行编译
+   + `webpack filename index.js --mode production`　使用生产模式进行编译
 
-   会在当前目录下生成一个dist目录，里面有编译过后的文件
+   会在当前目录下生成一个`dist`目录，里面有编译过后的文件
 
 > 如果是局部引入，需要先执行`npm init -y`来生成package,json文件
 
