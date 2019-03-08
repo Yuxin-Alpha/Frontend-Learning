@@ -452,3 +452,22 @@ class App extends Component {
 `react-transition-group`的使用:
 
 1. 
+
+## 工程注意事项
+
+为了让react脚手架的目录更加清晰，脚手架把安装的webpack及配置文件都集成在了node_modules的react-scripts模块中，在`/config`目录下。
+
+如果安装的插件是基于webpack处理的，需要先把隐藏到node_modules中的配置项暴露到项目中，再去修改对应的配置项即可。
+
+less举例：
+
+1. npm run eject暴露配置项，项目的目录会多两个目录，一个是config目录，存放webpack所有的配置文件，还有一个scripts目录，存放的是可执行脚本的JS文件。
+
+   在config目录中，webpack.config.dev.js(npm run start)是针对开发环境下的配置项，webpack.config.prod.js(npm run build)是针对生产环境下的配置项
+
+2. npm install less less-loader --save 由于less是开发和生产环境下都需要配置的
+
+```javascript
+
+```
+
