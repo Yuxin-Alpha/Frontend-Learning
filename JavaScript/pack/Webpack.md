@@ -15,8 +15,6 @@
 
 
 
-
-
 + 打包的同时生成html文件：
 
   1. `npm install -D html-webpack-plugin`下载插件
