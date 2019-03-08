@@ -48,3 +48,9 @@
 
    ...
 
+## 入口（entry）
+
+在package.json中的script属性中，可以给build属性赋值:
+
+`webpack --mode development`来规定好打包编译的环境
+
