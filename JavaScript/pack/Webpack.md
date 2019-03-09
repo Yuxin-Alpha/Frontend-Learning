@@ -54,3 +54,69 @@
 
 `webpack --mode development`来规定好打包编译的环境
 
+
+
+配置webpack.config.js文件中的entry属性，可以规定打包的入口文件
+
+如果有多个文件:
+
+```javascript
+// webpack.config.js下
+module.exports = {
+    entry: {
+        register: "./src/register.js",
+        home: "./src/home.js",
+        detail: "./src/detail.js"
+    }
+}
+```
+
+## 出口（output）
+
+定义打包后的文件:
+
+```javascript
+// webpack.config.js下
+module.exports = {
+    entry: "./src/register.js",
+    output: {
+        filename: "bundle.js"
+    }
+}
+```
+
+为了解决浏览器缓存的问题，可以在出口属性配制哈希值:
+
+```javascript
+// webpack.config.js下
+const path = require('path')
+module.exports = {
+    entry: "./src/register.js",
+    output: {
+        // 打包编译后文文件名
+        filename: "[hash:6]bundle.js",
+        // 打包后的文件路径
+        path: path.join(__dirname, 'release')
+    }
+}
+```
+
+## 装载（Loaders）
+
+```javascript
+module.exports = {
+    entry: "./src/register.js",
+    module: {
+        rules: [
+            { test: /.css$/, use: ["style-loader", "css-loader"] }
+        ]
+    },
+    output: {
+        // 打包编译后文文件名
+        filename: "[hash:6]bundle.js",
+        // 打包后的文件路径
+        path: path.join(__dirname, 'release')
+    }
+}
+```
+
