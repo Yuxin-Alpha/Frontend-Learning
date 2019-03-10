@@ -1,6 +1,6 @@
 ## Koa
 
-`Koa`框架的node环境必须是7.6以上的.
+`Koa`框架的`node`环境必须是7.6以上的.
 
 `npm install -g koa-generator`全局安装脚手架工具
 
