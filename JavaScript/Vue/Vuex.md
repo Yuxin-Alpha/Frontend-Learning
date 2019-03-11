@@ -72,7 +72,7 @@ Vue的数据共享框架，解决了非父子组件之间数据共享的问题�
     },
   ```
 
-- Getter：类似于组件的computed属性，可以对state状态进行再次包装，Getter 会暴露为 `store.getters` 对象。
+- `Getter`：类似于组件的computed属性，可以对state状态进行再次包装，Getter 会暴露为 `store.getters` 对象。
 
   ```javascript
   const store = new Vuex.Store({
@@ -99,7 +99,7 @@ Vue的数据共享框架，解决了非父子组件之间数据共享的问题�
       ])
   ```
 
-- mutations：更改 Vuex 的 store 中的状态的唯一方法是提交 mutation。每个 mutation 都有一个字符串的事件类型和一个 回调函数 。这个回调函数就是我们实际进行状态更改的地方，并且它会接受 state 作为第一个参数
+- `mutations`：更改 Vuex 的 store 中的状态的唯一方法是提交 mutation。每个 mutation 都有一个字符串的事件类型和一个 回调函数 。这个回调函数就是我们实际进行状态更改的地方，并且它会接受 state 作为第一个参数
 
   ```javascript
   const store = new Vuex.Store({
@@ -135,5 +135,4 @@ Vue的数据共享框架，解决了非父子组件之间数据共享的问题�
   }
   ```
 
-- actions：组件通过调用这里存放的异步处理或者批量的同步操作，通过这些操作去调用mutations
-
+- `actions`：组件通过调用这里存放的异步处理或者批量的同步操作，通过这些操作去调用`mutations`
