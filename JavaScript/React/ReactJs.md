@@ -67,7 +67,7 @@ DOM的嵌套我们可以通过`childrens`属性来嵌套.用 JavaScript 对象�
 - react:  专门用于创建组件和虚拟DOM的，同时组件的声明周期都在这个包中
 - react-dom: 专门进行dom操作，主要用于`ReactDOM.render()`，将我们生成好的虚拟DOM渲染到页面上（因为我们生成的虚拟DOM在浏览器的内存中）
 
-### 语法
+### JSX语法
 
 ```javascript
 function formatName(user) {
