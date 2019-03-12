@@ -11,6 +11,52 @@
 
 但是，现实总是骨感的，浏览器并不能解析这些模块化的规范，为了解决这个问题，webpack诞生了。
 
+其实webpack就是一个模块打包工具。不仅能对js文件进行打包，还能对css，图片等文件进行打包，是一个非常优秀的前端工程工具。
+
+## 模块化
+
+在介绍webpack的使用法则之前，我们先要了解js中各种模块化规范：
+
++ ES module
+
+  ```javascript
+  // 导入
+  import MyModule from './my-module.js';
+  import { NamedExport } from './other-module.js';
+  ```
+
+  > import 导入的时候是静态导入的，所以开发者并不用关心文件引入的顺序，只要将需要的引入即可
+
+  ```javascript
+  // 具名导出
+  export var Count = 5;
+  export function Multiply(a, b) {
+    return a * b;
+  }
+  
+  // 默认导出
+  export default {
+    // Some data...
+  }
+  ```
+
++ CommonJs
+
+  在浏览器之外，我们可以使用CommonJs导入或导出模块（最常见的就是node）
+
+  ```javascript
+  // 导入
+  var $ = require("jquery");
+  var myModule = require("my-module");
+  
+  // 导出
+  module.exports = {
+      // ...
+  }
+  ```
+
+  
+
 ## 基本使用
 
 1. `npm install -g webpack webpack-cli `
