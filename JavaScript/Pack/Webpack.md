@@ -153,7 +153,7 @@ module.exports = {
         // 打包编译后文文件名
         filename: "[hash:6]bundle.js",
         // 打包后的文件路径
-        path: path.join(__dirname, 'release')
+        path: path.resolve(__dirname, 'public')
     }
 }
 ```
