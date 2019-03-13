@@ -160,7 +160,7 @@ module.exports = {
 
 ## 装载（Loaders）
 
-就是一个打包的方案，告诉webpack对于特定的文件应该如何打包
+就是一个打包的方案，告诉webpack对于特定的文件应该如何打包，因为webpack不能识别非js结尾的文件，所以需要下载特定的解析loader，并且在module属性中配置后，webpack才能将这些特殊的文件正确打包
 
 ```javascript
 module.exports = {
@@ -181,4 +181,67 @@ module.exports = {
     }
 }
 ```
+
+静态资源打包:
+
++ 图片：
+
+  ```javascript
+  module.exports = {
+      entry: "./src/register.js",
+      module: {
+          rules: [
+              { 
+                  test: /\.jpg$/, 
+                  use: {
+                      loader: 'url-loader',
+                      options: {
+                          // 按照原来文件的名字拼上哈希值进行打包
+                          name: '[name]_[hash].[ext]' ,
+                          // 将文件打包后的放在dist目录下的images目录下
+                          outputPath: 'images/',
+                          // 低于10k大小的图片用url-loader进行打包，否则使用file-loader
+                          limit: 10240
+                      }
+                  } 
+              }
+          ]
+      },
+      output: {
+          // 打包编译后文文件名
+          filename: "[hash:6]bundle.js",
+          // 打包后的文件路径
+          path: path.join(__dirname, 'release')
+      }
+  }
+  ```
+
+  > 使用url-loader可以完成file-loader实现的所有功能，但是，在打包图片的时候，url-loader会将图片转化成一个base64编码的代码。
+
+  为了针对不同大小的图片使用不同的loader，可以配置limit属性。
+
++ 样式文件
+
+  ```javascript
+  module.exports = {
+      entry: "./src/register.js",
+      module: {
+          rules: [{
+              test: /\.css$/,
+              // loader的执行顺序是从右到左
+              use: ['style-loader', 'css-loader']
+          }]
+      },
+      output: {
+          // 打包编译后文文件名
+          filename: "[hash:6]bundle.js",
+          // 打包后的文件路径
+          path: path.join(__dirname, 'release')
+      }
+  }
+  ```
+
+  css-loader会将所有css文件进行分析，合并成一段css代码，然后传递给style-loader，style-loader再根据传递过来的内容解析，然后挂载到页面head区的style标签内部。
+
+  postcss-loader可以将css3代码自动加入厂商前缀。
 
