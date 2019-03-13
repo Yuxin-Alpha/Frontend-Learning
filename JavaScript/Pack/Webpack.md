@@ -160,12 +160,17 @@ module.exports = {
 
 ## 装载（Loaders）
 
+就是一个打包的方案，告诉webpack对于特定的文件应该如何打包
+
 ```javascript
 module.exports = {
     entry: "./src/register.js",
     module: {
         rules: [
-            { test: /.css$/, use: ["style-loader", "css-loader"] }
+            { test: /.css$/, use: ["style-loader", "css-loader"] },
+            { test: /\/jpg$/, use: {
+                loader: 'file-loader'
+            } }
         ]
     },
     output: {
