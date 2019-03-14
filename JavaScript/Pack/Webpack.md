@@ -312,5 +312,22 @@ module.exports = {
 }
 ```
 
-## 热模块替换
+## Babel
+
+打包并不能es6的语法转义，所以为了兼容不同的浏览器，需要使用babel进行版本降低。
+
+`npm install --save-dev babel-loader @babel/core`
+
+```javascript
+module.exports = {
+    // ...
+    module: {
+        rules: [{
+            test: /\.js$/,
+            exclude: /node_moudles/,
+            loader: "babel-loader"
+        }]
+    }
+}
+```
 
