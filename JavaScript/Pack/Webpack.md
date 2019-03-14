@@ -331,3 +331,35 @@ module.exports = {
 }
 ```
 
+> babel-loader只是将babel与webpack进行打通，并不会将js文件中的es6语法转化成es5，所以需要通过别的模块对js的高级语法进行真正的处理
+
+`npm install @babel/preset-env --save-dev`
+
+```javascript
+// 配置
+module.exports = {
+    // ...
+    module: {
+        rules: [{
+            test: /\.js$/,
+            exclude: /node_moudles/,
+            loader: "babel-loader",
+            options: {
+                presets: ["@babel/preset-env"]
+            }
+        }]
+    }
+}
+```
+
+这个时候还没完，因为这里只是将es6的语法翻译成es5，而es6中的对象或者api比如Promise，数组的map函数等等，在浏览器中还是不存在的，所以我们要继续引入一个模块——polyfill
+
+`npm install --save @babel/polyfill`
+
+然后在需要的文件中进行引入:
+
+```javascript
+// index.js文件中
+import "@babel/polyfill";
+```
+
