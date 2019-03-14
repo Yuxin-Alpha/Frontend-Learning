@@ -111,8 +111,6 @@
 
 `webpack --mode development`来规定好打包编译的环境
 
-
-
 配置webpack.config.js文件中的entry属性，可以规定打包的入口文件
 
 如果有多个文件:
@@ -244,4 +242,75 @@ module.exports = {
   css-loader会将所有css文件进行分析，合并成一段css代码，然后传递给style-loader，style-loader再根据传递过来的内容解析，然后挂载到页面head区的style标签内部。
 
   postcss-loader可以将css3代码自动加入厂商前缀。
+
+##  插件（Plugins）
+
+plugin就是在webpack打包进行到某一时刻的时候，帮你做一些事情，举个栗子：
+
+> npm install html-webpack-plugin -D`
+
+首先要下载对应的插件，然后在配置文件中引入，然后配置plugins属性，将引入的插件实例化，这个插件会在打包结束后自动生成一个html文件，并把打包生成的js自动引入到html文件中。
+
+```javascript
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var path = require('path');
+
+var webpackConfig = {
+  entry: 'index.js',
+  output: {
+    path: path.resolve(__dirname, './dist'),
+    filename: 'index_bundle.js'
+  },
+    plugins: [new HtmlWebpackPlugin({
+        // 一定要配置模板，否则页面是空的
+        template: 'src/index.html'
+    })]
+};
+```
+
+打包之前删除上一次打包的目录——clean-webpack-plugin
+
+```javascript
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
+var path = require('path');
+
+var webpackConfig = {
+  entry: 'index.js',
+  output: {
+    path: path.resolve(__dirname, './dist'),
+    filename: 'index_bundle.js'
+  },
+    plugins: [new HtmlWebpackPlugin({
+        // 一定要配置模板，否则页面是空的
+        template: 'src/index.html'
+        // 在打包之前先删除dist目录
+    }), new CleanWebpackPlugin('dist') ]
+};
+```
+
+## Sourcemap
+
+资源映射工具，将打包后的文件中的代码正确映射到源代码，方便快速查找错误
+
+修改`devtool: ' source-map '`即可
+
+## WebpackDevServer
+
+`npm install webpack-dev-server`
+
+在配置文件中配置：
+
+```javascript
+module.exports = {
+    // ...
+    devServer: {
+        port: 8080
+        contentBase: './dist',
+        open: true
+    }
+}
+```
+
+## 热模块替换
 
