@@ -599,36 +599,9 @@ printinfo(1, a=2,b=3)
 
 一个模块被另一个程序第一次引入时，其主程序将运行。如果我们想在模块被引入时，模块中的某一程序块不执行，我们可以用__name__属性来使该程序块仅在该模块自身运行时执行。
 
-### dir() 函数
-
-内置函数,这个函数可以找到模块内定义的所有名称.
-
 ### 包
 
-```python
-sound/                          顶层包
-      __init__.py               初始化 sound 包
-      formats/                  文件格式转换子包
-              __init__.py
-              wavread.py
-              wavwrite.py
-              aiffread.py
-              aiffwrite.py
-              auread.py
-              auwrite.py
-              ...
-      effects/                  声音效果子包
-              __init__.py
-              echo.py
-              surround.py
-              reverse.py
-              ...
-      filters/                  filters 子包
-              __init__.py
-              equalizer.py
-              vocoder.py
-              karaoke.py
-```
+可以看做成一个目录，但是里面一定要有\_\_init\_\_.py文件
 
 导入方式:
 
