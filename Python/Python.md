@@ -1,82 +1,14 @@
 #  Python笔记
 
-程序执行的顺序：
-
-1. 设备 ->`CPU` + 内存(临时存储数据，电脑断电，数据消失) + 硬盘( 永久存储数据 )
-2. 真正负责程序运行的是`CPU`，代码保存在硬盘
-3. 操作系统会先把程序复制到内存中，Python解释器在内存中，CPU根据解释器翻译内存中拷贝的代码，然后执行这些翻译好的程序运行。
-
-注释:
-
-不要描述代码，而是去解释这段代码的目的，python文件的命名一定不能有大写字母，也不能以数字开头，严格缩进,不需要使用`{}`
-
-单行注释：#开头
-
-多行注释：
-
-```python
-"""
-我是一条注释
-"""
-```
-
-语句以换行符结束，不要加分号
-
-```python
-# import 语法
-import sys
-print('================Python import mode==========================');
-print ('命令行参数为:')
-for i in sys.argv:
-    print (i)
-print ('\n python 路径为',sys.path)
-```
+## 一切皆对象
 
 
 
-## 变量
 
-不需要声明，直接进行赋值，并使用，但是必须赋值后使用，Python可以根据变量指向的内存所存储的值来自动推测该变量的类型。变量和数据是分开存储的,数据存储在内存中的一个位置,变量中保存着数据再内存中的地址,变量中记录数据的地址,就叫做引用.所以当我们给变量赋值的时候,本质是修改了数据的引用
 
-```python
-# 变量的命名规范
-# 所有字母小写
-person_name = '张三'
-print(person_name)
-# 帕斯卡命名法
-PersonName = '李四'
 
-# 数字类型
-a, b, c, d = 20, 5.5, True, 4+3j
-print(type(a), type(b), type(c), type(d))
-# 输出<class 'int'> <class 'float'> <class 'bool'> <class 'complex'>
 
-# type()函数可以检查某个值的类型
 
-# 用 isinstance 来判断类型
-a = 111
-isinstance(a, int) # 注意:type()不会认为子类是一种父类类型。isinstance()会认为子类是一种父类类型。
-
-# 二进制
-c = 0b10
-# 八进制
-d = 0o10
-# 十六进制
-f = 0x16
-
-# 字符串,单引号和双引号都可以
-string_one = 'hello'
-string_two = "world"
-
-str = 'Runoob'
- 
-print (str[0:-1])    # 输出第一个到倒数第二个的所有字符
-print (str[0])       # 输出字符串第一个字符
-print (str[2:5])     # 输出从第三个开始到第五个的字符
-print (str[2:])      # 输出从第三个开始的后的所有字符
-print (str * 2)      # 输出字符串两次
-print (str + "TEST") # 连接字符串
-```
 
 ### 数字
 
