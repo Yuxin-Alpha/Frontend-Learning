@@ -38,153 +38,61 @@
        return ask
    ```
 
+### type,object,class
 
-
-### 列表
-
-列表中元素的类型可以不相同，它支持数字，字符串甚至可以包含列表（所谓嵌套）.和字符串一样，列表同样可以被索引和截取，列表被截取后返回一个包含所需元素的新列表.索引值以 0 为开始值，-1 为从末尾的开始位置。列表都可以进行的操作包括索引，切片，加，乘，检查成员。
+思考一段代码：
 
 ```python
-list = [ 'abcd', 786 , 2.23, 'runoob', 70.2 ]
-tinylist = [123, 'runoob']
- 
-print (tinylist * 2)    # 输出两次列表
-print (list + tinylist) # 连接列表
-
-len([1, 2, 3]) # 3
-[1, 2, 3] + [4, 5, 6] # [1, 2, 3, 4, 5, 6]
-
-# 删除元素 del关键字会将变量直接从内存中删除
-list = ['Google', 'Runoob', 1997, 2000] 
-print ("原始列表 : ", list)
-del list[2]
-print ("删除第三个元素 : ", list)
-
-# 内置方法
-
-# append() 方法用于在列表末尾添加新的对象。
-aList = [123, 'xyz', 'zara', 'abc'];
-aList.append( 2009 );
-print "Updated List : ", aList;
-
-# extend() 函数用于在列表末尾一次性追加另一个序列中的多个值（用新列表扩展原来的列表）。
-aList = [123, 'xyz', 'zara', 'abc', 123];
-bList = [2009, 'manni'];
-aList.extend(bList)
-print "Extended List : ", aList ;
-
-# index() 函数用于从列表中找出某个值第一个匹配项的索引位置。
-aList = [123, 'xyz', 'zara', 'abc'];
-print "Index for xyz : ", aList.index( 'xyz' ) ;
-
-# remove() 删除列表中的某一项(指定的)
-aList.remove(123)
-
-# clear() 清空列表 
-aList.clear()
-
-# pop() 函数用于移除列表中的一个元素（默认最后一个元素），并且返回该元素的值。
-list1 = ['Google', 'Runoob', 'Taobao']
-list_pop=list1.pop(1)
-print "删除的项为 :", list_pop
-print "列表现在为 : ", list1
-
-# count() 用于计算一个元素在列表中出现的次数
-list1.count('Google')
-
-# 列表的循环遍历(迭代)
-name_list = ['张三', '李四', '王五', '王小二']
-for my_name in name_list:
-    print("我的名字叫%s" % my_name)
+a = 1
+# 输出<class int>
+print(type(a))
+# 输出<class type>
+print(type(int))
 ```
 
-### 元组
+我们可以得出type生成了int, int 生成了1
 
-元组`（tuple）`与列表类似，不同之处在于元组的元素<b>不能修改</b>。元组写在小括号 () 里，元素之间用逗号隔开。元组中只包含一个元素时，需要在元素后面添加逗号.
+进而我们知道了type 生成了class , class 再生成obj
+
+不管是python语言的内置class，还是我们自己自定义的class，其实都是使用type生成的
+
+> 我们常说object是最顶层的基类，其实type(object)的输出，还是type，而type.\__bases__又是object
+
+即，object是type的实例，type又继承自object，并且是自己的实例。
+
+### 内置类型
+
+对象的三个特征：1. 身份(对象在内存中的地址，通过`id()`查看)   2. 类型  3. 值
+
+类型总结：
+
++ None : 全局只有一个
++ 数值：int, float, complex, bool
++ 迭代类型(可以使用for循环进行遍历)
++ 序列类型: list, range, str, array, tuple
++ 映射类型(dict)
++ 集合(set)
++ 上下文管理类型with
++ 模块类型，函数类型，方法类型，class和实例等等
+
+## 魔法函数
+
+以双下划线开头与结尾的函数，由python语言本身提供，为了增强自定义类的特性，魔法函数的调用是隐式的。
 
 ```python
-tuple = ( 'abcd', 786 , 2.23, 'runoob', 70.2  )
-tinytuple = (123, 'runoob')
- 
-print (tuple)             # 输出完整元组
-print (tuple[0])          # 输出元组的第一个元素
-print (tuple[1:3])        # 输出从第二个元素开始到第三个元素
-print (tuple[2:])         # 输出从第三个元素开始的所有元素
-print (tinytuple * 2)     # 输出两次元组
-print (tuple + tinytuple) # 连接元组
+class Company(object):
+    def __init__(self, employee_list):
+        self.employee = employee_list
+    #　这个魔法函数使得实例对象变成可以迭代的    
+    def __getitem__(self, item):
+        return self.employee[item]
+
+company = Company(["jack", "tom", "bob", "jane"])
+for em in company:
+    print(em)
 ```
 
-### set集合
-
-集合`（set）`是由一个或数个形态各异的大小整体组成的，构成集合的事物或对象称作元素或是成员。创建一个空集合必须用` set()` 而不是` {}`，因为` {}` 是用来创建一个空字典。
-```python
-student = {'Tom', 'Jim', 'Mary', 'Tom', 'Jack', 'Rose'}
-print(student)   # 输出集合，重复的元素被自动去掉
- 
-# 成员测试
-if 'Rose' in student :
-    print('Rose 在集合中')
-else :
-    print('Rose 不在集合中')
-  
-# set可以进行集合运算
-a = set('abracadabra')
-b = set('alacazam')
- 
-print(a) 
-print(a - b)     # a 和 b 的差集
-print(a | b)     # a 和 b 的并集 
-print(a & b)     # a 和 b 的交集
-print(a ^ b)     # a 和 b 中不同时存在的元素
-
-# {'Mary', 'Jim', 'Rose', 'Jack', 'Tom'}
-# Rose 在集合中
-# {'b', 'a', 'c', 'r', 'd'}
-# {'b', 'd', 'r'}
-# {'l', 'r', 'a', 'c', 'z', 'm', 'b', 'd'}
-# {'a', 'c'}
-# {'l', 'r', 'z', 'm', 'b', 'd'}
-```
-
-### 字典
-
-字典当中的元素是通过键来存取的，而不是通过偏移存取。字典是一种映射类型，字典用` { } `标识，它是一个无序的 **键(key) : 值(value)** 的集合。
-
-```python
-dict = {}
-dict['one'] = "abcbcbcb"
-dict[2]     = "dddddd"
-tinydict = {'name': 'runoob','code':1, 'site': 'www.runoob.com'}
- 
-print (dict['one'])       # 输出键为 'one' 的值
-print (dict[2])           # 输出键为 2 的值
-print (tinydict)          # 输出完整的字典
-print (tinydict.keys())   # 输出所有键
-print (tinydict.values()) # 输出所有值
-```
-
-### 对象（object）
-
-程序运行中，所有的数据都是存储到内存当中。对象就是内存中专门用来存储指定数据的一块区域。即，对象就是一个容器，存储数据用的。
-
-对象的结构： 
-
-```python
-# 每个对象的结构
-{
-    id #(标识)，每个对象都有唯一的id，由解析器生成，对象一旦创建，id就不变了
-    value#(对象的值)，某些对象可以修改
-    type #(对象的类型)，决定这个对象的功能，对象一旦创建就变不了了
-}
-```
-
-变量与对象的关系：
-
-```python
-# 3其实是一个类型为整型的对象，这句的意思其实是进行a与对象3进行绑定，可以通过a找到对象3.
-# 这步语句会首先在内存中创建一个对象3，然后将a指向对象3的id
-a = 3
-```
+### 数据模型
 
 
 
