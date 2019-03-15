@@ -92,92 +92,35 @@ for em in company:
     print(em)
 ```
 
-### 数据模型
-
-
-
-## 运算符
-
-`//`: 取整除 - 向下取接近除数的整数
-
-`**=`:幂赋值运算符
-
-+ 逻辑运算符,0和""都是假
-
-  | 运算符 | 表达式  | 描述     |
-  | ------ | ------- | -------- |
-  | and    | x and y | 布尔"与" |
-  | or     | x or y  | 布尔"或" |
-  | not    | not x   | 布尔"非" |
-
-+ 成员运算符
-
-  `in`:如果在指定的序列中找到值返回 True，否则返回 False。
-
-  `not in`:如果在指定的序列中没有找到值返回 True，否则返回 False。
-
-+ 身份运算符
-
-  `is`:is 是判断两个标识符是不是引用自一个对象
-
-+ 三元运算符：`语句1 if 条件表达式 else 语句2`
-
-## 条件语句
-
-"判断条件"成立时（非零），则执行后面的语句，而执行内容可以多行，以缩进来区分表示同一范围。可以使用`pass`关键字占位
-
-else 为可选语句，当需要在条件不成立时执行内容则可以执行相关语句.
+### \__str__
 
 ```python
-# if 基本用法
-flag = False
-name = 'luren'
-if name == 'python':         # 判断变量否为'python'
-    flag = True          # 条件成立时设置标志为真
-    print 'welcome boss'    # 并输出欢迎信息
-else:
-    print name              # 条件不成立时输出变量名称
-    
-# elif用法 
-num = 5     
-if num == 3:            # 判断num的值
-    print 'boss'        
-elif num == 2:
-    print 'user'
-elif num == 1:
-    print 'worker'
-elif num < 0:           # 值小于零时输出
-    print 'error'
-else:
-    print 'roadman'     # 条件均不成立时输出
+class Company(object):
+    def __init__(self, employee_list):
+        self.employee = employee_list
+    #　当对象被print()调用时，会隐式调用这个魔法函数    
+    def __str__(self):
+        return ','.join(self.employee)
+
+company = Company(["jack", "tom", "bob", "jane"])
+print(company)
 ```
 
-由于 python 并不支持 switch 语句，所以多个条件判断，只能用 elif 来实现，如果判断需要多个条件需同时判断时，可以使用 or （或），表示两个条件有一个成立时判断条件成功；使用 and （与）时，表示只有两个条件同时成立的情况下，判断条件才成功。如果遇到很多中情况的时候，写很多的 **if/else** 不是很好维护，这时可以考虑用字典映射的方法替代：
+## 序列类
 
-```python
-import os
-def zero():
-    return "zero"
++ 容器序列: list, tuple, deque
 
-def one():
-    return "one"
++ 扁平序列: str, bytes, array.array
 
-def two():
-    return "two"
+  容器序列可以放置任意类型的数据
 
-def num2Str(arg):
-    switcher={
-        0:zero,
-        1:one,
-        2:two,
-        3:lambda:"three"
-    }
-    func=switcher.get(arg,lambda:"nothing")
-    return func()
++ 可变序列: list, deque, array
 
-if __name__ == '__main__':
-    print num2Str(0)
-```
++ 不可变: str, tuple, bytes
+
+
+
+
 
 ## 循环语句
 
