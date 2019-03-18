@@ -185,105 +185,19 @@ class User:
 
 当属性查找没有找到的时候，会调用\__getattr__魔法函数。
 
-而只要代码中对对象的属性进行查找，就会无条件地执行\__getattribute__魔法函数。
+而只要代码中对对象的属性进行查找，就会无条件地执行\__getattribute__魔法函数，也就是属性描述的入口。
 
-## 函数
-
-- 函数代码块以 **def** 关键词开头，后接函数标识符名称和圆括号 **()**。
-
-- 任何传入参数和自变量必须放在圆括号中间，圆括号之间可以用于定义参数。
-- 函数的第一行语句可以选择性地使用文档字符串—用于存放函数说明。
-
-- 函数内容以冒号起始，并且缩进。
-- 必需参数须以正确的顺序传入函数。调用时的数量必须和声明时的一样。
-- **return [表达式]** 结束函数，选择性地返回一个值给调用方。不带表达式的return相当于返回 None.函数返回值的注意事项: 不同于 C 语言，Python 函数可以返回多个值，多个值以元组的方式返回
-
-```python
-# 计算面积函数
-def area(width, height):
-    return width * height
- 
-def print_welcome(name):
-    print("Welcome", name)
- 
-print_welcome("Runoob")
-w = 4
-h = 5
-print("width =", w, " height =", h, " area =", area(w, h))
-```
-
-### 默认参数
-
-```python
-#可写函数说明
-def printinfo( name, age = 35 ):
-   "打印任何传入的字符串"
-   print ("名字: ", name)
-   print ("年龄: ", age)
-   return
- 
-#调用printinfo函数
-printinfo( age=50, name="runoob" )
-print ("------------------------")
-printinfo( name="runoob" )
-```
+### 属性描述符
 
 
 
-### 不定长参数
+## 
 
-加了星号` * `的参数会以元组(tuple)的形式导入，存放所有未命名的变量参数。
 
-```python
-def functionname([formal_args,] *var_args_tuple ):
-   "函数_文档字符串"
-   function_suite
-   return [expression]
 
-def printinfo( arg1, *vartuple ):
-   "打印任何传入的参数"
-   print ("输出: ")
-   print (arg1)
-   print (vartuple)
- 
-# 调用printinfo 函数
-printinfo( 70, 60, 50 )
-```
+### 
 
-加了两个星号 ** 的参数会以字典的形式导入。
 
-```python
-def printinfo( arg1, **vardict ):
-   "打印任何传入的参数"
-   print ("输出: ")
-   print (arg1)
-   print (vardict)
- 
-# 调用printinfo 函数
-printinfo(1, a=2,b=3)
-```
-
-### 匿名参数
-
-所谓匿名，意即不再使用 def 语句这样标准的形式定义一个函数。使用 lambda 来创建匿名函数。
-
-- lambda 只是一个表达式，函数体比 def 简单很多。
-
-- lambda的主体是一个表达式，而不是一个代码块。仅仅能在lambda表达式中封装有限的逻辑进去。
-
-- lambda 函数拥有自己的命名空间，且不能访问自己参数列表之外或全局命名空间里的参数。
-
-  ```python
-  sum = lambda arg1, arg2: arg1 + arg2
-   
-  # 调用sum函数
-  print ("相加后的值为 : ", sum( 10, 20 )) # 30
-  print ("相加后的值为 : ", sum( 20, 20 )) # 40
-  ```
-
-### 变量作用域
-
-程序的变量并不是在哪个位置都可以访问的，访问权限决定于这个变量是在哪里赋值的.在局部找不到，便会去局部外的局部找（例如闭包），再找不到就会去全局找，再者去内建中找。
 
 ## 模块化
 
