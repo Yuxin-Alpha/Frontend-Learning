@@ -140,22 +140,52 @@ print(company)
 
 ## ==与is
 
+由于python内部的优化机制，对于简单构造的对象，比如：整数，小数，字符串，它会在全局内存中开辟一个空间专门存放，每个被这种简单结构对象赋值的变量，指向的都是同一块内存
 
+is: 用来判断两边的对象是否是同一个对象（判断变量的内存地址是否相等）
 
-## 迭代器
+==: 当使用这个运算符的时候，python会自动调用\__eq__这个魔法函数，判断的是两个对象的值
 
-迭代器是一个可以记住遍历的位置的对象。
+## del与垃圾回收
 
-迭代器对象从集合的第一个元素开始访问，直到所有的元素被访问完结束。迭代器只能往前不会后退。迭代器有两个基本的方法：**iter()** 和 **next()**。字符串，列表或元组对象都可用于创建迭代器。
+python中垃圾回收的算法是采用引用计数
 
 ```python
->>>list=[1,2,3,4]
->>> it = iter(list)    # 创建迭代器对象
->>> print (next(it))   # 输出迭代器的下一个元素
-1
->>> print (next(it))
-2
+a = 1
+b = a # 这时1这个对象的计数器就会加到２
 ```
+
+当某个对象的引用计数器减到0的时候，python解释器就会将这个对象自动清除，释放内存。
+
+del　关键字会将某个对象的引用计数-1，并且在栈中删除del后面的变量，而不是将这个对象直接回收
+
+## 元类编程
+
+### property
+
+计算属性装饰器，可以将类的一个函数变成属性描述符，在代码中通过obj.func_name进行调用
+
+```python
+from datetime import date, datetime
+class User:
+    def __init__(self, name, birthday):
+        self.name = name
+        self.birthday = birthday
+        
+    @property
+    def age(self):
+        return datetime.now().year - self.birthday.year
+    
+    @age.setter
+    def age(self, value):
+        self.age = value
+```
+
+### \_\_getattr\_\_与\_\_getattribute__
+
+当属性查找没有找到的时候，会调用\__getattr__魔法函数。
+
+而只要代码中对对象的属性进行查找，就会无条件地执行\__getattribute__魔法函数。
 
 ## 函数
 
