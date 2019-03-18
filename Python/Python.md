@@ -1,5 +1,9 @@
 #  Python笔记
 
+## 闭包
+
+在某个函数定义的内部，定义一个内部函数，这个函数最后`return func_name`
+
 ## 对象
 
 ### 一切皆对象
@@ -108,9 +112,9 @@ company = Company(["jack", "tom", "bob", "jane"])
 print(company)
 ```
 
-## 抽象基类
+## 抽象基类(abc模块)
 
-定义各种方法而不做具体实现的类，任何继承自抽象基类的类必须实现这些方法，否则无法实例化。
+可以理解成`java`中的接口，抽象接口不能实例化，定义各种方法而不做具体实现的类，任何继承自抽象基类的类必须实现这些方法，否则无法实例化。实现一个类中不同的魔法函数，就会赋予这个类不同的特性。
 
 那么抽象基类这样实现的目的是什么呢？ 假设我们在写一个关于动物的代码。涉及到的动物有鸟，狗，牛。首先鸟，狗，牛都是属于动物的。既然是动物那么肯定需要吃饭，发出声音。但是具体到鸟，狗，牛来说吃饭和声音肯定是不同的。需要具体去实现鸟，狗，牛吃饭和声音的代码。概括一下抽象基类的作用：定义一些共同事物的规则和行为。
 
@@ -130,104 +134,13 @@ print(company)
 
 
 
-## 循环语句
-
-+ while 语句:
-
-  ```python
-  # continue 和 break 用法
-   
-  i = 1
-  while i < 10:   
-      i += 1
-      if i%2 > 0:     # 非双数时跳过输出
-          continue
-      print i         # 输出双数2、4、6、8、10
-   
-  i = 1
-  while 1:            # 循环条件为1必定成立
-      print i         # 输出1~10
-      i += 1
-      if i > 10:     # 当i大于10时跳出循环
-          break
-  
-  # while … else 在循环条件为 false 时执行 else 语句块
-  count = 0
-  while count < 5:
-     print count, " is  less than 5"
-     count = count + 1
-  else:
-     print count, " is not less than 5"
-  ```
+## import导入模块
 
 
 
-+ for循环:
-
-  ```python
-  for letter in 'Python':     # 第一个实例
-     print '当前字母 :', letter
-   
-  fruits = ['banana', 'apple',  'mango']
-  for fruit in fruits:        # 第二个实例
-     print '当前水果 :', fruit
-   
-  print "Good bye!"
-  
-  # range() 函数可创建一个整数列表
-  # 冒泡排序
-  arays = [1,8,2,6,3,9,4]
-  for i in range(len(arays)):
-      for j in range(i+1):
-          if arays[i] < arays[j]:
-              # 实现连个变量的互换
-              arays[i],arays[j] = arays[j],arays[i]
-  print arays
-  ```
-
-+ break的正确姿势:跳出循环.
-
-  ```python
-  for letter in 'Python':     # 第一个实例
-     if letter == 'h':
-        break
-     print '当前字母 :', letter
-    
-  var = 10                    # 第二个实例
-  while var > 0:              
-     print '当前变量值 :', var
-     var = var -1
-     if var == 5:   # 当变量 var 等于 5 时退出循环
-        break
-  ```
+## ==与is
 
 
-+ continue的正确姿势:直接进入下一轮循环
-
-  ```python
-  for letter in 'Python':     # 第一个实例
-     if letter == 'h':
-        continue
-     print '当前字母 :', letter
-   
-  var = 10                    # 第二个实例
-  while var > 0:              
-     var = var -1
-     if var == 5:
-        continue
-     print '当前变量值 :', var
-  ```
-
-
-+ pass的正确姿势:pass 不做任何事情，一般用做占位语句。
-
-  ```python
-  for letter in 'Python':
-     if letter == 'h':
-        pass
-        print '这是 pass 块'
-     print '当前字母 :', letter
-  ```
 
 ## 迭代器
 
