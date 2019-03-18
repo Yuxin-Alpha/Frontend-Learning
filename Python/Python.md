@@ -189,6 +189,19 @@ class User:
 
 ### 属性描述符
 
+```python
+import numbers
+class IntField:
+    def __get__(self, instance, owner):
+        return self.value
+    def __set__(self, instance, value):
+        if not isinstance(value, numbers.Integral):
+            raise ValueError("int value need")
+        self.value = value
+    def __delete__(self, instance):
+        pass
+```
+
 
 
 ## 
@@ -206,123 +219,6 @@ class User:
 ### \__name__属性
 
 一个模块被另一个程序第一次引入时，其主程序将运行。如果我们想在模块被引入时，模块中的某一程序块不执行，我们可以用__name__属性来使该程序块仅在该模块自身运行时执行。
-
-### 包
-
-可以看做成一个目录，但是里面一定要有\_\_init\_\_.py文件
-
-导入方式:
-
-```python
-import sound.effects.echo
-# 或者
-from sound.effects import echo
-```
-
-## 文件
-
-1. `open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None)`:打开一个文件,并返回文件对象.
-
-   参数说明:
-
-   + `file`: 必需，文件路径（相对或者绝对路径）。
-
-   + `mode`: 可选，文件打开模式
-
-   + `buffering`: 设置缓冲
-
-   + `encoding`: 一般使用utf8
-
-   + `errors`: 报错级别
-
-   + `newline`: 区分换行符
-
-   + `closefd`: 传入的file参数类型
-
-   + `opener`:
-
-2. `file对象`由open函数返回,常用函数:
-
-   + `file.close()`:关闭文件
-   + `file.flush()`:刷新缓冲区
-   + `file.isatty()`:检测文件是否连接到一个终端设备
-
-## 面向对象
-
-将功能独立的代码封装到一个方法中,然后将多个方法封装到一个类之中.类是抽象的,不能直接使用.
-
-注意,类中定义的方法,第一个参数必须是`self`.不要在类的外部添加对象属性.当创建对象时,先分配空间,再调用init方法.获取属性的时候,有一个向上查找的过程.
-
-```python
-# 类名符合大驼峰命名法
-class MyClass:
-    # 实例 ,类属性
-    i = 12345
-    
-    # 类有一个名为 __init__() 的特殊方法（构造方法），该方法在类实例化时会自动调用
-    def __init__(self, name):
-        self.name = name
-    	self.data = []
-    
-    # 类方法
-    @classmethod
-    def a(cls):
-        
-        
-    def f(self):
-        MyClass.i++
-        return 'hello world'
- 
-# 实例化类
-x = MyClass("zhangsan")
- 
-# 访问类的属性和方法
-print("MyClass 类的属性 i 为：", x.i)
-print("MyClass 类的方法 f 输出为：", x.f())
-```
-
-内置函数,可以通过`dir()`获得
-
-`__方法名__`Python针对对象提供的内置方法
-
-`__del__`对象销毁前自动调用
-
-`__str__`返回一个字符串,上述代码`print(x)`会输出这个对象在内存中的地址,如果希望输出别的东西,可以重写该函数	
-
-私有属性在外界不能被自由访问,对象的方法内部可以访问私有属性.私有方法不能在外界自由访问.
-
-### 继承
-
-子类拥有父类的所有属性和方法(注意子类不能访问父类的私有属性和私有方法),子类通过再自己内部重写父类的方法来实现多态:
-
-```python
-class Animal:
-    def eat(self):
-        print("吃")      
-    def drink(self):
-        print("喝")
-    def run(self):
-        print("跑")
-              
-class Dog(Animal):
-    
-    # 重写 + super()调用
-    def eat(self):
-        print("吃肉")
-        super().eat()
-        
-        
-    def bark(self):
-        print("叫")
-```
-
-+ 多继承:
-
-  ```python
-  class 子类名(父类名1, 父类名2...)
-  ```
-
-  注意:开发时尽量避免两个父类拥有同名方法.解释器会从左向右搜索方法直到`object`
 
 ## 设计模式
 
