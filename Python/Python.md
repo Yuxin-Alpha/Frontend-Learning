@@ -174,9 +174,30 @@ class IntField:
 
 ## 进程＆线程
 
+一个运行的程序称为进程，但是每个程序又有许多子任务，这些子任务称为线程。
 
+### multiprocessing
 
-### 
++ 提供一个Process类来代表一个进程对象
+
+```python
+from multiprocessing import Process
+# 控制进程的包
+import time
+
+def run_proc():
+    while True:
+        print("----2----")
+        # 暂停当前的进程
+        time.sleep(1)
+        
+if __name__ == '__main__':
+	p = Process(target=run_proc)
+    p.start()
+    while True:
+        print("---1----")
+        time.sleep(1)
+```
 
 
 
