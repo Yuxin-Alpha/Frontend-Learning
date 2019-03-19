@@ -185,14 +185,16 @@ from multiprocessing import Process
 # 控制进程的包
 import time
 
-def run_proc():
+def run_proc(n):
     while True:
         print("----2----")
         # 暂停当前的进程
         time.sleep(1)
         
 if __name__ == '__main__':
-	p = Process(target=run_proc)
+    # 创建一个进程，传入进程名（函数名）
+	p = Process(target=run_proc, args=(1,))
+    # 启动进程（放入进程队列）
     p.start()
     while True:
         print("---1----")
