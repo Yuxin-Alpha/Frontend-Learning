@@ -136,3 +136,70 @@ Vue的数据共享框架，解决了非父子组件之间数据共享的问题�
   ```
 
 - `actions`：组件通过调用这里存放的异步处理或者批量的同步操作，通过这些操作去调用`mutations`
+
+# 源码分析
+
+## 从入口开始
+
+```javascript
+export default {
+  Store,
+  install,
+  mapState,
+  mapMutations,
+  mapGetters,
+  mapActions
+}
+```
+
+在`index.js`文件的最后，Vuex向外暴露了这么多API。
+
+首先先介绍一下`install`:
+
+```javascript
+function install (_Vue) {
+  if (Vue) {
+    console.error(
+      '[vuex] already installed. Vue.use(Vuex) should be called only once.'
+    )
+    return
+  }
+  Vue = _Vue
+  applyMixin(Vue)
+}
+
+// auto install in dist mode
+if (typeof window !== 'undefined' && window.Vue) {
+  install(window.Vue)
+}
+```
+
+当我们执行 Vue.use(Vuex) 这句代码的时候，实际上就是调用了 install 的方法并传入 Vue 的引用。对 Vue 的判断主要是保证 install 方法只执行一次，这里把 install 方法的参数 _Vue 对象赋值给 Vue 变量，这样我们就可以在 index.js 文件的其它地方使用 Vue 这个变量了。`applyMixin(Vue)`方法的作用就是在 Vue 的生命周期中的初始化（1.0 版本是 init，2.0 版本是 beforeCreated）钩子前插入一段 Vuex 初始化代码——给 Vue 的实例注入一个 `$store` 的属性，这也就是为什么我们在 Vue 的组件中可以通过 `this.$store.xxx` 访问到 Vuex 的各种数据和状态。
+
+## Store构造函数
+
+使用 Vuex 的时候，通常会实例化 Store 类，然后传入一个对象，包括我们定义好的 actions、getters、mutations、state等，甚至当我们有多个子模块的时候，我们可以添加一个 modules 对象。在Store类的定义中，由于构造函数的定义过长，需要慢慢分析：
+
++ 断言函数
+
+```javascript
+class Store {
+  constructor (options = {}) {
+    assert(Vue, `must call Vue.use(Vuex) before creating a store instance.`)
+    assert(typeof Promise !== 'undefined', `vuex requires a Promise polyfill in this browser.`)
+	// ...
+  }
+}  
+```
+
+构造函数中第一件事就使用断言函数判断Vue和Promise存在，也就是在我们实例化 Store 之前，必须要保证之前的 install 方法已经执行了。
+
+assert函数的具体实现:
+
+```javascript
+export function assert (condition, msg) {
+  if (!condition) throw new Error(`[vuex] ${msg}`)
+}
+```
+
++ 
