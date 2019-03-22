@@ -131,7 +131,7 @@ del　关键字会将某个对象的引用计数-1，并且在栈中删除del后
 
 ### property
 
-计算属性装饰器，可以将类的一个函数变成属性描述符，在代码中通过obj.func_name进行调用
+计算属性装饰器，可以将类的一个函数变成属性描述符，在代码中通过`obj.func_name`进行调用
 
 ```python
 from datetime import date, datetime
@@ -151,9 +151,9 @@ class User:
 
 ### \_\_getattr\_\_与\_\_getattribute__
 
-当属性查找没有找到的时候，会调用\__getattr__魔法函数。
+当属性查找没有找到的时候，会调用`\__getattr__`魔法函数。
 
-而只要代码中对对象的属性进行查找，就会无条件地执行\__getattribute__魔法函数，也就是属性描述的入口。
+而只要代码中对对象的属性进行查找，就会无条件地执行`\__getattribute__`魔法函数，也就是属性描述的入口。
 
 ### 属性描述符
 
@@ -178,7 +178,7 @@ class IntField:
 
 ### multiprocessing
 
-+ 提供一个Process类来代表一个进程对象
++ 提供一个`Process`类来代表一个进程对象
 
 ```python
 from multiprocessing import Process
