@@ -97,8 +97,8 @@ position的两个参数分别表示水平和垂直的位置。
 一个盒子模型,包含了元素内容`（content）`、内边距`（padding）`、边框`（border）`、外边距`（margin）`几个要素。通常我们设置的背景显示区域，就是内容、内边距、边框这一块范围。而外边距`margin`是透明的，不会遮挡周边的其他元素。
 
 + 盒子类型属性(box-sizing)
-  1. content-box,默认值盒子的`width`属性与`height`只是盒子内容的属性,盒子的总高度和总宽需要算上另外的3个属性值.
-  2. border-box,IE盒子,设置的`width`值其实是除`margin`外的`border`+`padding`+`element`的总宽度。盒子的`width`包含`border`+`padding`+`内容`
+  1. `content-box`,默认值盒子的`width`属性与`height`只是盒子内容的属性,盒子的总高度和总宽需要算上另外的3个属性值.
+  2. `border-box`,IE盒子,设置的`width`值其实是除`margin`外的`border`+`padding`+`element`的总宽度。盒子的`width`包含`border`+`padding`+`内容`
 
 + 相邻盒子外边距叠加
 
