@@ -4,16 +4,16 @@
 
 基本类型与引用类型：
 
-1. 值类型：string, Number, undefined, boolean, null
+1. 值类型：string, number, undefined, boolean, null
 2. 引用类型：Object(任意对象), Function(可以执行的对象), Array(拥有数值下标的属性，而且内部数据有序的对象)
 
 判断数据类型：
 
-1. typeof：返回数据类型的字符串表达。`typeof`对变量执行操作的时候，得到的结果并不是该变量的类型，而是给变量持有值的类型，因为变量是没有类型的。　
+1. `typeof`：返回数据类型的字符串表达。`typeof`对变量执行操作的时候，得到的结果并不是该变量的类型，而是给变量持有值的类型，因为变量是没有类型的。　
 
    > 注意：typeof null　的值是'object' , typeof func 的值是'function'
 
-2. instanceof：判断对象的具体类型
+2. `instanceof`：判断对象的具体类型
 
    
 
@@ -60,8 +60,6 @@ a && foo()
 `!!`:
 
 将一个值转化为布尔值
-
-
 
 `==`与`===`:
 
