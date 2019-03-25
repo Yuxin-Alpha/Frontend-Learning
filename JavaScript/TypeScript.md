@@ -12,7 +12,7 @@
 tsc demo.ts
 ```
 
-有类型的`script`,TypeScript 中，使用 `:` 指定变量的类型，`:` 的前后有没有空格都可以。:
+有类型的`script`,`TypeScript` 中，使用 `:` 指定变量的类型，`:` 的前后有没有空格都可以。:
 
 ```typescript
 // 变量声明
