@@ -5,13 +5,13 @@
 基本类型与引用类型：
 
 1. 值类型：string, number, undefined, boolean, null
-2. 引用类型：Object(任意对象), Function(可以执行的对象), Array(拥有数值下标的属性，而且内部数据有序的对象)
+2. 引用类型：`Object(任意对象)`, `Function(可以执行的对象)`,` Array(拥有数值下标的属性，而且内部数据有序的对象)`
 
 判断数据类型：
 
 1. `typeof`：返回数据类型的字符串表达。`typeof`对变量执行操作的时候，得到的结果并不是该变量的类型，而是给变量持有值的类型，因为变量是没有类型的。　
 
-   > 注意：typeof null　的值是'object' , typeof func 的值是'function'
+   > 注意：typeof null的值是`'object'` , typeof func 的值是`'function'`
 
 2. `instanceof`：判断对象的具体类型
 
@@ -120,7 +120,7 @@ person.name = 'lisi';
 var obj = { foo:  5 };
 ```
 
-上面的代码将一个对象赋值给变量`obj`，`JavaScript `引擎会先在内存里面，生成一个对象`{ foo: 5 }`，然后把这个对象的内存地址赋值给变量`obj`而变量`obj`是一个地址（reference）。
+上面的代码将一个对象赋值给变量`obj`，`JavaScript `引擎会先在内存里面，生成一个对象`{ foo: 5 }`，然后把这个对象的内存地址赋值给变量`obj`而变量`obj`是一个地址（`reference`）。
 
 原始的对象以字典结构保存，每一个属性名都对应一个属性描述对象：
 
