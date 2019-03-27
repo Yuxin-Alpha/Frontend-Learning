@@ -196,19 +196,9 @@ function _new(func) {
 
 任何实例都有`__proto__`这个属性(隐式原型)。
 
-对象的创建有两种方式：
+所有的字面量对象的原型都是`Object.prototype`，当使用new操作符调用构造函数的时候，创造的对象，其原型是该构造函数的原型。而原型也是一个对象，该对象的原型就是`Object.prototype`。所以使用字面量创建的对象，和使用`new Object()`进行创建的对象，其原型都是`Object.prototype`。
 
-```javascript
-// 1. 字面量
-var myObj = {
-    key: value
-    ...
-}
-
-// 2. 构造形式,必须逐个添加属性
-var yourObj = new Object()
-yourObj.key = value
-```
+当我们使用`Obejct.create()`创建一个对象的时候，第一个参数传递的是一个原型，也就是生成对象的继承目标，所以如果我们将null作为第一个参数传递进去，那么生成的对象将是没有原型的空对象，这个对象当然也就不能调用比如说`toString()`这样的方法。
 
 - 工厂模式：
 
