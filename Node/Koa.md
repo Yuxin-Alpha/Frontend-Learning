@@ -38,7 +38,7 @@ router.get('/', async (ctx, next) => {
 
 - `Context`对象
 
-  表示一次对话的上下文（包括 HTTP 请求和 HTTP 回复）。Koa的Context将node的request对象和response对象封装起来，这个对象是属于app的全局对象，不管是什么中间件都可以拿到这个对象。每个请求都会创建一个ctx，并作为接收器引用，通过加工这个对象上的属性，就可以控制返回给用户的内容。
+  表示一次对话的上下文（包括 `HTTP` 请求和 `HTTP` 回复）。`Koa`的`Context`将`node`的`request`对象和`response`对象封装起来，这个对象是属于`app`的全局对象，不管是什么中间件都可以拿到这个对象。每个请求都会创建一个`ctx`，并作为接收器引用，通过加工这个对象上的属性，就可以控制返回给用户的内容。
 
   ```javascript
   const Koa = require('koa');
@@ -54,11 +54,11 @@ router.get('/', async (ctx, next) => {
 
   上面代码中，`main`函数用来设置`ctx.response.body`。然后，使用`app.use`方法加载`main`函数。`ctx.response`代表 HTTP Response。同样地，`ctx.request`代表 HTTP Request。
 
-  运行这个 demo。
+  运行这个 `demo`。
 
 - `HTTP Response` 类型
 
-  Koa 默认的返回类型是`text/plain`，如果想返回其他类型的内容，可以先用`ctx.request.accepts`判断一下，客户端希望接受什么数据（根据 HTTP Request 的`Accept`字段），然后使用`ctx.response.type`指定返回类型。
+  `Koa` 默认的返回类型是`text/plain`，如果想返回其他类型的内容，可以先用`ctx.request.accepts`判断一下，客户端希望接受什么数据（根据 HTTP Request 的`Accept`字段），然后使用`ctx.response.type`指定返回类型。
 
   ```javascript
   const main = ctx => {
