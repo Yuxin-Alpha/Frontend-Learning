@@ -80,7 +80,7 @@ router.get('/', async (ctx, next) => {
 
 - 渲染模板
 
-  返回给用户的网页往往都写成模板文件。我们可以让 Koa 先读取模板文件，然后将这个模板返回给用户。
+  返回给用户的网页往往都写成模板文件。我们可以让 `Koa` 先读取模板文件，然后将这个模板返回给用户。
 
   ```javascript
   const fs = require('fs');
@@ -92,7 +92,7 @@ router.get('/', async (ctx, next) => {
 
 ### 中间件
 
-Koa构造函数new出来的app，可以看做是承载http服务的洋葱，接受请求，发出响应。接受的时候，都是一层一层处理，一层处理好之后交给下一层。但是一个洋葱是成环的，也就是最后处理请求的那一层，最先发出响应，这样可以保证：假设有3层，由外向内依次是A，B，C，如果B处理过请求之后，C对B做的处理做了非法的修改，并生成了响应结果返回，B层可以检查到，这是一种栈式思维。当我们调用`app.use()`时，会在内部形成一个中间件数组，框架内部会将执行下一个中间件的操作放在next方法的内部，执行这个方法后，就会执行下一个中间件
+`Koa`构造函数`new`出来的`app`，可以看做是承载`http`服务的洋葱，接受请求，发出响应。接受的时候，都是一层一层处理，一层处理好之后交给下一层。但是一个洋葱是成环的，也就是最后处理请求的那一层，最先发出响应，这样可以保证：假设有3层，由外向内依次是A，B，C，如果B处理过请求之后，C对B做的处理做了非法的修改，并生成了响应结果返回，B层可以检查到，这是一种栈式思维。当我们调用`app.use()`时，会在内部形成一个中间件数组，框架内部会将执行下一个中间件的操作放在next方法的内部，执行这个方法后，就会执行下一个中间件
 
 我们手写一个简单的中间件：
 
@@ -150,7 +150,7 @@ module.exports = function () {
 
   根路径`/`的处理函数是`main`，`/about`路径的处理函数是`about`。
 
-- 使用prefix函数添加前缀来分模块编写接口：
+- 使用`prefix`函数添加前缀来分模块编写接口：
 
   ```javascript
   const router = require('koa-router')()
@@ -164,7 +164,7 @@ module.exports = function () {
 
 - 重定向
 
-  有些场合，服务器需要重定向（redirect）访问请求。比如，用户登陆以后，将他重定向到登陆前的页面。`ctx.response.redirect()`方法可以发出一个302跳转，将用户导向另一个路由。
+  有些场合，服务器需要重定向（`redirect`）访问请求。比如，用户登陆以后，将他重定向到登陆前的页面。`ctx.response.redirect()`方法可以发出一个302跳转，将用户导向另一个路由。
 
   ```javascript
   const redirect = ctx => {
@@ -292,7 +292,7 @@ app.use(require('koa-static')(root, opts));
 
 - 500
 
-  如果代码运行过程中发生错误，我们需要把错误信息返回给用户。HTTP 协定约定这时要返回500状态码。Koa 提供了`ctx.throw()`方法，用来抛出错误，`ctx.throw(500)`就是抛出500错误。
+  如果代码运行过程中发生错误，我们需要把错误信息返回给用户。`HTTP` 协定约定这时要返回`500`状态码。`Koa` 提供了`ctx.throw()`方法，用来抛出错误，`ctx.throw(500)`就是抛出500错误。
 
   ```javascript
   const main = ctx => {
@@ -335,7 +335,7 @@ app.use(require('koa-static')(root, opts));
   app.use(main);
   ```
 
-- error事件的监听
+- `error`事件的监听
 
   运行过程中一旦出错，Koa 会触发一个`error`事件。监听这个事件，也可以处理错误。
 
@@ -363,7 +363,7 @@ app.use(require('koa-static')(root, opts));
 
 - 表单
 
-  Web 应用离不开处理表单。本质上，表单就是 POST 方法发送到服务器的键值对。[`koa-body`](https://www.npmjs.com/package/koa-body)模块可以用来从 POST 请求的数据体里面提取键值对。
+  Web 应用离不开处理表单。本质上，表单就是 `POST` 方法发送到服务器的键值对。[`koa-body`](https://www.npmjs.com/package/koa-body)模块可以用来从 POST 请求的数据体里面提取键值对。
 
   ```javascript
   const koaBody = require('koa-body');
