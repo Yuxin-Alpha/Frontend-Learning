@@ -82,6 +82,18 @@ a && foo()
 
 变量的声明提前会在程序正式执行之前，针对的，就是变量声明以及函数声明(现将所有var 声明的变量以及function声明的函数提到当前作用域的顶部，集中创建)
 
+## String
+
+1. 获取指定位置的字符：为了不让开发团队别的人产生误会，可以使用`str.charAt(i)`来替代`str[i]`
+
+2. 获取子字符串：使用`str.substring(strati, endi+1)` 代替 `str.slice(strati, endi+1)`
+
+   或者`str.substr(strati, n)`从开始位置截取n个
+
+3. 查找关键词：
+
+   + 
+
 ## 对象
 
 每个`typeof`返回值为`object`的对象都包含一个`[[Class]]`内部属性，可以通过`Object.prototype.toString()`来查看，比如数组的就是`Array`类型。
