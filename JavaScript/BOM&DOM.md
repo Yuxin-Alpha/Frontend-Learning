@@ -31,6 +31,17 @@ DOM节点类型：
 + `querySelector()`接受一个CSS选择符，返回匹配到的第一个元素，如果没有就返回`null`。
 + `querySelectorAll()`的参数与上面的函数一样，但是返回值是一个NodeList。如果找不到，NodeList就是空的。
 
+```javascript
+let $ = function (...args) {
+    return docunment.querySeletorAll(...args);
+}
+
+// 或者,因为$是全局的变量，所以需要绑定this
+let $ = document.querySeletorAll.bind(document)
+```
+
+
+
 ## BOM
 
 BOM其实指的是我们平时所说的浏览器实例。
