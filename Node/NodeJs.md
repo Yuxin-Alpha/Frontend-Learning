@@ -12,6 +12,7 @@ node不是什么新奇的东西，与浏览器类似，也是JavaScript的一种
 
 CommonJS：模块定义，模块暴露，模块引入，记住，一个文件一个模块，模块之间相互使用需要暴露以及引入。
 
+
 ```javascript
 const str1 = 'hello';
 const str2 = 'world';
