@@ -78,7 +78,7 @@ console.log(format(ret));  // /usr/local/bin/test.html
 
 ## buffer
 
-可以在 `TCP` 流或文件系统操作等场景中处理二进制数据流,
+可以在 `TCP` 流或文件系统操作等场景中处理二进制数据流，因为数据的形式有许多种，有字符串，图片，视频等等，所以在读取文件内容的时候，默认是读取buffer二进制数据。
 
 ```javascript
 // 1. Buffer.byteLength():返回一个字符串的实际字节长度。
@@ -129,7 +129,7 @@ myEmitter.emit('error', new Error('This is an error!'));
 
 ```javascript
 const http = require('http');
-// 生成服务器，req -> 请求 res -> 响应
+// 生成服务器，req -> 请求对象　　 res -> 响应对象
 let server = http.createServer((req, res) => {
     // 向前台返回‘666’
     res.write('666');
@@ -140,6 +140,8 @@ let server = http.createServer((req, res) => {
 // 开启服务，在3000端口，并监听
 server.listen(3000);
 ```
+
+`res.write()`中的参数只能是字符串，所以不能满足我们大部分的需求，这个时候我们需要借助fs模块读取某个文件，然后处理
 
 ## fs
 
