@@ -265,10 +265,17 @@ node对传输层TCP协议的实现
    res.setHeader('access-control-allow-origin', '*')
    ```
 
-   
-
 2. fetch
 
-3. ajax2.0
+   ```javascript
+   oBtn = async function () {
+       // 1.请求
+     	let res = await fetch('data/1.json');
+     	// 2.解析
+       let data = await res.json();
+   }
+   ```
+
+3. FormData
 
 4. Websocket
