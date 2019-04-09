@@ -41,6 +41,18 @@ let a = demo.str1;
   - **main** - 包的入口点
   - **keywords** - 关键字
 
+## assert
+
+断言，用于测试，如果条件成立，什么事情都不会发生，否则报错，进程直接死掉。用在庞大的函数内部，或者参数检查。
+
+```javascript
+const assert = require('assert');
+
+assert(5>3, 'aaa')
+```
+
+`assert.deepEqual(变量，预期值，msg)`用于判断两个值是否深度相等，比如数组和json
+
 ## path
 
 用于处理文件与目录的路径
@@ -237,4 +249,6 @@ fs.writeFile('world.txt', '666', (err) => {
   server.listen(3000);
   ```
 
-## 
+## net
+
+node对传输层TCP协议的实现
