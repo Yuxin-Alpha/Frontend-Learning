@@ -252,3 +252,10 @@ fs.writeFile('world.txt', '666', (err) => {
 ## net
 
 node对传输层TCP协议的实现
+
+## 数据通信
+
+1. ajax
+2. fetch
+3. ajax2.0
+4. Websocket
