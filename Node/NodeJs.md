@@ -249,10 +249,6 @@ fs.writeFile('world.txt', '666', (err) => {
   server.listen(3000);
   ```
 
-## net
-
-node对传输层TCP协议的实现
-
 ## 数据通信
 
 1. ajax跨域
@@ -265,6 +261,8 @@ node对传输层TCP协议的实现
    res.setHeader('access-control-allow-origin', '*')
    ```
 
+   jsonp原理：通过script标签引入其他网站的js脚本，
+
 2. fetch
 
    ```javascript
@@ -276,6 +274,33 @@ node对传输层TCP协议的实现
    }
    ```
 
-3. FormData
+3. Websocket
 
-4. Websocket
+   + socket.io
+
+     > npm install socket.io --save
+
+     ```javascript
+     const http = require('http')
+     const io = require('socket.io')
+     
+     // 1.建立http服务
+     let server = http.createServer((req, res) => {});
+     server.listen(8080);
+     
+     // 2.建立ws，监视这个server提供的http服务，如果有请求找这个服务器，他就把请求代理过来处理
+     let wsServer = io.listen(server)
+     // 建立完连接后，返回一个sock对象，这个对象负责与客户端通信
+     wsServer.on('connection', sock=> {})
+     ```
+
+     `sock.emit('name', 数据)`可以主动的发送数据
+
+     `sock.on('name', 数据 => {})`可以接受客户端传递过来的数据
+
+     
+
+## node与数据库
+
+
+
