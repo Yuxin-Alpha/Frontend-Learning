@@ -4,7 +4,7 @@
 
 基本类型与引用类型：
 
-1. 值类型：string, number, undefined, boolean, null
+1. 值类型：`string`,` number`,` undefined`, `boolean`,` null`
 2. 引用类型：`Object(任意对象)`, `Function(可以执行的对象)`,` Array(拥有数值下标的属性，而且内部数据有序的对象)`
 
 判断数据类型：
