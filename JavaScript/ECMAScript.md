@@ -15,6 +15,22 @@
 
 2. `instanceof`：判断对象的具体类型
 
+### 判断数据类型
+
+`Object.prototype.toString.call()`:
+
+1. 5 =>` '[ object Number ]'`
+2. "abc" =>` '[ object String ]'`
+3. true =>` '[ object Boolean ]'`
+4. null =>` '[ object Null ]'`
+5. undefined =>` '[ object Undefined ]'`
+6. [1, 3, 5] =>` '[ object Array ]'`
+7. function() {} =>` '[ object Function ]'`
+8. new Date =>` '[ object Date ]'`
+9. /abc/ =>` '[ object RegExp ]'`
+
+
+
 数据&变量&内存：
 
 内存就是内存条通电后产生的可存储的数据空间，断电后消失，每个变量都对应一块小内存，小内存保存的数据就是变量值。栈中存放的是全局/局部变量，堆中存放的是对象。JS调用函数时传递变量参数时属于值传递。
@@ -532,30 +548,6 @@ this是一个值得一说的东西。this没有作用域的限制，即嵌套的
 `var `可以重复定义，不能限制修改，没有块级作用域
 
 `let&const`弥补上面的缺陷
-
-### 判断数据类型
-
-`Object.prototype.toString.call()`:
-
-1. 5 =>` '[ object Number ]'`
-
-2. "abc" =>` '[ object String ]'`
-
-3. true =>` '[ object Boolean ]'`
-
-4. null =>` '[ object Null ]'`
-
-5. undefined =>` '[ object Undefined ]'`
-
-6. [1, 3, 5] =>` '[ object Array ]'`
-
-7. function() {} =>` '[ object Function ]'`
-
-8. new Date =>` '[ object Date ]'`
-
-9. /abc/ =>` '[ object RegExp ]'`
-
-   
 
 ### 解构赋值
 
