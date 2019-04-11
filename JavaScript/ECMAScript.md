@@ -1326,7 +1326,7 @@ ajax确实也能同步发送请求，但是这样可能会造成浏览器UI被�
    show();
    ```
 
-4.  如果函数或全局中的 else 块后没有任何语句，可以删除 else:
+4. 如果函数或全局中的 else 块后没有任何语句，可以删除 else:
 
    ```javascript
    function getName() {
@@ -1337,4 +1337,45 @@ ajax确实也能同步发送请求，但是这样可能会造成浏览器UI被�
    }
    ```
 
+5. 使用字面语法来创建对象
 
+   ```javascript
+   const item = {
+      id: 5,
+      name: 'San Francisco',
+      [getKey('enabled')]: true, 
+   };
+   ```
+
+6. 使用对象方法的缩写
+
+   ```javascript
+   const atom = {
+     value: 1,
+   
+     addValue(value) {
+       return atom.value + value;
+     },
+   };
+   ```
+
+7. 在对象声明的时候将简写的属性进行分组
+
+   ```javascript
+   const obj = {
+     lukeSkywalker,
+     anakinSkywalker,
+     episodeOne: 1,
+     twoJediWalkIntoACantina: 2,
+     episodeThree: 3,
+     mayTheFourth: 4,
+   };
+   ```
+
+8.  使用 push取代直接赋值来给数组添加项
+
+   ```javascript
+   someStack.push('abracadabra');
+   ```
+
+   
