@@ -2,12 +2,12 @@
 
 ## 数据类型&运算符
 
-基本类型与引用类型：
+### 基本类型与引用类型：
 
 1. 值类型：`string`,` number`,` undefined`, `boolean`,` null`
 2. 引用类型：`Object(任意对象)`, `Function(可以执行的对象)`,` Array(拥有数值下标的属性，而且内部数据有序的对象)`
 
-判断数据类型：
+### 判断数据类型：
 
 1. `typeof`：返回数据类型的字符串表达。`typeof`对变量执行操作的时候，得到的结果并不是该变量的类型，而是给变量持有值的类型，因为变量是没有类型的。　
 
@@ -15,19 +15,25 @@
 
 2. `instanceof`：判断对象的具体类型
 
-### 判断数据类型
+3. `Object.prototype.toString.call()`:
 
-`Object.prototype.toString.call()`:
+   + 5 =>` '[ object Number ]'`
 
-1. 5 =>` '[ object Number ]'`
-2. "abc" =>` '[ object String ]'`
-3. true =>` '[ object Boolean ]'`
-4. null =>` '[ object Null ]'`
-5. undefined =>` '[ object Undefined ]'`
-6. [1, 3, 5] =>` '[ object Array ]'`
-7. function() {} =>` '[ object Function ]'`
-8. new Date =>` '[ object Date ]'`
-9. /abc/ =>` '[ object RegExp ]'`
+   + "abc" =>` '[ object String ]'`
+
+   + true =>` '[ object Boolean ]'`
+
+   + null =>` '[ object Null ]'`
+
+   + undefined =>` '[ object Undefined ]'`
+
+   + [1, 3, 5] =>` '[ object Array ]'`
+
+   + function() {} =>` '[ object Function ]'`
+
+   + new Date =>` '[ object Date ]'`
+
+   + /abc/ =>` '[ object RegExp ]'`
 
 
 
