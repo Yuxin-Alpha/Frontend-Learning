@@ -519,6 +519,10 @@ var instance = new SonType();
 
   ![原型链](/home/clement/Desktop/原型链.jpg)
 
+### this
+
+this是一个值得一说的东西。this没有作用域的限制，即嵌套的函数不会从调用它的函数中继承this，如果嵌套函数作为方法调用，其this的值指向调用它的对象，嵌套函数作为函数调用，其this值不是全局对象就是undefined。如果想要访问这个外部函数的this值，需要将this的值保存在一个变量里。
+
 ## ES6
 
 ### 变量/赋值
@@ -1372,10 +1376,9 @@ ajax确实也能同步发送请求，但是这样可能会造成浏览器UI被�
    };
    ```
 
-8.  使用 push取代直接赋值来给数组添加项
+8. 使用 push取代直接赋值来给数组添加项
 
    ```javascript
    someStack.push('abracadabra');
    ```
 
-   
