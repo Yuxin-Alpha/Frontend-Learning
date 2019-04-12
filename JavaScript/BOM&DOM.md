@@ -51,6 +51,14 @@ DOM针对的是我们平时编码的文档对象，也就是整个`HTML`文件�
   1. `element.previousElementSibling`  获得element的前一个兄弟元素
   2. `element.nextElementSibling`  获得element的后一个兄弟元素
 
+
+### 按HTML查找
+
++ `document.getElementById('id')`
++ `parent.getElementsByTagName('标签')`
++ `parent.getElementsByClassName('class')`
++ 
+
 - querySelector()`接受一个CSS选择符，返回匹配到的第一个元素，如果没有就返回`null`。
 - `querySelectorAll()`的参数与上面的函数一样，但是返回值是一个NodeList。如果找不到，NodeList就是空的。
 
