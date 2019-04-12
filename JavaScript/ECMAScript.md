@@ -2,18 +2,40 @@
 
 ## 数据类型&运算符
 
-基本类型与引用类型：
+### 基本类型与引用类型：
 
 1. 值类型：`string`,` number`,` undefined`, `boolean`,` null`
 2. 引用类型：`Object(任意对象)`, `Function(可以执行的对象)`,` Array(拥有数值下标的属性，而且内部数据有序的对象)`
 
-判断数据类型：
+### 判断数据类型：
 
 1. `typeof`：返回数据类型的字符串表达。`typeof`对变量执行操作的时候，得到的结果并不是该变量的类型，而是给变量持有值的类型，因为变量是没有类型的。　
 
    > 注意：typeof null的值是`'object'` , typeof func 的值是`'function'`
 
 2. `instanceof`：判断对象的具体类型
+
+3. `Object.prototype.toString.call()`:
+
+   + 5 =>` '[ object Number ]'`
+
+   + "abc" =>` '[ object String ]'`
+
+   + true =>` '[ object Boolean ]'`
+
+   + null =>` '[ object Null ]'`
+
+   + undefined =>` '[ object Undefined ]'`
+
+   + [1, 3, 5] =>` '[ object Array ]'`
+
+   + function() {} =>` '[ object Function ]'`
+
+   + new Date =>` '[ object Date ]'`
+
+   + /abc/ =>` '[ object RegExp ]'`
+
+
 
 数据&变量&内存：
 
@@ -75,10 +97,6 @@ a && foo()
 
 + `==`运算符进行运算时，如果两边是引用数据类型，则比较两个对象的地址值
 + `toString()`函数无法转化`undefined`与`null`，而`String()`都可以转化，所以尽量使用`String()`进行转换。
-
-## 声明提前
-
-变量的声明提前会在程序正式执行之前，针对的，就是变量声明以及函数声明(现将所有var 声明的变量以及function声明的函数提到当前作用域的顶部，集中创建)
 
 ## String
 
@@ -151,7 +169,9 @@ a && foo()
 
 ### 作用域
 
-控制一个变量的可用范围，其实就是一个保存变量的对象。避免不同范围的变量间互相干扰。
+变量的声明提前会在程序正式执行之前，针对的，就是变量声明以及函数声明(现将所有var 声明的变量以及function声明的函数提到当前作用域的顶部，集中创建)
+
+作用域用来控制一个变量的可用范围，其实就是一个保存变量的对象。避免不同范围的变量间互相干扰。
 
 js中包括两级作用域:
 
@@ -519,6 +539,10 @@ var instance = new SonType();
 
   ![原型链](/home/clement/Desktop/原型链.jpg)
 
+### this
+
+this是一个值得一说的东西。this没有作用域的限制，即嵌套的函数不会从调用它的函数中继承this，如果嵌套函数作为方法调用，其this的值指向调用它的对象，嵌套函数作为函数调用，其this值不是全局对象就是undefined。如果想要访问这个外部函数的this值，需要将this的值保存在一个变量里。
+
 ## ES6
 
 ### 变量/赋值
@@ -530,30 +554,6 @@ var instance = new SonType();
 `var `可以重复定义，不能限制修改，没有块级作用域
 
 `let&const`弥补上面的缺陷
-
-### 判断数据类型
-
-`Object.prototype.toString.call()`:
-
-1. 5 =>` '[ object Number ]'`
-
-2. "abc" =>` '[ object String ]'`
-
-3. true =>` '[ object Boolean ]'`
-
-4. null =>` '[ object Null ]'`
-
-5. undefined =>` '[ object Undefined ]'`
-
-6. [1, 3, 5] =>` '[ object Array ]'`
-
-7. function() {} =>` '[ object Function ]'`
-
-8. new Date =>` '[ object Date ]'`
-
-9. /abc/ =>` '[ object RegExp ]'`
-
-   
 
 ### 解构赋值
 
@@ -1372,10 +1372,9 @@ ajax确实也能同步发送请求，但是这样可能会造成浏览器UI被�
    };
    ```
 
-8.  使用 push取代直接赋值来给数组添加项
+8. 使用 push取代直接赋值来给数组添加项
 
    ```javascript
    someStack.push('abracadabra');
    ```
 
-   
