@@ -19,10 +19,40 @@ DOM针对的是我们平时编码的文档对象，也就是整个`HTML`文件�
 | DocumentType     |              | 10       |
 | DocumentFragment |              | 11       |
 
+`nodeName`：用来进一步区分元素的名称。
+
 > NodeList是动态的，只要文档结构发生了改变，他们都会得到更新。也正因为如此，操作DOM的代价很高，对性能的影响很大，因为，每次访问NodeList都会运行一次查询
 
-+ `querySelector()`接受一个CSS选择符，返回匹配到的第一个元素，如果没有就返回`null`。
-+ `querySelectorAll()`的参数与上面的函数一样，但是返回值是一个NodeList。如果找不到，NodeList就是空的。
+## 查询
+
+### 直接获得
+
++ `html：document.documentElement`
++ `body：document.body`
++ `head：document.head`
+
+### 节点间关系查找
+
++ 父子关系
+  1. `element.parentNode`  获得element的父节点
+  2. `element.childNodes`  获得element的所有<b>直接</b>子节点，返回一个类数组对象
++ 兄弟关系
+  1. `element.previousSibling`  获得element的前一个兄弟节点
+  2. `element.nextSibling`  获得element的后一个兄弟节点
+
+> 这种查找方法，不能忽略空格和tab
+
+### 元素树
+
+- 父子关系
+  1. `element.parentElementNode`  获得element的父元素
+  2. `element.children`  获得element的所有<b>直接</b>子元素，返回一个类数组对象
+- 兄弟关系
+  1. `element.previousElementSibling`  获得element的前一个兄弟元素
+  2. `element.nextElementSibling`  获得element的后一个兄弟元素
+
+- querySelector()`接受一个CSS选择符，返回匹配到的第一个元素，如果没有就返回`null`。
+- `querySelectorAll()`的参数与上面的函数一样，但是返回值是一个NodeList。如果找不到，NodeList就是空的。
 
 ```javascript
 let $ = function (...args) {
@@ -34,3 +64,13 @@ let $ = document.querySeletorAll.bind(document)
 ```
 
 
+
+
+
+## 修改
+
+## 添加
+
+## 删除
+
+## 事件绑定
