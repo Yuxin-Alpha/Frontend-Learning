@@ -268,6 +268,12 @@ ID选择器：权重100
 
 `rem`：html默认字体大小(font-size)是16px
 
+## 效果
+
+### 盒子阴影
+
+### 文字阴影
+
 ## Bootstrap
 
 Bootstrap 要求使用 `HTML5` 文件类型，所以需要添加` HTML5 doctype `声明。
