@@ -1,6 +1,6 @@
-## ReactJs
+# ReactJs
 
-### 虚拟dom
+## 虚拟DOM
 
 虚拟dom是框架中的概念，是我们程序员用js对象来模拟页面上的DOM和嵌套DOM。
 
@@ -40,32 +40,7 @@ DOM的嵌套我们可以通过`childrens`属性来嵌套.用 JavaScript 对象�
 
 所谓的虚拟DOM，其实就是使用JavaScript的形式，来模拟页面DOM之间的嵌套关系，即，虚拟DOM是以JS对象的形式存在的，其本质是为了实现页面元素高效的按需更新。Virtual DOM 本质上就是在 JS 和 DOM 之间做了一个缓存。可以类比 CPU 和硬盘，既然硬盘这么慢，我们就在它们之间加个缓存：既然 DOM 这么慢，我们就在它们 JS 和 DOM 之间加个缓存。CPU（JS）只操作内存（Virtual DOM），最后的时候再把变更写入硬盘（DOM）。
 
-### Diff算法（差异查询算法）
-
-- `tree diff`
-
-  新旧两颗DOM树，逐层对比的过程，当该过程的完成，就能够找到需要更新的元素。
-
-- `component diff`
-
-  在进行tree diff的过程中，组件之间的对比。如果对比前后，组件的类型相同，如果类型相同，则暂时认为这个组件不需要被更新。如果组件类型不同，则需要移除旧组件，创建新的组件，并追加到页面上
-
-- `element diff`
-
-  在进行component diff的过程中，如果两个组件相同，则需要进行元素级别的对比。
-
-三个diff算法逐层递进，使得整两个DOM树的对比没有遗漏。
-
-
-
-### 安装
-
-运行`npm i react react-dom -S`安装包
-
-- react:  专门用于创建组件和虚拟DOM的，同时组件的声明周期都在这个包中
-- react-dom: 专门进行dom操作，主要用于`ReactDOM.render()`，将我们生成好的虚拟DOM渲染到页面上（因为我们生成的虚拟DOM在浏览器的内存中）
-
-### JSX语法
+## JSX
 
 ```javascript
 function formatName(user) {
@@ -122,11 +97,12 @@ class TodoList extends Component{
 export default TodoList;
 ```
 
-### 组件
+## 组件
 
-使用脚手架工具的时候,`index.js`文件是整个项目的入口文件
+当一个类继承了React.Component这个类之后，这个类就是React的一个组件了。
 
 ```react
+// index.js文件
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -141,7 +117,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 ```react
 import React, { Component } from 'react';
-// 通过类的继承,定义一个App类来继承React下的Component类，组件名的作为标签使用时,必须使用大写,`jsx`中的html代码必须有元素包裹,否则报错
+// 通过类的继承,定义一个App类来继承React下的Component类，组件名的作为标签使用时,必须使用大写,jsx中的html代码必须有元素包裹,否则报错
 class App extends Component {
   // render函数是Component类的内置函数,render函数返回什么,页面之中就显示什么
   render() {
@@ -157,15 +133,13 @@ export default App;
 
 ```
 
-可以把组件理解成一个函数，他可以接收任意的输入值（props），并返回一个需要在页面上展示的React元素。当React遇到的元素是用户自定义的组件，它会将JSX属性作为一个单个对象（props）传递给该组件。注意，组件本身不能修改自己的props，即必须像纯函数那样使用props。
+可以把组件理解成一个函数，他可以接收任意的输入值（props），并返回一个需要在页面上展示的React元素。当React遇到的元素是用户自定义的组件，它会将JSX属性作为一个单个对象（prop）传递给该组件。注意，组件本身不能修改自己的prop，即必须像纯函数那样使用prop。
 
+### 数据驱动思想
 
+数据驱动是前端框架常有的概念，React通过监听组件中数据的变化，来驱动页面的改变。
 
-### 响应式设计思想与事件绑定
-
-不要操作`dom`,React永远操作的都是数据.数据定义语法:
-
-```react
+```javascript
 class TodoList extends Component{
     // 因为TodoList是一个类,那么它一定有constructor这个构造函数,我们在使用TodoList的时候,这个函数会被最先执行
     constructor(props) {
@@ -177,7 +151,6 @@ class TodoList extends Component{
         }
     }
     render() {
-
         return (
             <Fragment>
                 <div>
@@ -203,13 +176,30 @@ class TodoList extends Component{
         })
     }
 }
-
 export default TodoList;
 ```
 
+
+
+### Diff算法（差异查询算法）
+
+- `tree diff`
+
+  新旧两颗DOM树，逐层对比的过程，当该过程的完成，就能够找到需要更新的元素。
+
+- `component diff`
+
+  在进行tree diff的过程中，组件之间的对比。如果对比前后，组件的类型相同，如果类型相同，则暂时认为这个组件不需要被更新。如果组件类型不同，则需要移除旧组件，创建新的组件，并追加到页面上
+
+- `element diff`
+
+  在进行component diff的过程中，如果两个组件相同，则需要进行元素级别的对比。
+
+三个diff算法逐层递进，使得整两个DOM树的对比没有遗漏。
+
 ### 组件之间传值
 
-React中组件之间的传值是单项的,父组件向子组件传值通过属性传值,而子组件向父组件传值通过触发函数来传值:
+对于每一个组件，都拥有两个数据接口，state与prop，其中state表示自身的数据状态，prop表示从外层组件获得的数据，这两个数据接口一个对内一个对外。React中组件之间的传值是单项的,父组件向子组件传值通过属性传值,而子组件向父组件传值通过触发函数来传值:
 
 ```react
 // 父组件
@@ -277,7 +267,6 @@ class TodoList extends Component{
         })
     }
 }
-
 // 子组件
 class TodoItem extends Component {
     constructor(props) {
