@@ -121,24 +121,17 @@ ID选择器：权重100
 雪碧图的写法：
 
 ```css
-
-```
-
-
-
-##　图像
-
-图像在浏览器上是重复的，可以水平方向平铺或者垂直方向平铺。
-
-```css
-h1{
-  background-image: url(/img/bullet.gif);
-  background-repeat: no-repeat;
-  background-position: left center;
+.class-name {
+    width: 40px;
+    height: 40px;
+    background: url(./test.png) no-repeat;
+    bacground-position: -50px -30px;
 }
 ```
 
-position的两个参数分别表示水平和垂直的位置。
+### 边框
+
+包括线性，大小和颜色
 
 ## 盒子模型
 
