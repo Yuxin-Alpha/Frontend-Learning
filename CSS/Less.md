@@ -4,7 +4,7 @@
 
 `npm install less --save`
 
-使用lessc命令来编译
+使用`lessc`命令来编译
 
 ## 嵌套
 
@@ -46,6 +46,33 @@
     clear: both;
     visibility: hidden;
   }
+}
+```
+
+## 变量
+
+为了高可复用，less中有变量机制：
+
+```less
+@fontSize: 12px;
+@bgColor: red;
+@newColor: blue;
+
+body {
+    margin: 0;
+    padding: 0;
+}
+.wrapper {
+    background: lighten(@bgColor, 40%);
+    .nav{
+        font-size: @fontSize;
+    }
+    .content{
+        font-size: @fontSize + 2px;
+    }
+    &:hover{
+        background: @newColor
+    }
 }
 ```
 
