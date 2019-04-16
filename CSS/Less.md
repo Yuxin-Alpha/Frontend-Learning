@@ -76,3 +76,41 @@ body {
 }
 ```
 
+## 混入
+
+为了在css层面解决样式复用的问题，而不是一直在标签的class属性中添加同一个类名来复用。
+
+```less
+@fontSize: 12px;
+
+.block(@fontSize) {
+    font-size: @fontSize;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.wrapper{
+    .nav{
+        .block(@fontSize)
+    }
+}
+```
+
+> mixin的类可以不加()，但是编译后这个类会被编译出来
+
+## extend
+
+## loop
+
+循环处理相似的样式
+
+```less
+.gen-cor(@n) when (@n > 0) {
+    .gen-col(@n - 1);
+    .col-@{n}{
+        width: 1000px/12 * @n
+    }
+}
+.gen-col(12)
+```
+
