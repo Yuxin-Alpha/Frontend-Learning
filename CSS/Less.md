@@ -114,3 +114,11 @@ body {
 .gen-col(12)
 ```
 
+## import
+
+less中的import会将引入的所有文件合并到一个文件里面，不仅精简了代码，而且还可以减少http的请求数量。
+
+> @import "./style/main.less"
+
+
+
