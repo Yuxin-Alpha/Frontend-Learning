@@ -416,48 +416,14 @@ Bootstrap 提供了一套响应式、移动设备优先的流式网格系统，�
    }
    ```
 
-6. 父子元素的写法:
-
-   ```css
-   .container {
-       padding: 0;
-   }
-   .container .article {
-       background-color: red;
-   }
    
-   //可以转化为：
-   .container {
-       padding: 0;
-       .article {
-           background-color: red;
-       }
-   }
-   ```
 
-7. 可以通过引入`&`，以代替主类 `#header`：
+   
 
-   ```css
-   #header :after {
-     content: " ";
-     display: block;
-     font-size: 0;
-     height: 0;
-     clear: both;
-     visibility: hidden;
-   }
-   //转化为：
-   #header {
-     &:after {
-       content: " ";
-       display: block;
-       font-size: 0;
-       height: 0;
-       clear: both;
-       visibility: hidden;
-     }
-   }
-   ```
+   
+
+   
+
 
 ## Stylus
 
