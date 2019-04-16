@@ -293,6 +293,33 @@ ID选择器：权重100
 
 分别是中心旋转25度后向X轴平移100px，然后向Y轴平移10px
 
+### 补间动画
+
+transition是过渡的意思，后面跟过渡的延迟时间，需要过渡的属性，以及过渡使用的时间
+
+transition-timing-function过渡的时间方程
+
+### 关键帧动画
+
+```css
+.container{
+    animation: run 1s;
+}
+@keyframes run{
+    0%{
+        width: 100px;
+    }
+    50%{
+        width: 200px;
+    }
+    100%{
+        width: 800px;
+    }
+}
+```
+
+`animation-iteration-count:infinite`无限循环
+
 ## Bootstrap
 
 Bootstrap 要求使用 `HTML5` 文件类型，所以需要添加` HTML5 doctype `声明。
@@ -432,7 +459,6 @@ Bootstrap 提供了一套响应式、移动设备优先的流式网格系统，�
    }
    ```
 
-## Sass
 ## Stylus
 
 在 stylus 中可以使用变量、函数、判断、循环一系列 CSS 没有的东西来编写样式文件，执行这一套骚操作之后，这个文件可编译成 CSS 文件。
