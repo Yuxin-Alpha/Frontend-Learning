@@ -210,12 +210,12 @@ class TodoList extends Component{
             inputValue: '',
             list: []
         }
+        // 因为在标签上绑定事件之后，执行相应函数，this的指向会变成undefined，所以一定要绑定this
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleBtnClick = this.handleBtnClick.bind(this);
         this.handleItemDelete = this.handleItemDelete.bind(this);
     }
     render() {
-
         return (
             <Fragment>
                 {/*我是一个注释*/}
