@@ -103,6 +103,19 @@ ID选择器：权重100
 
 参数deg表示渐变方向，0deg表示从下到上渐变，方向是向右变化的。
 
+`clip-path`裁剪：
+
+```css
+.container{
+    // 方形裁剪
+    clip-path: inset(100px 50px);
+    // 圆形裁剪
+    clip-path: circle(50px at 100px 100px);
+}
+```
+
+
+
 雪碧图的写法：
 
 ```css
@@ -269,6 +282,16 @@ ID选择器：权重100
 指如果屏幕的宽度小于640px，就使用下面这一套样式表
 
 `rem`：html默认字体大小(font-size)是16px
+
+## 动画
+
+```css
+.front{
+    transform: rotate(25deg) translateX(100px) translateY(10px)
+}
+```
+
+分别是中心旋转25度后向X轴平移100px，然后向Y轴平移10px
 
 ## Bootstrap
 
