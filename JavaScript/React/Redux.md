@@ -107,3 +107,12 @@ const store = createStore(
 export default store;
 ```
 
+## Redux写法优化
+
++ action提取
+
+  因为action的值较多，而且是在组件的文件以及reducer中共用，为了防止由于书写导致的action不一致，可以将action的名字提取到一个js文件，然后统一暴露。
+
++ action的创建也不应该出现在组件中
+
+  应该在store中新建一个文件，通过暴露函数的方式将新创建的action通过暴露的函数return出去，然后再组件中通过引入并调用这些函数来创建action。
