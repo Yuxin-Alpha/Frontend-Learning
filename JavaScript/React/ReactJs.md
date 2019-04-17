@@ -366,7 +366,7 @@ React组件在创建的时候会经历4个过程:
 
   `componentWillUnmount()`当组件即将在页面中被剔除的时候自动调用
 
-### CSS过渡动画
+## CSS过渡动画
 
 ```react	
 class App extends Component {
