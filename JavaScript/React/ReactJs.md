@@ -40,6 +40,22 @@ DOM的嵌套我们可以通过`childrens`属性来嵌套.用 JavaScript 对象�
 
 所谓的虚拟DOM，其实就是使用JavaScript的形式，来模拟页面DOM之间的嵌套关系，即，虚拟DOM是以JS对象的形式存在的，其本质是为了实现页面元素高效的按需更新。Virtual DOM 本质上就是在 JS 和 DOM 之间做了一个缓存。可以类比 CPU 和硬盘，既然硬盘这么慢，我们就在它们之间加个缓存：既然 DOM 这么慢，我们就在它们 JS 和 DOM 之间加个缓存。CPU（JS）只操作内存（Virtual DOM），最后的时候再把变更写入硬盘（DOM）。
 
+### Diff算法
+
+- `tree diff`
+
+  新旧两颗DOM树，逐层对比的过程，当该过程的完成，就能够找到需要更新的元素。
+
+- `component diff`
+
+  在进行tree diff的过程中，组件之间的对比。如果对比前后，组件的类型相同，如果类型相同，则暂时认为这个组件不需要被更新。如果组件类型不同，则需要移除旧组件，创建新的组件，并追加到页面上
+
+- `element diff`
+
+  在进行component diff的过程中，如果两个组件相同，则需要进行元素级别的对比。
+
+三个diff算法逐层递进，使得整两个DOM树的对比没有遗漏。
+
 ## JSX
 
 ```javascript
@@ -178,24 +194,6 @@ class TodoList extends Component{
 }
 export default TodoList;
 ```
-
-
-
-### Diff算法（差异查询算法）
-
-- `tree diff`
-
-  新旧两颗DOM树，逐层对比的过程，当该过程的完成，就能够找到需要更新的元素。
-
-- `component diff`
-
-  在进行tree diff的过程中，组件之间的对比。如果对比前后，组件的类型相同，如果类型相同，则暂时认为这个组件不需要被更新。如果组件类型不同，则需要移除旧组件，创建新的组件，并追加到页面上
-
-- `element diff`
-
-  在进行component diff的过程中，如果两个组件相同，则需要进行元素级别的对比。
-
-三个diff算法逐层递进，使得整两个DOM树的对比没有遗漏。
 
 ### 组件之间传值
 
