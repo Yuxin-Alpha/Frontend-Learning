@@ -107,6 +107,12 @@ const store = createStore(
 export default store;
 ```
 
+## React-Redux
+
++ Provider
+
+  react-redux提供的一个组件，将要渲染的组件放入该组件，并且将store以属性的形式传入Provider组件，这样Provider中的组件就可以与store通信了。
+
 ## Redux写法优化
 
 + action提取
