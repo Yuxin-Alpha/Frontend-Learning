@@ -113,6 +113,41 @@ export default store;
 
   react-redux提供的一个组件，将要渲染的组件放入该组件，并且将store以属性的形式传入Provider组件，这样Provider中的组件就可以与store通信了。
 
+  ```javascript
+  // 在项目入口indexd.js文件中
+  //...
+  import { Provider } from 'react-redux'
+  import store from './store'
+  
+  const App = (
+  	<Provider store={store}>
+      	<TodoList />
+      </Provider>
+  );
+  ReactDOM.render(App, document.getElementById('root'))
+  ```
+
++ connect
+
+  ```javascript
+  // ...
+  import store from './store'
+  import { connect } from 'react-redux'
+  class TodoList extends Component {
+      // ...
+  }
+  // mapStateToProps 用来将state与store进行映射
+  
+  const mapStateToProps = (state) => {
+      return {
+          inputValue = state.inputValue
+      }
+  }
+  export default connect(mapStateToProps, null)(TodoList)
+  ```
+
+  
+
 ## Redux写法优化
 
 + action提取
