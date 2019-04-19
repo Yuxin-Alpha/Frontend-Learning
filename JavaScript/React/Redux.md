@@ -118,7 +118,7 @@ export default store;
   //...
   import { Provider } from 'react-redux'
   import store from './store'
-  
+  // 通过Provider组件跟store链接，方式就是通过属性传递，这样Provider中的子组件都能够使用store中的数据
   const App = (
   	<Provider store={store}>
       	<TodoList />
@@ -136,13 +136,13 @@ export default store;
   class TodoList extends Component {
       // ...
   }
-  // mapStateToProps 用来将state与store进行映射
-  
+  // mapStateToProps以及mapDisPatchToProps是store与这个组件的映射关系将store中的值映射到该组件的props属性中，
   const mapStateToProps = (state) => {
       return {
           inputValue = state.inputValue
       }
   }
+  // 子组件的父组件因为通过Provider跟store进行了链接，那么子组件就可以通过connect链接store来获取store中的数据
   export default connect(mapStateToProps, null)(TodoList)
   ```
 
@@ -157,3 +157,32 @@ export default store;
 + action的创建也不应该出现在组件中
 
   应该在store中新建一个文件，通过暴露函数的方式将新创建的action通过暴露的函数return出去，然后再组件中通过引入并调用这些函数来创建action。
+
++ 在当一个项目很大，数据量过多的时候，我们应该将reducer分布到不同的组件中去
+
+  1. 在每个组件中新建`store`目录，然后再创建属于这个组件的reducer
+
+  2. 在主store目录的reducer.js文件中使用combineReducers将不同组件的reducer进行整合
+
+     ```javascript
+     import { combineReducers } from 'redux';
+     import headerReducer from '../common/header/store/reducer'
+     
+     export default combineReducers({
+       header: headerReducer
+     })
+     
+     ```
+
+  3. 需要注意的是，这样整合之后，组件中使用的store数据会多一层，这个时候一定要在mapStateToProps中函数中按照整合后的reducer对应结果来使用store
+
+     ```javascript
+     // header组件中
+     const mapStateToProps = (state) => {
+       return {
+         // 注意这里变成了state.header.focused，其中的header与步骤二中的header对应  
+         focused: state.header.focused
+       }
+     ```
+
+     
