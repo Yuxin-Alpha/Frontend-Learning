@@ -27,6 +27,8 @@ a = 'abc'; // 报错，定义了类型是number
 
 **变量如果在声明的时候，未指定其类型，那么它会被识别为任意值类型**
 
+
+
 热编译：
 
 ```shell
@@ -98,7 +100,6 @@ sex = GENDER.MALE
   handleEvent(document.getElementById('world'), 'dbclick'); // 报错，event 不能为 'dbclick'
   ```
 
-  
 
 ## 接口
 
