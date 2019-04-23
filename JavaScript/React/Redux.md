@@ -86,7 +86,7 @@ handleStoreChange() {
 ```
 
 > 1. store必须是唯一的
-> 2. 只有store可以改变改变自己的内容
+> 2. 保持状态只读
 > 3. Reducer必须是纯函数，即给定输入一定会有输出,而且这个输出是固定的,而且这个函数不能有任何的副作用。
 
 ## Redux-thunk
@@ -146,7 +146,6 @@ export default store;
   export default connect(mapStateToProps, null)(TodoList)
   ```
 
-  
 
 ## Redux写法优化
 
@@ -184,5 +183,3 @@ export default store;
          focused: state.header.focused
        }
      ```
-
-     
