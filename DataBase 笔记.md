@@ -1,12 +1,30 @@
-# SQL笔记
+# DataBase笔记
 
-## MySQL
+## SQL
 
-DB:仓库.  
+增删改查
 
-DBMS: 数据库管理系统. 
++ 增
 
-SQL:结构化查询语言
+  ```sql
+  INSET INTO table_name (username, password) VALUES('lisi', '123456')
+  ```
+
++ 删
+
+  ```sql
+  DELETE FROM table_name WHERE ID=2
+  ```
+
++ 改
+
+  
+
+
+
+
+
+
 
 ## MongoDB
 

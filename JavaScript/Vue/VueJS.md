@@ -635,3 +635,94 @@ var app = new Vue({
 ### mixin
 
 将公共的行为混入。将发送请求C的行为混入到组件A和B之中
+
+
+
+
+
+###　坑
+
+```vue
+<template>
+  <div>
+    <uploader
+      ref="uploader"
+      :options="options"
+      class="uploader-example"
+      :auto-start="false"
+      @file-added="onFileAdded">
+      <uploader-unsupport></uploader-unsupport>
+      <uploader-drop>
+        <p>Drop files here to upload or</p>
+        <uploader-btn>select files</uploader-btn>
+        <uploader-btn :attrs="attrs">select images</uploader-btn>
+        <uploader-btn :directory="true">select folder</uploader-btn>
+      </uploader-drop>
+      <uploader-list></uploader-list>
+    </uploader>
+  </div>
+</template>
+
+<script>
+import SparkMD5 from 'spark-md5'
+export default {
+  name: 'UpLoader',
+  data () {
+    return {
+      fileMD5: '',
+      options: {
+        target: 'http://192.168.31.189:20005/api/resource/',
+        chunkSize: '1024000',
+        testChunks: false
+      },
+      attrs: {
+        accept: 'image/*'
+      }
+    }
+  },
+  methods: {
+    onFileAdded (file) {
+      this.computeMD5(file)
+    },
+    computeMD5 (file) {
+      let blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice
+      let chunks = Math.ceil(file.file.size / this.options.chunkSize)
+      let currentChunk = 0
+      let spark = new SparkMD5.ArrayBuffer()
+      let fileReader = new FileReader()
+      fileReader.onload = function (e) {
+        console.log('read chunk nr', currentChunk + 1, 'of', chunks)
+        spark.append(e.target.result)
+        currentChunk++
+        if (currentChunk < chunks) {
+          loadNext()
+        } else {
+          console.log('finished loading')
+          this.fileMD5 = spark.end()
+          console.info('computed hash', this.fileMD5)
+          file.uniqueIdentifier = this.fileMD5
+          file.resume()
+        }
+      }
+      fileReader.onerror = function () {
+        console.warn('oops, something went wrong.')
+      }
+      function loadNext () {
+        let start = currentChunk * chunkSize
+        let end = ((start + chunkSize) >= file.file.size) ? file.file.size : start + chunkSize
+        fileReader.readAsArrayBuffer(blobSlice.call(file.file, start, end))
+      }
+      loadNext()
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
+
+```
+
+
+
