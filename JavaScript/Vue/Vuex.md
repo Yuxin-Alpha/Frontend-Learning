@@ -72,7 +72,7 @@ Vue的数据共享框架，解决了非父子组件之间数据共享的问题�
     },
   ```
 
-- `Getter`：类似于组件的computed属性，可以对state状态进行再次包装，Getter 会暴露为 `store.getters` 对象。
+- `Getter`：类似于组件的computed属性，我们除了可以拿到state中的数据，还可以从store中直接获得我们希望通过计算或者拼接的数据，相当于对state状态进行再次包装，与组件的computed属性一样，getter中的值会被缓存起来，只有当依赖的state值发生改变的时候，getter才会改变，在组件中可以通过 `$store.getters` 获取store中的getter。
 
   ```javascript
   const store = new Vuex.Store({
@@ -99,7 +99,7 @@ Vue的数据共享框架，解决了非父子组件之间数据共享的问题�
       ])
   ```
 
-- `mutations`：更改 Vuex 的 store 中的状态的唯一方法是提交 mutation。每个 mutation 都有一个字符串的事件类型和一个 回调函数 。这个回调函数就是我们实际进行状态更改的地方，并且它会接受 state 作为第一个参数
+- `mutations`：更改 Vuex 的 store 中的状态的唯一方法是提交 mutation。每个 mutation 都有一个字符串的事件类型和一个 回调函数 。这个回调函数就是我们实际进行状态更改的地方，并且它会接受 state 作为第一个参数。需要注意的是，mutation必须是同步函数，因为当 mutation 触发的时候，回调函数还没有被调用，这样不方便devtools进行调试(devtools调试的时候是捕捉state修改前后两个状态)
 
   ```javascript
   const store = new Vuex.Store({
@@ -135,7 +135,26 @@ Vue的数据共享框架，解决了非父子组件之间数据共享的问题�
   }
   ```
 
-- `actions`：组件通过调用这里存放的异步处理或者批量的同步操作，通过这些操作去调用`mutations`
+- `actions`：组件通过调用这里存放的异步处理或者批量的同步操作，通过这些操作去调用`mutations`，在组件中使用 `this.$store.dispatch('xxx')` 分发 action，或者使用 `mapActions` 辅助函数将组件的 methods 映射为 `store.dispatch` 调用（需要先在根节点注入 `store`）：
+
+  ```js
+  import { mapActions } from 'vuex'
+  
+  export default {
+    // ...
+    methods: {
+      ...mapActions([
+        'increment', // 将 `this.increment()` 映射为 `this.$store.dispatch('increment')`
+  
+        // `mapActions` 也支持载荷：
+        'incrementBy' // 将 `this.incrementBy(amount)` 映射为 `this.$store.dispatch('incrementBy', amount)`
+      ]),
+      ...mapActions({
+        add: 'increment' // 将 `this.add()` 映射为 `this.$store.dispatch('increment')`
+      })
+    }
+  }
+  ```
 
 # 源码分析
 
