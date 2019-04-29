@@ -42,16 +42,16 @@ tsc --init
 相比于ES5，增加了类型校验：
 
 ```typescript
-var flag:boolean = true;
-var num:number = 123;
-var str:string = 'hehehe';
-var arr:number[] = [12, 13, 14]; // 数组中必须都是number类型
+var flag: boolean = true;
+var num: number = 123;
+var str: string = 'hehehe';
+var arr: number[] = [12, 13, 14]; // 数组中必须都是number类型
 
 // 另一种数组定义方法(泛型)：
-var arrNext:Array<number> = [15, 16, 17];
+var arrNext: Array<number> = [15, 16, 17];
 
 // 元组类型(给每一个成员指定类型)
-var arr:[number, string] = [122, '145'];
+var arr: [number, string] = [122, '145'];
 
 // 任意类型(可用于DOM操作)
 var numNext:any = 123;
@@ -103,7 +103,7 @@ sex = GENDER.MALE
 
 ## 接口
 
-接口是一个很重要的概念，它是对行为的抽象，而具体如何行动需要由类去实现,在`TS`中,除了可用于对类的一部分行为进行抽象以外，也常用于对象的形状进行描述。
+接口是一个对象的描述，它是对行为的抽象，而具体如何行动需要由类去实现,在`TS`中。
 
 ```typescript
 // 定义了一个接口 Person，接着定义了一个变量 tom，它的类型是 Person。这样，我们就约束了 tom 的形状必须和接口 Person 一致。多一些属性或者少一些属性都是不允许的.
@@ -116,11 +116,7 @@ let tom: Person = {
     name: 'Tom',
     age: 25
 };
-
-
 ```
-
-
 
 ## 函数
 
@@ -177,9 +173,9 @@ let mySum: (x: number, y: number) => number = function (x: number, y: number): n
 
 ```typescript
 class Person {
-    name:string;
+    name:string
     constructor(n:string) {
-        this.name = n;
+        this.name = n
     }
     getName():string {
         return this.name
@@ -207,11 +203,7 @@ let b: Boolean = new Boolean(1);
 let e: Error = new Error('Error occurred');
 let d: Date = new Date();
 let r: RegExp = /[a-z]/;
-
-
 ```
-
-
 
 ## 声明文件
 
