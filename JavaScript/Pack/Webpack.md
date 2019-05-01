@@ -153,7 +153,7 @@ module.exports = {
 
 ## 装载（Loaders）
 
-就是一个打包的方案，告诉webpack对于特定的文件应该如何打包，因为webpack不能识别非js结尾的文件，所以需要下载特定的解析loader，并且在module属性中配置后，webpack才能将这些特殊的文件正确打包
+就是一个打包的方案，告诉webpack对于特定的文件应该如何打包，因为webpack不能识别非js结尾的文件，所以需要下载特定的loader对这些文件进行解析，并且在module属性中配置后，webpack才能将这些特殊的文件正确打包
 
 ```javascript
 module.exports = {

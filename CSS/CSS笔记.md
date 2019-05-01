@@ -238,6 +238,81 @@ ID选择器：权重100
 4. `flex-basis`属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为`auto`，即项目的本来大小。
 5. `flex`属性是`flex-grow`, `flex-shrink` 和 `flex-basis`的简写，默认值为`0 1 auto`。后两个属性可选。
 
+### 网格布局
+
+将属性 `display` 值设为 `grid` 或 `inline-grid` 就创建了一个网格容器，所有容器直接子结点自动成为网格项目。
+
+```css
+grid  {
+    display: grid;
+｝
+```
+
+网格项目按行排列，网格项目占用整个容器的宽度。
+
+```css
+grid  {  
+    display: inline-grid;
+｝
+```
+
+网格项目按行排列，网格项目宽度由自身宽度决定。
+
+#### 行高与行宽
+
+属性`grid-template-rows`和`grid-template-columns`用于显示定义网格，分别用于定义行轨道和列轨道。
+
+```css
+grid  {    
+    display: grid;
+    grid-template-rows: 50px 100px；
+｝
+```
+
+属性`grid-template-rows`用于定义行的尺寸，即轨道尺寸。轨道尺寸可以是任何非负的长度值（px，%，em，等）。网格项目1的行高是50px，网格项目2的行高是100px。
+
+```css
+grid  {    
+    display: grid;
+    grid-template-columns: 90px 50px 120px；
+｝
+```
+
+类似于行的定义，属性`grid-template-columns`用于定义列的尺寸。网格项目的第1列，第2列，第3列的宽度分别是 90px, 50px 和 120px 。
+
+<b>fr</b>
+
+```css
+grid  {    
+    display: grid; 
+    grid-template-columns: 1fr 1fr 2fr；
+｝
+```
+
+单位`fr`用于表示轨道尺寸配额，表示按配额比例分配可用空间。
+
+本例中，项目1占 1/4 宽度，项目2占 1/4 宽度，项目3占 1/2 宽度。
+
+#### 网格间隙
+
+属性`grid-column-gap` 和 `grid-row-gap`用于定义网格间隙。
+
+网格间隙只创建在行列之间，项目与边界之间无间隙。
+
+```css
+.grid1  {    
+    display: grid;
+    grid-row-gap: 20px;
+    grid-column-gap: 5rem;
+｝
+.grid2  {    
+    display: grid;
+    grid-gap: 20px 5em;
+｝
+```
+
+间隙尺寸可以是任何非负的长度值（px，%，em等）。
+
 ### 浮动
 
 浮动元素具有的性质:
