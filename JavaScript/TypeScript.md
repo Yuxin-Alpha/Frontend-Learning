@@ -108,14 +108,25 @@ sex = GENDER.MALE
 ```typescript
 // 定义了一个接口 Person，接着定义了一个变量 tom，它的类型是 Person。这样，我们就约束了 tom 的形状必须和接口 Person 一致。多一些属性或者少一些属性都是不允许的.
 interface Person {
-    name: string;
-    age: number;
+    name: string
+    age: number
 }
 
 let tom: Person = {
     name: 'Tom',
     age: 25
 };
+
+// 可选属性声明的时候使用?:声明  表示这个属性可有可无
+interface Animal {
+  name?: string
+  age?: number
+}
+
+// 只读属性,不能修改
+interface Demo {
+  readonly x: number
+}
 ```
 
 ## 函数
