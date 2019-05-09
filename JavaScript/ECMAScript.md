@@ -1266,31 +1266,6 @@ import {crc32} from 'crc32'; // 输入
 
 ```
 
-
-## Ajax
-
-```javascript
-//readyState状态为0
-const xhr = new XMLHttpRequest();
-//连接，readyState状态为1
-xhr.open('GET', 'url', true);
-//发送，readyState状态为2， 若为post，则需要用xhr.setRequestHeader()设置请求头
-xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
-xhr.send();
-//接收(readyState状态为3,4;3表示接收到响应头，4表示接收到响应体)
-xhr.onreadystatechange = function () {
-    if(xhr.readyState == 4 
-       && ((xhr.status >= 200 && xhr.status < 300)
-           || xhr.status === 304){
-        alert('成功' + xhr.responseText);
-    }else{
-        alert('失败');
-    }
-}
-```
-
-ajax确实也能同步发送请求，但是这样可能会造成浏览器UI被锁定，按钮，菜单，滚动条无法使用。
-
 ## 代码规范
 
 1. 二元运算符两侧必须有一个空格，一元运算符与操作对象之间不允许有空格，用作代码块起始的左花括号` { `前必须有一个空格。
