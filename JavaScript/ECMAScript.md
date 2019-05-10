@@ -35,7 +35,7 @@
 
    + /abc/ =>` '[ object RegExp ]'`
 
-
+[object Object] 可以使用JSON.parse(JSON.stringify(object)) 进行转换。
 
 数据&变量：
 

@@ -127,6 +127,11 @@ interface Animal {
 interface Demo {
   readonly x: number
 }
+
+// 函数接口
+interface SearchFunc {
+  (source: string, subString: string): boolean
+}
 ```
 
 ## 函数
