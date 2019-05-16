@@ -1272,6 +1272,30 @@ import {crc32} from 'crc32'; // 输入
 
 1. 可以通过Object.keys(obj).forEach((ele, index) => {})来解析字典
 
+   
+
+2. 公司业务：
+
+   ```javascript
+   // 将一个数组拼装成一个字典，举例：将["受理时间", "受理时间1", "受理时间2"]转化为{受理时间: {受理时间1: "受理时间3"}}
+   function getDictionary(arr, obj, n) {
+           let tempObj = {}
+           if (arr.length === 1) {
+             return arr[0]
+           } else if (arr.length === n) {
+             tempObj[arr[n-2]] = arr[n-1]
+             return getDictionary(arr, tempObj, n-1)
+           } else if (n - 1 === 0) {
+             return obj
+           } else {
+             tempObj[arr[n-2]] = obj
+             return getDictionary(arr, tempObj, n-1)
+           }
+         }
+   ```
+
+   
+
 ## 代码规范
 
 1. 二元运算符两侧必须有一个空格，一元运算符与操作对象之间不允许有空格，用作代码块起始的左花括号` { `前必须有一个空格。
