@@ -318,6 +318,8 @@ class TodoItem extends Component {
 
 - `props,state与render()`的关系:当组件的`state`或者`props`发生改变的时候,`render()`就会重新执行。
 
+- 对`key`值的思考，如果，没有key值，那么视图在更新的时候，新旧dom树的对比非常难以建立，也就是说，没有一个标识来标记这个虚拟dom节点，极大的提升了性能，所以在循环的时候key值不要使用index，这样是为了确保同一个节点在新旧dom树上的表现是一致的，使用可以变化的index会让key值不稳定。
+
 ### 生命周期函数
 
 在某一个时刻,组件会自动调用执行的函数.
