@@ -316,7 +316,7 @@ class TodoItem extends Component {
      }
      ```
 
-- `props,state与render()`的关系:当组件的`state`或者`props`发生改变的时候,`render()`就回重新执行
+- `props,state与render()`的关系:当组件的`state`或者`props`发生改变的时候,`render()`就会重新执行。
 
 ### 生命周期函数
 
