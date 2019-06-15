@@ -368,6 +368,10 @@ React组件在创建的时候会经历4个过程:
 
   `componentWillUnmount()`当组件即将在页面中被剔除的时候自动调用
 
+## ref的使用
+
+ref是reference的简写，是引用的意思，
+
 ## CSS过渡动画
 
 ```react	
