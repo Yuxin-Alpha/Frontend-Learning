@@ -320,6 +320,27 @@ class TodoItem extends Component {
 
 - 对`key`值的思考，如果，没有key值，那么视图在更新的时候，新旧dom树的对比非常难以建立，也就是说，没有一个标识来标记这个虚拟dom节点，极大的提升了性能，所以在循环的时候key值不要使用index，这样是为了确保同一个节点在新旧dom树上的表现是一致的，使用可以变化的index会让key值不稳定。
 
+- 由于state的更新是异步的，再加上，多个setState函数会合并成一个调用，所以应该将一个函数作为参数传入，然后将要更新的对象return出去。
+
+- 三目运算符写法：
+
+  ```react
+  render() {
+    const isLoggedIn = this.state.isLoggedIn;
+    return (
+      <div>
+        {isLoggedIn ? (
+          <LogoutButton onClick={this.handleLogoutClick} />
+        ) : (
+          <LoginButton onClick={this.handleLoginClick} />
+        )}
+      </div>
+    );
+  }
+  ```
+
+  
+
 ### 生命周期函数
 
 在某一个时刻,组件会自动调用执行的函数.
