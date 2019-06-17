@@ -349,7 +349,7 @@ React组件在创建的时候会经历4个过程:
 
 - Initialization(初始化数据)
 
-  `constructor()`负责对`state`与`props`进行初始化
+  `constructor()`负责对`state`与`props`进行初始化，需要注意的是，`constructor`函数并不是React官方的生命周期api，而是因为有class对其创建，所以，在初始化的时候，这个函数执行的优先级最高。
 
 - Mounting(渲染并挂载),挂载的意思就是组件第一次出现在页面中的时候
 
@@ -365,12 +365,12 @@ React组件在创建的时候会经历4个过程:
   
   // 在生命周期函数之中这么写
   componentDidMount() {
-          axios.get('/api/todolist').then(() => {
-              console.log('success');
-          }).catch(err => {
-              console.log(err);
-          })
-      }
+    axios.get('/api/todolist').then(() => {
+      console.log('success');
+    }).catch(err => {
+      console.log(err);
+    })
+  }
   ```
 
 - Updation(组件更新的过程),即数据(props或者state)发生变化
