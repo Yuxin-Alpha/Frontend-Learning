@@ -144,8 +144,10 @@ export default store;
   }
   // 子组件的父组件因为通过Provider跟store进行了链接，那么子组件就可以通过connect链接store来获取store中的数据
   export default connect(mapStateToProps, null)(TodoList)
+  
   ```
-
+  
+  connect第一个调用中的第一个参数return的对象是store里面的数据与该组件的对应关系。而第二个参数用来保存事件方法，组件通过这里的方法派发action，来修改store的数据。
 
 ## Redux写法优化
 
