@@ -515,3 +515,24 @@ class App extends Component {
 
     `setState()` 是一个异步操作。出于性能原因，React 会对状态更改进行批处理，因此在调用 `setState()` 方法之后，状态可能不会立即更改。这意味着当你调用 `setState()` 方法时，你不应该依赖当前状态，因为你不能确定当前状态应该是什么。这个问题的解决方案是将一个函数传递给 `setState()`，该函数会以上一个状态作为参数。通过这样做，你可以避免由于 `setState()` 的异步性质而导致用户在访问时获取旧状态值的问题。
 
+4. 显示JSON
+
+   可以使用 `<pre>` 标签，以便保留 `JSON.stringify()` 的格式：
+
+   ```react
+   const data = { name: 'John', age: 42 }
+   
+   class User extends React.Component {
+     render() {
+       return (
+         <pre>
+           {JSON.stringify(data, null, 2)}
+         </pre>
+       )
+     }
+   }
+   
+   React.render(<User />, document.getElementById('container'))
+   ```
+
+5. 
