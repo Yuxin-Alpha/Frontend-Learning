@@ -353,7 +353,7 @@ React组件在创建的时候会经历4个过程:
 
 - Mounting(渲染并挂载),挂载的意思就是组件第一次出现在页面中的时候
 
-  `componentWillMount()`在组件即将被挂载到页面的时刻自动调用
+  `getDerivedStateFromProps()`在组件即将被挂载到页面的时刻自动调用
 
   `render()`挂载组件
 
@@ -375,9 +375,9 @@ React组件在创建的时候会经历4个过程:
 
 - Updation(组件更新的过程),即数据(props或者state)发生变化
 
-  `shouldComponentUpdate()`组件数据更新之前自动调用,注意这个函数必须返回一个布尔类型的结果,类似于询问->需要更改组件嘛?所以如果返回true,意思就是,需要更新,就回继续执行下面的生命周期函数.
+  `getSnapshotBeforeUpdate()`在最新的渲染输出提交给 DOM 前将会立即调用，这对于从 DOM 捕获信息（比如：滚动位置）很有用。
 
-  `componentWillUpdate()`在`shouldComponentUpdate()`返回true后执行,表示组件的数据即将被更新.
+  `shouldComponentUpdate()`组件数据更新之前自动调用,注意这个函数必须返回一个布尔类型的结果,类似于询问->需要更改组件嘛?所以如果返回true,意思就是,需要更新,就回继续执行下面的生命周期函数.
 
   `render()`再次被调用
 
@@ -483,21 +483,31 @@ class App extends Component {
 
 1. 
 
+## Router
+
+安装：`react-router-dom`
+
 ## 工程注意事项
 
-为了让react脚手架的目录更加清晰，脚手架把安装的webpack及配置文件都集成在了node_modules的react-scripts模块中，在`/config`目录下。
+1. 调用组件渲染时的调用函数的常见错误
 
-如果安装的插件是基于webpack处理的，需要先把隐藏到node_modules中的配置项暴露到项目中，再去修改对应的配置项即可。
+   你需要确保在将函数作为参数传递时未调用该函数。
 
-less举例：
+   ```react
+   render() {
+     // Wrong: handleClick is called instead of passed as a reference!
+     return <button onClick={this.handleClick()}>{'Click Me'}</button>
+   }
+   ```
 
-1. npm run eject暴露配置项，项目的目录会多两个目录，一个是config目录，存放webpack所有的配置文件，还有一个scripts目录，存放的是可执行脚本的JS文件。
+   相反地，传递函数本身应该没有括号：
 
-   在config目录中，webpack.config.dev.js(npm run start)是针对开发环境下的配置项，webpack.config.prod.js(npm run build)是针对生产环境下的配置项
+   ```react
+   render() {
+     // Correct: handleClick is passed as a reference!
+     return <button onClick={this.handleClick}>{'Click Me'}</button>
+   }
+   ```
 
-2. npm install less less-loader --save 由于less是开发和生产环境下都需要配置的
-
-```javascript
-
-```
-
+2. Fragments组件用于充当根组件，不会在页面上创建新的DOM。
+3. 
