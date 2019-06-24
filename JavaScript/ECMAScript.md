@@ -526,7 +526,7 @@ var instance = new SonType();
       this.name = name;
       this.colors = ['red', 'blue', 'green']
   }
-  SuperType,prototype.sayName = function() {
+  SuperType.prototype.sayName = function() {
       // coding
   }
   function SonType(name, age) {
@@ -1138,7 +1138,7 @@ async function timeout(flag) {
 console.log(timeout(true))  // 调用Promise.resolve() 返回promise 对象。
 console.log(timeout(false)); // 调用Promise.reject() 返回promise 对象。
 
-// 　如果函数内部抛出错误， promise 对象有一个catch 方法进行捕获
+// 如果函数内部抛出错误， promise 对象有一个catch 方法进行捕获
 timeout(false).catch(err => {
     console.log(err)
 })
