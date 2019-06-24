@@ -211,7 +211,23 @@ JS程序执行的步骤：
 `call()`与`apply()`函数都是为了改变某个函数运行时的上下文，也就是为了改变函数体内部的`this`指向。
 
 - `apply(obj, [arr])`修改调用函数的`this`指向，指向参数`obj`,如果obj是基本类型,this就是对应的内置对象，如果obj 是`undefinded`或者`null` ，`this`指向`window`
+
 - `call(obj, argu1, argu2)`:原理与`apply()`相同，只是参数形式不一样。
+
+- `bind(obj)`:函数在bind之后并不会立即执行，返回一个this指向被修改为obj的函数。再次调用新返回的函数，this的指向就已经修改了。
+
+  ```javascript
+  // 手写一个bind函数
+  // bind方法应该被所有函数使用，所以应该放到函数的原型上
+  // 所有函数对象的构造函数都是Function
+  // 表示新函数的内部的this值
+  Function.prototype._bind = function(target) {
+      var _that = this
+      return function() => {
+          _that.call(target);
+      }
+  }
+  ```
 
 在ES6之前，函数内部的this是由该函数的调用方式决定的。
 
@@ -221,24 +237,7 @@ JS程序执行的步骤：
 
 3. new关键字调用构造函数，函数内部的this会指向构造函数的实例
 
-4. 上下文调用：
-
-   - `bind(obj)`:函数在bind之后并不会立即执行，返回一个this指向被修改为obj的函数。再次调用新返回的函数，this的指向就已经修改了。
-
-     ```javascript
-     // 手写一个bind函数
-     // bind方法应该被所有函数使用，所以应该放到函数的原型上
-     // 所有函数对象的构造函数都是Function
-     // 表示新函数的内部的this值
-     Function.prototype._bind = function(target) {
-         var _that = this
-         return function() => {
-             _that.call(target);
-         }
-     }
-     ```
-
-   - `
+   
 
 
 我们所说的`this`，无非就是要调用变量，不同的变量是由不同的运行环境提供的，而不同的运行环境又由不同的运行函数提供，所以，`this`的出现，其实是为了获得当前的运行环境。this没有作用域的限制，this并不受函数作用域的限制，一个函数A的内部定义一个函数B，在B的内部并不能继承A函数的this，如果嵌套函数作为方法调用，其this的值指向调用它的对象，嵌套函数作为函数调用，其this值不是全局对象就是undefined。如果想要访问这个外部函数的this值，需要将this的值保存在一个变量里。<b>用一句话概括，谁调用的这个函数，这个函数的this就指向谁。</b>
