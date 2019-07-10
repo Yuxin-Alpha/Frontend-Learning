@@ -171,6 +171,44 @@ function useless(callBack) {
 }
 ```
 
+### 函数缓存
+
+```javascript
+var store = {
+  nextId: 1,　// 跟踪下一个要被复制的函数
+  cache: {},　// 使用一个对象作为缓存，我们可以在其中存储函数
+  add: function(fn) {
+		if (!fn.id) {
+      fn.id = this.nextId++
+      this.cache[fn.id] = fn
+      return true
+    }    
+  }
+}
+```
+
+自记忆函数：
+
+```javascript
+function isPrime(value) {
+  if (!isPrime.answers) {
+    isPrime.answers = {}
+  }
+  if (isPrime.answers[value] !== undefined) {
+    return isPrime.answers[value]
+　}
+  var prime = value !== 0 && value !== 1; // 1 is not a prime
+  for (var i = 2; i < value; i++) {
+　　 if (value % i === 0) {
+　　　　prime = false
+　　　　break
+　　 }
+  }
+　return isPrime.answers[value] = prime
+}
+
+```
+
 
 
 ### 重载
