@@ -234,7 +234,7 @@ module.exports = {
   }
   ```
 
-  css-loader会将所有css文件进行分析，合并成一段css代码，然后传递给style-loader，style-loader再根据传递过来的内容解析，然后挂载到页面head区的style标签内部。
+  `css-loader`会将所有css文件进行分析，合并成一段css代码，然后传递给style-loader，style-loader再根据传递过来的内容解析，然后挂载到页面head区的style标签内部。
 
   postcss-loader可以将css3代码自动加入厂商前缀。
 
