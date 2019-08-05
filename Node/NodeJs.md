@@ -287,7 +287,13 @@ fs.writeFile('world.txt', '666', (err) => {
 + 通过表述来操作资源
 + 每个消息都必须提供足够的信息让接受者能够理解
 
-GET表示获取  POST表示创建  PUT表示更新  DELETE表示删除
+GET表示获取  POST表示创建  PUT表示更新(整体替换)  PATCH也表示更新(部分字段更新)  DELETE表示删除  
+
+1. URI 尽量使用复数的名词
+2. URI使用嵌套表示关联关系，如/users/12/repos/5
+3. 使用正确的HTTP方法
+
+
 
 ## 数据通信
 
