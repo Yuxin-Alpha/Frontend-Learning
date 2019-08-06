@@ -24,8 +24,6 @@ router.get('/', async (ctx, next) => {
 })
 ```
 
-
-
 ### 基础
 
 - 架设`HTTP`服务
@@ -51,6 +49,8 @@ router.get('/', async (ctx, next) => {
   app.use(main);
   app.listen(3000);
   ```
+
+  context其实是一个代理，对于响应来说只能通过ctx.body与ctx.response.body来返回。
 
   上面代码中，`main`函数用来设置`ctx.response.body`。然后，使用`app.use`方法加载`main`函数。`ctx.response`代表 HTTP Response。同样地，`ctx.request`代表 HTTP Request。
 
@@ -110,6 +110,31 @@ module.exports = function () {
 ```
 
 为什么这么写呢，我们可以发现，koa实例是通过use()这个函数来使用引入的中间件的，所以我们在自己手写中间件的过程中需要导出一个函数。
+
+### koa-bodyparser
+
+```javascript
+// 使用了bodyparser中间件之后，当请求到来的时候，会解析请求体赋给ctx.request.body
+// ...
+app.use(async function (ctx, next) {
+  ctx.body = ctx.request.body
+})
+```
+
+### koa-better-body
+
+koa中处理文件上传的中间件
+
+```javascript
+// ...
+const bodyFile = require('koa-better-body')
+const app = new Koa()
+app.use(bodyFile({
+  uploadDir: path.join(__dirname, 'uploads') // 配置的文件上传路径
+}))
+```
+
+
 
 ### koa-router
 
@@ -411,44 +436,25 @@ app.use(require('koa-static')(root, opts));
 Koa主要的代码在`/lib`文件夹下，一共有`Request.js`,`Response.js`,`Context.js`,`Application.js`四个文件
 
 ```javascript
-// Application.js
- module.exports = class Application extends Emitter {
+class Koa{
   constructor() {
-    super();
-    // 定义下面的属性
-    this.proxy = false;
-    // 管理中间件的数组
-    this.middleware = [];
-    this.subdomainOffset = 2;
-    this.env = process.env.NODE_ENV || 'development';
-    // 创造三个对象
-    this.context = Object.create(context);
-    this.request = Object.create(request);
-    this.response = Object.create(response);
+    // 因为洋葱模型，所以需要一个数组来缓存use函数调用的中间件
+    this.middleware = []
   }
-  // ....
-}
-```
-
-这个文件暴露一个对象出去，当我们调用一个构造函数的时候，会初始化属性和方法。
-
-实例的app通过`use()`来调用中间件
-
-```javascript
- //中间件使用的use方法
   use(fn) {
-    if (typeof fn !== 'function') throw new TypeError('middleware must be a function!');
-    // 为了加载koa1.x版本的中间件
-    if (isGeneratorFunction(fn)) {
-      deprecate('Support for generators will be removed in v3. ' +
-                'See the documentation for examples of how to convert old middleware ' +
-                'https://github.com/koajs/koa/blob/master/docs/migration.md');
-      fn = convert(fn);
-    }
-    debug('use %s', fn._name || fn.name || '-');
-    this.middleware.push(fn);
-    return this;
+    this.middleware.push(fn)
   }
-```
+	listen(port) {
+    let middleware = this.middleware
+    require('http').createServer((req, res) => {
+      let ctx = { req, res }
+      next(0);
+      function next(idx) {
+        middleware[idx](ctx, () => next(idx + 1))
+      }
+    }).listen(port)
+  }
+}
 
-这个方法维持一个middleware数组，如果有中间件加载，就push进去
+module.exports = Koa
+```
