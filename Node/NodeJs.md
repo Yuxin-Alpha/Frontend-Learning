@@ -66,7 +66,11 @@ process存在于全局对象上，不需要使用require加载即可使用，这
 
 监听事件： process是EventEmiiter的实例对象，所以可以通过on函数传入事件名和回调函数的方式来监听事件。
 
-调度任务： 通过process.nextTick调度的任务是异步任务，EventLoop是分阶段的，每个阶段执行特定的任务，而nextTick的任务在阶段切换的时候就会执行，因此nextTick会比setTimeout(fn, 0)更快的执行。
+调度任务：node中提供了process.nextTick()方法，允许你访问事件循环和延时那你的工作。他有点类似于setTimeout()，他会在下次tick的时候执行，而且每隔一段事件就会执行一次。EventLoop是分阶段的，每个阶段执行特定的任务，而nextTick的任务在阶段切换的时候就会执行，因此nextTick会比setTimeout(fn, 0)更快的执行。
+
+### exit 事件
+
+>  exit方法会在当进程退出的时候执行。因为进程退出之后将不再执行事件循环，所有只有那些不在事件队列中的任务才会被执行。
 
 ## assert
 
