@@ -103,6 +103,7 @@ a && foo()
 
 + `==`运算符进行运算时，如果两边是引用数据类型，则比较两个对象的地址值
 + `toString()`函数无法转化`undefined`与`null`，而`String()`都可以转化，所以尽量使用`String()`进行转换。
++ `+`运算符会将显式地将操作数转化为数字，例如+"3.14"，其实是将3.14的字符串转化为数字
 
 ## String
 
@@ -1225,6 +1226,8 @@ testResult();
 分析一哈过程:调用`testResult()`，它里面遇到了`await`,` await` 表示等一下，代码就暂停到这里，不再向下执行了，它等什么呢？等后面的`promise`对象执行完毕，然后拿到`promise resolve` 的值并进行返回，返回值拿到之后，它继续向下执行。再看我们的代码:遇到`await` 之后，代码就暂停执行了， 等待`doubleAfter2seconds(30)` 执行完毕，`doubleAfter2seconds(30)` 返回的promise 开始执行，2秒 之后，`promise resolve` 了， 并返回了值为60， 这时`await `才拿到返回值60， 然后赋值给result， 暂停结束，代码才开始继续执行，执行` console.log`语句。
 
 ### 模块语法
+
+模块化是将系统分离成独立模块的方法。
 
 ```javascript
 // CommonJS模块
