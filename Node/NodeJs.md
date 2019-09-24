@@ -152,6 +152,8 @@ console.log(Buffer.isBuffer(Buffer.from([1, 2, 3])));  // true
 
 所有能触发事件的对象都是 `EventEmitter `类的实例。 这些对象开放了一个 `eventEmitter.on()` 函数，允许将一个或多个函数绑定到会被对象触发的命名事件上。 事件名称通常是驼峰式的字符串，但也可以使用任何有效的 JavaScript 属性名。`eventEmitter.on() `方法用于注册监听器，`eventEmitter.emit() `方法用于触发事件。
 
+运用于发布订阅模式，`on()`函数用于监听某个事件，相当于订阅某个改变，而`emit()`函数的触发相当于发布某个改变，如果被发布的改变被订阅了，`on()`函数内部的流程（回调函数）将会执行
+
 ```javascript
 const EventEmitter = require('events');
 
