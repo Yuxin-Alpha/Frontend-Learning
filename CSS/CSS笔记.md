@@ -1,5 +1,76 @@
 # CSS笔记
 
+## 水平居中
+
++ 父级元素`text-align: center`，这种只对行内元素有效，而且后代元素会对这个元素进行继承，也就是说，所有的后代行内内容都会居中。
+
++ 元素`margin: 0 auto`，必须定宽，否则并且不能为`auto`值
+
++ 元素`display: inline-block`，父级元素`text-align: center`
+
++ 使用定位：注意，父元素和子元素都要定高。
+
+  ```css
+  .parent {
+      height: 200px;
+      width: 200px;  /*定宽*/
+      position: relative;  /*父相*/
+      background-color: #f00;
+  }
+  .son {
+      position: absolute;  /*子绝*/
+      left: 50%;  /*父元素宽度一半,这里等同于left:100px*/
+      transform: translateX(-50%);  /*自身宽度一半,等同于margin-left: -50px;*/
+      width: 100px;  /*定宽*/
+      height: 100px;
+      background-color: #00ff00;
+  }
+
+  ```
+
++ 使用`flex`布局：
+
+  ```css
+  .parent {
+      display: flex;
+      justify-content: center;
+  }
+  ```
+
+## 垂直居中
+
++ 设置`行高`与`高度`的值相等，这只适用于行内元素
+
++ 对于图片：
+
+  ```css
+  #parent{
+      height: 150px;
+      line-height: 150px;
+      font-size: 0;
+  }
+  img #son{
+    vertical-align: middle;
+  } /*默认是基线对齐，改为middle*/
+  ```
+
++ 定位实现：
+
+  ```css
+  .parent {
+    height: 150px;
+    position: relative;
+  }
+
+  .son {
+    height: 50px;
+    position: absolute;
+    top: 50%;
+    tansform: translateY(-50%);
+  }
+  ```
+
+
 ## 解析CSS
 
 ```css
