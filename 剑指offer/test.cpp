@@ -6,9 +6,9 @@ using std::endl;
 using std::string;
 
 int main() {
-  string str = "";
-  while(cin >> str) {
-    cout << str << endl;
+  string str = "some strings";
+  for (auto c : str) {
+    cout << c << endl; 
   }
   return 0;
 }
