@@ -4,11 +4,13 @@
 using namespace std;
 
 int main() {
-  vector<int> num;
-  for(int i = 0; i < 10; i++) {
-    num.push_back(i);
-    cout << num[i] << ",";
-  }
+  vector <string>num(10);
+  num.push_back("ha");
+  num.push_back("ea");
+  num.push_back("ld");
+  num.push_back("ld");
+  num.push_back("o");
+  cout << num[2];
   cout << "\n";
   return 0;
 }
