@@ -358,3 +358,11 @@ module.exports = {
 import "@babel/polyfill";
 ```
 
+
+
+## webpack 优化
+
++ Speed-measure-webpack-plugin可以测量所有loader和插件花费的时间
++ Exclude/include 通过指定要排除和包含的文件   由于exclude的优先级高于include，所以应该尽量少的使用exclude
++ Cache-loader 在性能开销较大的loader前面加这个loader,将结果缓存到磁盘中
++ Happypack 大量文件需要处理，当文件数量变多后，文件的读写和计算操作是无法避免的，使用这个插件可以发挥多核CPU电脑的优势，同时处理多个任务 
