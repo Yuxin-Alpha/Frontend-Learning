@@ -1,0 +1,10 @@
+$container-color: #cccccc;
+$text-color: #552637;
+.container {
+	background: $container-color;
+	width: 550px;
+	height: 550px;
+	&-text {
+		color: $text-color;
+	}
+}
